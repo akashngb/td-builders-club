@@ -1,0 +1,53 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@font-face{font-family:"TD Graphik";font-weight:300;src:local("TD Graphik Light");font-display:swap;}
+@font-face{font-family:"TD Graphik";font-weight:350;src:local("TD Graphik Book");font-display:swap;}
+@font-face{font-family:"TD Graphik";font-weight:400;src:local("TD Graphik Regular");font-display:swap;}
+@font-face{font-family:"TD Graphik";font-weight:500;src:local("TD Graphik Medium");font-display:swap;}
+@font-face{font-family:"TD Graphik";font-weight:600;src:local("TD Graphik Semibold");font-display:swap;}
+:root{
+  --paper:#EFEDEE; --panel:#FFFFFF; --ink:#1A1A1A; --ink-soft:#5C5C5C; --line:#D7D4D5;
+  --accent:#1A5336; --accent-bright:#008A00; --tint:#E5F1D4; --signal:#FF9500;
+  --sans:'TD Graphik','Inter',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#c9c7c8;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px;font-family:var(--sans);}
+.wrap{width:100%;max-width:1280px;container-type:inline-size;box-shadow:0 18px 50px rgba(0,0,0,.22);}
+.slide{
+  position:relative;aspect-ratio:16/9;background:var(--paper);color:var(--ink);overflow:hidden;
+  background-image:linear-gradient(rgba(26,83,54,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(26,83,54,.05) 1px,transparent 1px);
+  background-size:3.1cqw 3.1cqw;
+  display:flex;flex-direction:column;padding:4.4cqw 5cqw 0;
+}
+.kick{display:flex;align-items:center;gap:.9cqw;font-family:var(--mono);font-size:1.3cqw;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-bright);}
+.mark{width:1.2cqw;height:1.2cqw;background:var(--accent);display:inline-block;border-radius:.15cqw;}
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0;}
+.wordmark{font-size:7cqw;font-weight:600;letter-spacing:-.03em;line-height:1;}
+.wordmark .td{color:var(--accent-bright);}
+.tagline{font-family:var(--mono);font-size:2.2cqw;font-weight:500;color:var(--ink);margin-top:2.6cqw;letter-spacing:-.01em;}
+.caret{color:var(--accent-bright);animation:blink 1.1s steps(1) infinite;}
+@keyframes blink{50%{opacity:0;}}
+.meta{font-family:var(--mono);font-size:1.32cqw;letter-spacing:.08em;color:var(--ink-soft);margin-top:2.1cqw;text-transform:uppercase;}
+.meta .dot{color:var(--signal);margin:0 .55cqw;}
+.footer{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:1.02cqw;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);border-top:.08cqw solid var(--line);margin-top:2.4cqw;padding:1.15cqw 0;}
+.footer .rule{color:var(--accent);}
+</style>
+
+<div class="wrap">
+  <div class="slide">
+    <div class="kick"><span class="mark"></span>TD Securities · Internal</div>
+
+    <div class="hero">
+      <h1 class="wordmark"><span class="td">TD</span> Builders Club</h1>
+      <div class="tagline">Stop watching AI happen. Build with it.<span class="caret">▋</span></div>
+      <div class="meta">8 sessions <span class="dot">·</span> build something real <span class="dot">·</span> snacks included</div>
+    </div>
+
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>Summer 2026 · 8 sessions</span>
+      <span class="rule">synthetic / public data only</span>
+    </div>
+  </div>
+</div>

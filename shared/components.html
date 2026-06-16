@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>TD Builders Club — Components</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="theme.css">
+<style>
+  /* This page is a scrollable QA gallery — override the deck shell. */
+  html,body{height:auto;overflow:auto;background:var(--frame);}
+  body{padding:32px 24px 80px;}
+  .gallery-head{
+    max-width:1200px;margin:0 auto 28px;
+    display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+    flex-wrap:wrap;
+  }
+  .gallery-head h1{font-size:28px;font-weight:600;letter-spacing:-.015em;color:var(--ink);}
+  .gallery-head h1 .td{color:var(--accent-bright);}
+  .gallery-head .sub{
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    letter-spacing:.04em;margin-top:6px;
+  }
+  .gallery-actions{display:flex;gap:8px;}
+  .gallery-actions button{
+    font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+    background:var(--panel);border:1px solid var(--line);color:var(--ink);
+    padding:8px 14px;border-radius:6px;cursor:pointer;
+  }
+  .gallery-actions button:hover{border-color:var(--accent-bright);color:var(--accent-bright);}
+
+  .grid{
+    max-width:1200px;margin:0 auto;
+    display:grid;grid-template-columns:1fr;gap:28px;
+  }
+  .comp{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:22px;color:var(--ink);
+    box-shadow:0 6px 18px rgba(0,0,0,.10);
+  }
+  .comp-head{display:flex;align-items:baseline;gap:14px;margin-bottom:14px;flex-wrap:wrap;}
+  .comp-label{
+    font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--accent-bright);
+  }
+  .comp-title{font-size:20px;font-weight:600;letter-spacing:-.012em;color:var(--ink);}
+  .comp-blurb{font-family:var(--mono);font-size:12px;color:var(--ink-soft);letter-spacing:.02em;}
+
+  /* The mini-stage: a single slide rendered at the card's width. */
+  .stage{
+    width:100%;
+    aspect-ratio:16/9;
+    border-radius:8px;overflow:hidden;
+    box-shadow:0 4px 14px rgba(0,0,0,.18);
+    position:relative;
+  }
+  .stage > .slide{
+    position:absolute;inset:0;
+    display:flex !important; /* always visible in the gallery */
+  }
+
+  /* Inline primitives row */
+  .inline-row{
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+    padding:18px;border:1px dashed var(--line);border-radius:8px;
+    background:var(--paper);
+    container-type:inline-size; /* so cqw on chip/prompt resolves to this row */
+  }
+  .inline-row .label{
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .inline-stack{display:flex;flex-direction:column;gap:10px;flex:1;min-width:280px;}
+  .inline-row .chip{font-size:13px;padding:6px 10px;}
+  .inline-row .prompt{font-size:14px;}
+</style>
+</head>
+<body>
+
+<header class="gallery-head">
+  <div>
+    <h1><span class="td">TD</span> Builders Club — Component Library</h1>
+    <div class="sub">One sample of each component from spec §3. Toggle dark to eyeball both themes.</div>
+  </div>
+  <div class="gallery-actions">
+    <button id="toggle-theme">Toggle dark</button>
+  </div>
+</header>
+
+<main class="grid">
+
+
+  <!-- ============================================================
+       Component 01 — Title slide
+       ============================================================ -->
+  <article class="comp">
+    <div class="comp-head">
+      <span class="comp-label">Component 01</span>
+      <span class="comp-title">Title slide</span>
+      <span class="comp-blurb">wordmark · mono tagline · meta strip</span>
+    </div>
+    <div class="stage">
+      <section class="slide slide-title">
+        <div class="kick"><span class="mark"></span>TD Securities · Internal</div>
+        <div class="hero">
+          <h1 class="wordmark"><span class="td">TD</span> Builders Club</h1>
+          <div class="tagline">Stop watching AI happen. Build with it.<span class="caret">▋</span></div>
+          <div class="meta">8 sessions <span class="dot">·</span> build something real <span class="dot">·</span> snacks included</div>
+        </div>
+        <div class="footer">
+          <span>TD Builders Club</span>
+          <span>Summer 2026 · 8 sessions</span>
+          <span class="rule">synthetic / public data only</span>
+        </div>
+      </section>
+    </div>
+  </article>
+
+
+  <!-- ============================================================
+       Component 02 — Log-entry / section divider
+       ============================================================ -->
+  <article class="comp">
+    <div class="comp-head">
+      <span class="comp-label">Component 02</span>
+      <span class="comp-title">Log-entry / section divider</span>
+      <span class="comp-blurb">oversized mono number behind a display title</span>
+    </div>
+    <div class="stage">
+      <section class="slide slide-divider">
+        <div class="eyebrow">Session 03</div>
+        <div class="divider-body">
+          <div class="lognum">S03</div>
+          <h1 class="logtitle">API Haven.<span class="caret">▋</span></h1>
+          <div class="logmono">An API is just a digital plug.</div>
+        </div>
+        <div class="footer">
+          <span>TD Builders Club</span>
+          <span>S03 / 08 — API Haven</span>
+          <span class="rule">synthetic / public data only</span>
+        </div>
+      </section>
+    </div>
+  </article>
+
+
+  <!-- ============================================================
+       Component 03 — Statement slide
+       ============================================================ -->
+  <article class="comp">
+    <div class="comp-head">
+      <span class="comp-label">Component 03</span>
+      <span class="comp-title">Statement slide</span>
+      <span class="comp-blurb">one big line, lots of air</span>
+    </div>
+    <div class="stage">
+      <section class="slide slide-statement">
+        <div class="eyebrow">The question</div>
+        <div class="statement-hero">
+          <h1 class="statement">Are you a <span class="accent">prompt monkey</span>?<span class="caret">▋</span></h1>
+          <div class="statement-aside">Typing requests like Google searches. Grabbing the first answer. Blaming the model when it's mid.</div>
+        </div>
+        <div class="footer">
+          <span>TD Builders Club</span>
+          <span>S01 / 08 — Prompt Monkeys</span>
+          <span class="rule">synthetic / public data only</span>
+        </div>
+      </section>
+    </div>
+  </article>
+
+
+  <!-- ============================================================
+       Component 04 — Content slide
+       ============================================================ -->
+  <article class="comp">
+    <div class="comp-head">
+      <span class="comp-label">Component 04</span>
+      <span class="comp-title">Content slide</span>
+      <span class="comp-blurb">mono eyebrow + h1 + ≤3 sparse lines, no paragraphs</span>
+    </div>
+    <div class="stage">
+      <section class="slide slide-content">
+        <div class="eyebrow">The real unlock</div>
+        <h1 class="h1" style="margin-top:1cqw;">Manage what it knows.</h1>
+        <ul class="lead-list" style="margin-top:2.4cqw;">
+          <li>Feed it the right snippet — <span class="soft">not the whole drive.</span></li>
+          <li>The wrong context beats no context. <span class="soft">Curate ruthlessly.</span></li>
+          <li>Know when to start fresh. <span class="soft">The chat isn't sacred.</span></li>
+        </ul>
+        <div class="footer">
+          <span>TD Builders Club</span>
+          <span>S01 / 08 — Context management</span>
+          <span class="rule">synthetic / public data only</span>
+        </div>
+      </section>
+    </div>
+  </article>
+
+
+  <!-- ============================================================
+       Component 05 — Session card
+       ============================================================ -->
+  <article class="comp">
+    <div class="comp-head">
+      <span class="comp-label">Component 05</span>
+      <span class="comp-title">Session card</span>
+      <span class="comp-blurb">Sxx/08 · title · mono tagline · 4 info rows</span>
+    </div>
+    <div class="stage">
+      <section class="slide slide-card">
+        <div class="eyebrow">Session 03 — API Haven</div>
+        <div class="card-body">
+          <div class="card-num">
+            <div class="num">S03</div>
+            <div class="frac">/ 08</div>
+          </div>
+          <div class="card-content">
+            <h1 class="card-title">API Haven.</h1>
+            <div class="card-tagline">An API is just a digital plug.<span class="caret">▋</span></div>
+            <dl class="card-rows">
+              <dt>You'll learn</dt><dd>Multimodal AI in plain terms.</dd>
+              <dt>Tools</dt><dd class="chips">
+                <span class="chip">Streamlit</span>
+                <span class="chip">Internal vision model</span>
+                <span class="chip">Supabase</span>
+              </dd>
+              <dt>The hook</dt><dd>Snap-to-Dashboard — handwritten numbers → live dashboard.</dd>
+              <dt>Why it's fun</dt><dd>"The AI can see" wow moment. Finance-native.</dd>
+            </dl>
+          </div>
+        </div>
+        <div class="footer">
+          <span>TD Builders Club</span>
+          <span>S03 / 08 — API Haven</span>
+          <span class="rule">synthetic / public data only</span>
+        </div>
+      </section>
+    </div>
+  </article>
+
+
+  <!-- ============================================================
+       Component 06 — Split / Before-After
+       ============================================================ -->
+  <article class="comp">
+    <div class="comp-head">
+      <span class="comp-label">Component 06</span>
+      <span class="comp-title">Split / Before-After</span>
+      <span class="comp-blurb">two equal cols; accent fill on the "good" side</span>
+    </div>
+    <div class="stage">
+      <section class="slide slide-split">
+        <div class="eyebrow">Same task. Two prompts.</div>
+        <h1 class="split-title">Where's the delta?<span class="caret">▋</span></h1>
+        <div class="task">Task — summarize a deal memo for an MD's Monday update.</div>
+        <div class="cols">
+          <div class="col lazy">
+            <span class="col-tag lazy">Lazy</span>
+            <pre class="prompt">summarize this memo</pre>
+            <div class="arrow">→ output</div>
+            <div class="output">The memo covers a potential transaction and outlines several considerations, risks, and next steps for the team to review.</div>
+          </div>
+          <div class="col good">
+            <span class="col-tag good">Engineered</span>
+            <pre class="prompt">You're a senior analyst prepping an MD for Monday.
+Summarize the memo as 3 bullets — what changed,
+why it matters, the risk — plus one next step.
+Under 80 words.</pre>
+            <div class="arrow">→ output</div>
+            <div class="output">• Changed: target raised the ask to 9.5× EBITDA.
+• Matters: drops projected IRR below our 18% floor.
+• Risk: rival bidder circling — ~2-week window.
+Next: re-run at 8.5×, flag the deal team today.</div>
+            <div class="levers">role · structure · format · a hard limit</div>
+          </div>
+        </div>
+        <div class="footer">
+          <span>TD Builders Club</span>
+          <span>S01 / 08 — Prompt Monkeys</span>
+          <span class="rule">synthetic / public data only</span>
+        </div>
+      </section>
+    </div>
+  </article>
+
+
+  <!-- ============================================================
+       Component 08 — Demo slide (screen frame)
+       ============================================================ -->
+  <article class="comp">
+    <div class="comp-head">
+      <span class="comp-label">Component 08</span>
+      <span class="comp-title">Demo slide</span>
+      <span class="comp-blurb">bordered screen frame + one-line caption</span>
+    </div>
+    <div class="stage">
+      <section class="slide slide-demo">
+        <div class="eyebrow">S03 — API Haven · Snap-to-Dashboard</div>
+        <h1 class="h1" style="margin-top:.9cqw;font-size:2.4cqw;">Photo &rarr; structured data &rarr; chart.</h1>
+        <div class="demo-stage">
+          <div class="demo-screen">
+            <div class="chrome"><i></i><i></i><i></i></div>
+            <div class="demo-canvas">
+              <div class="flow">
+                <span class="node">phone photo</span>
+                <span class="arrow">→</span>
+                <span class="node accent">vision model reads it</span>
+                <span class="arrow">→</span>
+                <span class="node">structured JSON</span>
+                <span class="arrow">→</span>
+                <span class="node">live chart</span>
+              </div>
+            </div>
+          </div>
+          <div class="demo-caption">
+            <span class="accent">You didn't build the eyes.</span> You borrowed them through a plug. That's an API.
+          </div>
+        </div>
+        <div class="footer">
+          <span>TD Builders Club</span>
+          <span>S03 / 08 — API Haven</span>
+          <span class="rule">synthetic / public data only</span>
+        </div>
+      </section>
+    </div>
+  </article>
+
+
+  <!-- ============================================================
+       Component 09 — Closing / CTA
+       ============================================================ -->
+  <article class="comp">
+    <div class="comp-head">
+      <span class="comp-label">Component 09</span>
+      <span class="comp-title">Closing / CTA</span>
+      <span class="comp-blurb">display CTA · meta · the standing rule, loud</span>
+    </div>
+    <div class="stage">
+      <section class="slide slide-cta">
+        <div class="eyebrow">Closing</div>
+        <div class="cta-body">
+          <h1 class="cta-line">Come <span class="accent">build</span> something.</h1>
+          <div class="cta-meta">Wednesdays · 5pm <span class="dot">·</span> 66 Wellington <span class="dot">·</span> Floor 6</div>
+          <div class="cta-meta" style="margin-top:.4cqw;">
+            Join → <span style="color:var(--accent-bright);">#td-builders-club</span> on Teams
+          </div>
+          <div class="cta-rule">
+            <strong>Standing rule</strong> &nbsp;·&nbsp;
+            Build with synthetic or public data only. Never real TD data in external tools.
+          </div>
+        </div>
+        <div class="footer">
+          <span>TD Builders Club</span>
+          <span>Closing</span>
+          <span class="rule">synthetic / public data only</span>
+        </div>
+      </section>
+    </div>
+  </article>
+
+
+  <!-- ============================================================
+       Component 10 — Persistent footer
+       ============================================================ -->
+  <article class="comp">
+    <div class="comp-head">
+      <span class="comp-label">Component 10</span>
+      <span class="comp-title">Persistent footer</span>
+      <span class="comp-blurb">on every slide — bakes the data rule in without a lecture</span>
+    </div>
+    <div class="stage" style="aspect-ratio:auto;">
+      <section class="slide" style="position:relative;display:flex;padding:1.4cqw 5cqw;background-image:none;">
+        <div class="footer" style="margin-top:0;border-top:none;padding:0;">
+          <span>TD Builders Club</span>
+          <span>S01 / 08 — Prompt Monkeys</span>
+          <span class="rule">synthetic / public data only</span>
+        </div>
+      </section>
+    </div>
+  </article>
+
+
+  <!-- ============================================================
+       Components 07 & 11 — Inline primitives
+       ============================================================ -->
+  <article class="comp">
+    <div class="comp-head">
+      <span class="comp-label">Component 07 · 11</span>
+      <span class="comp-title">Inline primitives</span>
+      <span class="comp-blurb">prompt block + tool chip</span>
+    </div>
+
+    <div class="inline-stack">
+      <div class="inline-row">
+        <span class="label">Component 11 — Tool chip</span>
+        <span class="chip">Streamlit</span>
+        <span class="chip">Supabase</span>
+        <span class="chip">Vercel</span>
+        <span class="chip">KMAI sandbox</span>
+      </div>
+
+      <div class="inline-row" style="display:block;">
+        <div class="label" style="margin-bottom:10px;">Component 07 — Prompt / code block</div>
+        <pre class="prompt">summarize this memo</pre>
+        <pre class="prompt good">You're a senior analyst prepping an MD for Monday.
+Summarize the memo as 3 bullets — what changed,
+why it matters, the risk — plus one next step.
+Under 80 words. Plain English, no jargon.</pre>
+      </div>
+    </div>
+  </article>
+
+
+</main>
+
+<script src="vendor/lucide.min.js"></script>
+<script>
+  if (window.lucide) window.lucide.createIcons();
+  document.getElementById('toggle-theme').addEventListener('click', function () {
+    const r = document.documentElement;
+    r.dataset.theme = r.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+</body>
+</html>
