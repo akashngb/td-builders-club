@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>TD Builders Club — S01 · Prompt Monkeys</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="shared/theme.css">
+</head>
+<body>
+
+<div class="deck">
+  <div class="deck-stage">
+
+
+  <!-- ============================================================
+       01 · Title (0:30)
+       ============================================================ -->
+  <section class="slide slide-title" data-timing="0:30">
+    <div class="kick"><span class="mark"></span>S01 / 08 · TD Builders Club</div>
+    <div class="hero">
+      <h1 class="wordmark" style="font-size:6.2cqw;">Prompt Monkeys.</h1>
+      <div class="tagline">You're better at this than you think. Probably.<span class="caret">▋</span></div>
+      <div class="meta">7 minutes <span class="dot">·</span> 4 levers <span class="dot">·</span> 1 live makeover</div>
+    </div>
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Prompt Monkeys</span>
+      <span class="rule">synthetic / public data only</span>
+    </div>
+    <div class="notes">
+      <strong>0:30.</strong> Open warm. The tagline is the promise — most people are already
+      doing a decent job and just haven't been shown the levers. Move on quickly to the hook.
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       02 · Statement (1:00)
+       ============================================================ -->
+  <section class="slide slide-statement" data-timing="1:00">
+    <div class="eyebrow">The question</div>
+    <div class="statement-hero">
+      <h1 class="statement">
+        Are you a <span class="accent">prompt monkey</span>?<span class="caret">▋</span>
+      </h1>
+      <div class="statement-aside">
+        Typing requests like Google searches. Grabbing the first answer. Blaming the model when it's mid.
+      </div>
+    </div>
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Prompt Monkeys</span>
+      <span class="rule">synthetic / public data only</span>
+    </div>
+    <div class="notes">
+      <strong>1:00.</strong> Define it out loud — don't read the slide. Three behaviors:
+      <ul>
+        <li>Typing requests like Google searches.</li>
+        <li>Grabbing whatever comes back as "the answer."</li>
+        <li>Blaming the model when the output is mid.</li>
+      </ul>
+      Get a few sheepish nods. <strong>Show of hands?</strong> If it lands, the rest of the deck flies.
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       03 · The gap (0:45)
+       ============================================================ -->
+  <section class="slide slide-content" data-timing="0:45">
+    <div class="eyebrow">The gap</div>
+    <h1 class="h1" style="margin-top:1cqw;">Prompting has a skill ceiling.</h1>
+    <ul class="lead-list" style="margin-top:2.4cqw;">
+      <li>Most people are stuck on the floor.</li>
+      <li>The ceiling looks <span class="soft">nothing like a Google search</span>.</li>
+      <li>Today we climb a few rungs. <span class="soft">Four levers. One live fix.</span></li>
+    </ul>
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Prompt Monkeys</span>
+      <span class="rule">synthetic / public data only</span>
+    </div>
+    <div class="notes">
+      <strong>0:45.</strong> Quick beat — set up that there are levers to pull. Don't list them
+      yet. The next slide is the payoff. Move on.
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       04 · Before / After (1:30)
+       ============================================================ -->
+  <section class="slide slide-split" data-timing="1:30">
+    <div class="eyebrow">Same task. Two prompts.</div>
+    <h1 class="split-title">Where's the delta?<span class="caret">▋</span></h1>
+    <div class="task">Task — summarize a deal memo for an MD's Monday update.</div>
+
+    <div class="cols">
+      <div class="col lazy">
+        <span class="col-tag lazy">Lazy</span>
+        <pre class="prompt">summarize this memo</pre>
+        <div class="arrow">→ output</div>
+        <div class="output">The memo covers a potential transaction and outlines several considerations, risks, and next steps for the team to review.</div>
+      </div>
+
+      <div class="col good">
+        <span class="col-tag good">Engineered</span>
+        <pre class="prompt">You're a senior analyst prepping an MD for Monday.
+Summarize the memo as 3 bullets — what changed,
+why it matters, the risk — plus one next step.
+Under 80 words. Plain English, no jargon.</pre>
+        <div class="arrow">→ output</div>
+        <div class="output">• Changed: target raised the ask to 9.5× EBITDA.
+• Matters: drops projected IRR below our 18% floor.
+• Risk: a rival bidder is circling — window ~2 weeks.
+Next: re-run the model at 8.5×, flag the deal team today.</div>
+        <div class="levers">role · structure · format · a hard limit</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Prompt Monkeys</span>
+      <span class="rule">synthetic / public data only</span>
+    </div>
+    <div class="notes">
+      <strong>1:30 — the core payoff.</strong> Let the delta land. Don't read the outputs verbatim;
+      ask the room <em>which one they'd send to their MD</em>. Then say:
+      <em>"We didn't change the model. We changed the ask."</em> Pivot into the 4 levers.
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       05 · Lever 1 — Context & role (0:45)
+       ============================================================ -->
+  <section class="slide slide-lever" data-timing="0:45">
+    <div class="eyebrow">Lever 01 / 04</div>
+    <div class="lever-body">
+      <h1 class="lever-title">Tell it who it is.</h1>
+      <div class="lever-sub">Context + role is the cheapest, biggest gain. Give the model a chair to sit in.</div>
+      <pre class="prompt">You're a senior credit analyst at TD Securities,
+prepping a deal team's Monday memo. Working with
+synthetic Q3 EBITDA figures and a draft term sheet.
+House tone: terse, numbers-first, no hedging.</pre>
+    </div>
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Lever 01</span>
+      <span class="rule">synthetic / public data only</span>
+    </div>
+    <div class="notes">
+      <strong>0:45.</strong> The point: <em>who · what · how</em>. Who it is, what it's working
+      with, how it should sound. Don't overthink — one or two sentences is enough.
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       06 · Lever 2 — Show, don't tell (0:45)
+       ============================================================ -->
+  <section class="slide slide-lever" data-timing="0:45">
+    <div class="eyebrow">Lever 02 / 04</div>
+    <div class="lever-body">
+      <h1 class="lever-title">Show, don't tell.</h1>
+      <div class="lever-sub">One example of "good" beats three paragraphs of instructions. (Few-shot, in plain terms.)</div>
+      <pre class="prompt">Here's a good summary I'd send:
+
+  • Target raised the ask to 9.5× EBITDA.
+  • Drops projected IRR below our 18% floor.
+  • Rival bidder circling — ~2-week window.
+
+Now write the next one in the same shape, for the
+attached memo. Same tone, same length.</pre>
+    </div>
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Lever 02</span>
+      <span class="rule">synthetic / public data only</span>
+    </div>
+    <div class="notes">
+      <strong>0:45.</strong> Show one or two demos — three is usually plenty.
+      <em>"The model copies shape better than it follows rules."</em>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       07 · Lever 3 — Structure the output (0:30)
+       ============================================================ -->
+  <section class="slide slide-lever" data-timing="0:30">
+    <div class="eyebrow">Lever 03 / 04</div>
+    <div class="lever-body">
+      <h1 class="lever-title">Ask for the shape.</h1>
+      <div class="lever-sub">Table, bullets, JSON, 3-line summary — you get what you specify. Specify.</div>
+      <pre class="prompt">Return a markdown table:
+
+  | Metric | Q2 | Q3 | Δ |
+
+Then a 3-line "so what" beneath it.
+No prose above the table.</pre>
+    </div>
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Lever 03</span>
+      <span class="rule">synthetic / public data only</span>
+    </div>
+    <div class="notes">
+      <strong>0:30.</strong> Half the "the output is bad" complaints are <em>"I never asked for a
+      specific shape."</em> Hard limits — word count, bullet count, no preamble — are golden.
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       08 · Lever 4 — Iterate (0:30)
+       ============================================================ -->
+  <section class="slide slide-lever" data-timing="0:30">
+    <div class="eyebrow">Lever 04 / 04</div>
+    <div class="lever-body">
+      <h1 class="lever-title">It's a conversation.</h1>
+      <div class="lever-sub">Second and third turn are where the value lives. Not a vending machine.</div>
+      <pre class="prompt">Turn 1  →  summarize this memo
+
+Turn 2  →  now flag the two weakest assumptions
+
+Turn 3  →  rewrite for an MD who only reads bullets,
+            and tell me what you'd ask the team next</pre>
+    </div>
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Lever 04</span>
+      <span class="rule">synthetic / public data only</span>
+    </div>
+    <div class="notes">
+      <strong>0:30.</strong> The big unlock most people skip — they take the first answer.
+      <em>"Stop putting a coin in. Have a meeting."</em>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       09 · Context management — the real unlock (1:00)
+       ============================================================ -->
+  <section class="slide slide-content" data-timing="1:00">
+    <div class="eyebrow">The real unlock</div>
+    <h1 class="h1" style="margin-top:1cqw;">Manage what it knows.</h1>
+    <ul class="lead-list" style="margin-top:2.4cqw;">
+      <li>Feed it the right snippet — <span class="soft">not the whole drive.</span></li>
+      <li>The wrong context beats no context. <span class="soft">Curate ruthlessly.</span></li>
+      <li>Know when to start fresh. <span class="soft">The chat isn't sacred.</span></li>
+    </ul>
+    <div style="font-family:var(--mono);font-size:1.2cqw;color:var(--accent);margin-top:2cqw;letter-spacing:.02em;">
+      <span style="color:var(--signal);">↪</span>&nbsp; S05 picks this up — RAG, but inside TD. <span style="color:var(--ink-soft);">(Coming in three weeks.)</span>
+    </div>
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Context management</span>
+      <span class="rule">synthetic / public data only</span>
+    </div>
+    <div class="notes">
+      <strong>1:00.</strong> The thing experts actually do — pacing is everything here.
+      Three beats:
+      <ul>
+        <li>Right snippet, not the whole drive (curate input).</li>
+        <li>Bad context is worse than none (don't paste 40-page PDFs).</li>
+        <li>Reset the chat when it goes off-rails (don't fight a stale context).</li>
+      </ul>
+      <strong>Plant the RAG seed for S05.</strong>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       10 · Live · Prompt Makeover (1:00)
+       ============================================================ -->
+  <section class="slide slide-statement" data-timing="1:00">
+    <div class="eyebrow">Live · prompt makeover</div>
+    <div class="statement-hero">
+      <h1 class="statement">
+        Bring me your <span class="accent">worst</span> prompt.<span class="caret">▋</span>
+      </h1>
+      <div class="statement-aside">
+        We fix it on the screen. The 4 levers + context. <span style="color:var(--accent);">~60 seconds.</span>
+      </div>
+    </div>
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Live makeover</span>
+      <span class="rule">synthetic / public data only</span>
+    </div>
+    <div class="notes">
+      <strong>1:00 — highest-energy moment. Stay loose.</strong>
+      <ul>
+        <li>Ask the room for a real lazy prompt. Wait 5 seconds before falling to backup.</li>
+        <li><strong>Backup prompt</strong> (if shy): <em>"write a client email about our Q3 results"</em>.
+          Fix it live: role (TD MD), context (synthetic Q3 numbers), structure (3 bullets + ask),
+          iterate (tone tweak).</li>
+        <li>Narrate which lever you're pulling each step. The audience should feel the recipe.</li>
+        <li>Synthetic data only on screen — never real client names.</li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       11 · One rule + go build (0:30)
+       ============================================================ -->
+  <section class="slide slide-cta" data-timing="0:30">
+    <div class="eyebrow">The one rule + go build</div>
+    <div class="cta-body">
+      <h1 class="cta-line">
+        Now go <span class="accent">build</span> something.<span class="caret">▋</span>
+      </h1>
+      <div class="cta-meta">
+        Build time → 45 min <span class="dot">·</span> mentors floating <span class="dot">·</span> demos at the end
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.4cqw;margin-top:.9cqw;">
+        <div style="background:var(--panel);border:.08cqw solid var(--line);border-radius:.6cqw;padding:1.2cqw;">
+          <div style="font-family:var(--mono);font-size:1cqw;letter-spacing:.16em;color:var(--accent-bright);text-transform:uppercase;">Try 01</div>
+          <div style="font-size:1.45cqw;margin-top:.5cqw;line-height:1.3;">Rewrite your worst recurring prompt — the one you ask weekly.</div>
+        </div>
+        <div style="background:var(--panel);border:.08cqw solid var(--line);border-radius:.6cqw;padding:1.2cqw;">
+          <div style="font-family:var(--mono);font-size:1cqw;letter-spacing:.16em;color:var(--accent-bright);text-transform:uppercase;">Try 02</div>
+          <div style="font-size:1.45cqw;margin-top:.5cqw;line-height:1.3;">Pick a doc you'd normally skim. Make a 3-bullet summarizer.</div>
+        </div>
+        <div style="background:var(--panel);border:.08cqw solid var(--line);border-radius:.6cqw;padding:1.2cqw;">
+          <div style="font-family:var(--mono);font-size:1cqw;letter-spacing:.16em;color:var(--accent-bright);text-transform:uppercase;">Try 03</div>
+          <div style="font-size:1.45cqw;margin-top:.5cqw;line-height:1.3;">Run one Lever 4 chain — three turns, not one shot.</div>
+        </div>
+      </div>
+
+      <div class="cta-rule">
+        <strong>The one rule</strong> &nbsp;·&nbsp;
+        Synthetic or public data only. Never real TD data in external tools.
+      </div>
+    </div>
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Go build</span>
+      <span class="rule">synthetic / public data only</span>
+    </div>
+    <div class="notes">
+      <strong>0:30 — close hard.</strong> Standing rule said loud, once. Then launch them into
+      build time — point at the snack table on your way off.
+    </div>
+  </section>
+
+
+  </div><!-- /deck-stage -->
+
+  <div class="deck-hud">
+    <span class="deck-pos">01 / 11</span>
+    <span class="help">← → · S notes · D dark · F full · P print</span>
+  </div>
+
+  <aside class="deck-notes" aria-label="Speaker notes">
+    <div class="timing"></div>
+    <div class="notes-body"></div>
+  </aside>
+</div>
+
+<script defer src="shared/vendor/lucide.min.js"></script>
+<script defer src="shared/deck.js"></script>
+</body>
+</html>
