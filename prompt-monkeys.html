@@ -210,26 +210,8 @@ body{background:var(--frame);font-family:var(--sans);color:var(--ink);overflow:h
 .bento-cell.callout .bd{font-style:italic;color:var(--ink-soft);}
 
 /* ============================================================
-   Live makeover slide (talk slide 09) — terminal + typewriter + diff
+   Terminal — shared by lever slides
    ============================================================ */
-.slide-makeover .makeover-body{flex:1;display:flex;flex-direction:column;min-height:0;gap:1.2cqw;}
-.makeover-cols{display:grid;grid-template-columns:1fr 1.2fr;gap:1.8cqw;flex:1;min-height:0;}
-.makeover-col{display:flex;flex-direction:column;min-height:0;}
-.makeover-col .col-tag{
-  align-self:flex-start;font-family:var(--mono);font-size:1cqw;font-weight:500;
-  letter-spacing:.16em;text-transform:uppercase;padding:.4cqw .85cqw;border-radius:.4cqw;
-  margin-bottom:.9cqw;
-}
-.col-tag.lazy{background:#ECEAEB;color:var(--ink-soft);}
-:root[data-theme="dark"] .col-tag.lazy{background:#22372C;}
-.col-tag.good{background:var(--tint);color:var(--accent);}
-:root[data-theme="dark"] .col-tag.good{background:rgba(229,241,212,.12);color:var(--accent-bright);}
-.lazy-prompt{
-  font-family:var(--mono);font-size:1.3cqw;line-height:1.5;
-  background:var(--paper);border-left:.22cqw solid var(--line);
-  padding:1cqw 1.1cqw;border-radius:0 .4cqw .4cqw 0;color:var(--ink-soft);white-space:pre-wrap;
-}
-:root[data-theme="dark"] .lazy-prompt{background:rgba(0,0,0,.18);}
 .terminal{
   flex:1;min-height:0;background:#0E1A14;border:.08cqw solid #2C4A3B;border-radius:.7cqw;
   display:flex;flex-direction:column;overflow:hidden;
@@ -568,6 +550,10 @@ body{background:var(--frame);font-family:var(--sans);color:var(--ink);overflow:h
   display:flex;flex-direction:column;justify-content:space-between;
   padding:4cqw 4.5cqw;gap:1.6cqw;
 }
+.slide-about .reel-eyebrow{
+  margin:0;font-family:var(--mono);font-size:1.15cqw;font-weight:500;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);
+}
 .slide-about .reel-text{
   position:relative;width:100%;flex:1;min-height:0;overflow:hidden;
 }
@@ -588,6 +574,7 @@ body{background:var(--frame);font-family:var(--sans);color:var(--ink);overflow:h
 .slide-about .reel-name{
   margin:0;font-size:4.8cqw;font-weight:600;letter-spacing:-.018em;line-height:1.06;color:var(--ink);
 }
+.slide-about .reel-team,
 .slide-about .reel-school{
   margin:0;font-family:var(--mono);font-size:1.85cqw;font-weight:500;
   letter-spacing:.04em;color:var(--ink-soft);
@@ -710,8 +697,122 @@ body{background:var(--frame);font-family:var(--sans);color:var(--ink);overflow:h
   display:none;
 }
 body.show-notes .deck-notes{display:block;}
-.deck-notes .timing{color:#fff;font-size:22px;font-weight:600;letter-spacing:0;text-transform:none;}
+.deck-notes .timing-row{display:flex;gap:0;align-items:baseline;flex-wrap:wrap;}
+.deck-notes .timing,
+.deck-notes .stopwatch{color:#fff;font-size:22px;font-weight:600;letter-spacing:0;text-transform:none;font-variant-numeric:tabular-nums;}
+.deck-notes .stopwatch{margin-left:18px;}
+.deck-notes .stopwatch::before{content:"·";opacity:.45;margin-right:18px;}
+.deck-notes .stopwatch[hidden]{display:none;}
 .deck-notes .notes-body{display:none;}
+
+/* ============================================================
+   Demo-period timer — pure-black canvas, rich-green waves
+   ============================================================ */
+.slide.slide-buildtime{background:#000;color:#E5F1D4;}
+.slide-buildtime.has-waves{text-shadow:none;}
+.slide-buildtime .waves-bg svg path{stroke:rgba(0,138,0,0.42);}
+.slide-buildtime .bt-stage{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:0;gap:1.8cqw;text-align:center;
+}
+.slide-buildtime .bt-title{
+  font-size:14cqw;font-weight:600;letter-spacing:-.035em;line-height:1;color:#E5F1D4;
+}
+.slide-buildtime .bt-timer{
+  font-family:var(--mono);font-size:8cqw;font-weight:600;letter-spacing:-.025em;
+  line-height:1;color:#34B233;font-variant-numeric:tabular-nums;
+  transition:color .2s ease;
+}
+.slide-buildtime .bt-timer.warn{color:#FFB347;}
+.slide-buildtime .bt-timer.done{color:#FF6B6B;}
+.slide-buildtime .bt-controls{
+  display:inline-flex;align-items:center;gap:.9cqw;margin-top:.6cqw;
+}
+.slide-buildtime .bt-btn{
+  font-family:var(--mono);font-size:1.1cqw;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:#0E1A14;background:#34B233;border:none;cursor:pointer;
+  padding:.85cqw 2.2cqw;border-radius:99cqw;
+  transition:transform .15s ease, background .15s ease, color .15s ease, opacity .15s ease;
+}
+.slide-buildtime .bt-btn:hover{transform:translateY(-.08cqw);background:#3FD23E;}
+.slide-buildtime .bt-btn:active{transform:translateY(0);}
+.slide-buildtime .bt-btn.bt-btn-ghost{
+  background:transparent;color:#9FB0A6;border:.12cqw solid rgba(159,176,166,.35);
+}
+.slide-buildtime .bt-btn.bt-btn-ghost:hover{
+  background:rgba(159,176,166,.08);color:#E5F1D4;border-color:rgba(229,241,212,.5);
+}
+.slide-buildtime .bt-btn:focus-visible{outline:.18cqw solid #E5F1D4;outline-offset:.2cqw;}
+.slide-buildtime .bt-btn.bt-btn-adjust{
+  font-variant-numeric:tabular-nums;padding:.85cqw 1.4cqw;min-width:4.6cqw;
+}
+.slide-buildtime .footer{color:#9FB0A6;border-top-color:rgba(255,255,255,.08);}
+.slide-buildtime .footer .rule{color:#34B233;}
+
+/* ============================================================
+   Alt closing — Prisma hero (vanilla port)
+   ============================================================ */
+.slide.slide-prisma{
+  padding:0;background:#000;background-image:none;color:#E1E0CC;
+  text-shadow:none;font-family:var(--sans);
+}
+.slide-prisma .prisma-shell{position:absolute;inset:0;overflow:hidden;}
+.slide-prisma .prisma-video{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+}
+.slide-prisma .prisma-gradient{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,
+    rgba(0,0,0,.30) 0%,
+    rgba(0,0,0,0) 35%,
+    rgba(0,0,0,0) 65%,
+    rgba(0,0,0,.60) 100%);
+}
+.slide-prisma .prisma-hero{position:absolute;left:0;right:0;bottom:0;padding:0 2.2cqw .2cqw;z-index:10;}
+.slide-prisma .prisma-title{
+  margin:0;font-weight:500;line-height:.85;letter-spacing:-.07em;
+  font-size:18cqw;color:#E1E0CC;white-space:nowrap;
+}
+.slide-prisma .prisma-word{position:relative;display:inline-block;margin-right:.14em;}
+.slide-prisma .prisma-word:last-child{margin-right:0;}
+.slide-prisma .prisma-asterisk{
+  position:absolute;top:.65em;right:-.3em;font-size:.31em;line-height:1;
+}
+.slide-prisma .prisma-cta{
+  position:absolute;top:2.4cqw;right:2.4cqw;z-index:20;
+  display:inline-flex;align-items:center;gap:.6cqw;
+  background:#E1E0CC;color:#000;border:none;cursor:pointer;text-decoration:none;
+  border-radius:99cqw;padding:.4cqw .4cqw .4cqw 1.5cqw;
+  font-family:var(--sans);font-size:1.05cqw;font-weight:500;
+  transition:gap .2s ease, transform .2s ease;
+}
+.slide-prisma .prisma-cta:hover{gap:.95cqw;}
+.slide-prisma .prisma-cta-arrow{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:2.4cqw;height:2.4cqw;background:#000;border-radius:50%;color:#E1E0CC;
+  transition:transform .2s ease;
+}
+.slide-prisma .prisma-cta:hover .prisma-cta-arrow{transform:scale(1.1);}
+.slide-prisma .prisma-cta-arrow svg{width:1cqw;height:1cqw;}
+
+/* Words pull-up animation — runs once on slide entry */
+.slide-prisma .prisma-word,
+.slide-prisma .prisma-cta{
+  opacity:0;transform:translateY(20px);
+}
+.slide-prisma.is-active .prisma-word{
+  animation:prisma-pull-up .6s cubic-bezier(.16,1,.3,1) forwards;
+}
+.slide-prisma.is-active .prisma-word:nth-child(2){animation-delay:.08s;}
+.slide-prisma.is-active .prisma-cta{
+  animation:prisma-pull-up .8s .5s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes prisma-pull-up{to{opacity:1;transform:translateY(0);}}
+@media (prefers-reduced-motion: reduce){
+  .slide-prisma .prisma-word,
+  .slide-prisma .prisma-cta{opacity:1;transform:none;animation:none;}
+}
 
 /* Print — every slide on its own 1920×1080 page */
 @media print{
@@ -743,7 +844,7 @@ body.show-notes .deck-notes{display:block;}
   <!-- ============================================================
        W1 — Welcome
        ============================================================ -->
-  <section class="slide slide-welcome has-waves" data-timing="0:30">
+  <section class="slide slide-welcome has-waves" data-timing="0:25">
     <div class="waves-bg"></div>
     <div class="kick"><span class="mark"></span>TD Builders Club · Session 01</div>
     <div class="welcome-hero">
@@ -764,56 +865,9 @@ body.show-notes .deck-notes{display:block;}
 
 
   <!-- ============================================================
-       W1.5 — About / Intro · meet the team
-       ============================================================ -->
-  <section class="slide slide-about" data-timing="1:10">
-    <div class="eyebrow">About · the team</div>
-    <h1 class="h1" style="margin-top:1cqw;font-size:3.4cqw;">Five people. We build with you.</h1>
-
-    <div class="about-reel" id="aboutReel" tabindex="0" role="region" aria-label="Team">
-      <div class="reel-stage">
-        <div class="reel-rows">
-          <div class="reel-col reel-col-side" data-side="left"></div>
-          <div class="reel-col reel-col-mid"></div>
-          <div class="reel-col reel-col-side" data-side="right"></div>
-        </div>
-      </div>
-      <div class="reel-content">
-        <div class="reel-text">
-          <div class="reel-sizer" aria-hidden="true">
-            <p class="reel-name">Akash Nandi</p>
-            <p class="reel-school">TD Velocity · UofT Computer Science</p>
-            <p class="reel-oneliner">11x Hackathon Winner, Mentor, Judge, Organizer.</p>
-          </div>
-          <div class="reel-current" aria-live="polite">
-            <p class="reel-name"></p>
-            <p class="reel-school"></p>
-            <p class="reel-oneliner"></p>
-          </div>
-        </div>
-        <div class="reel-nav">
-          <button type="button" class="reel-prev" aria-label="Previous"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 2.5 3.5 6l4 3.5"/></svg></button>
-          <button type="button" class="reel-next" aria-label="Next"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 2.5 4 3.5-4 3.5"/></svg></button>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer">
-      <span>TD Builders Club</span>
-      <span>S01 / 08 — Welcome · Team</span>
-      <span class="rule">From your COO interns</span>
-    </div>
-    <div class="notes">
-      A quick pass — name, where you sit, one thing that earns being on this stage.
-      <strong>Akash anchors</strong>; everyone else gets a line. Don't oversell. The reel does the work.
-    </div>
-  </section>
-
-
-  <!-- ============================================================
        W2 — The why, felt
        ============================================================ -->
-  <section class="slide slide-content" data-timing="1:50">
+  <section class="slide slide-content" data-timing="0:30">
     <div class="eyebrow">Why we made this</div>
     <h1 class="h1" style="margin-top:1cqw;">There's a gap. We're here to close it.</h1>
     <div class="why-cards">
@@ -857,13 +911,13 @@ body.show-notes .deck-notes{display:block;}
   <!-- ============================================================
        W3 — What this isn't
        ============================================================ -->
-  <section class="slide slide-content" data-timing="2:15">
+  <section class="slide slide-content" data-timing="0:20">
     <div class="eyebrow">Reset expectations</div>
     <h1 class="h1" style="margin-top:1cqw;">What this isn't.</h1>
     <div class="not-list">
       <div class="not-row">
         <span class="tag">Not</span>
-        <div class="t">A lecture series. <span class="soft">The talk is seven minutes. Then we shut up.</span></div>
+        <div class="t">A lecture series. <span class="soft">The talk is seven minutes. Then we're done.</span></div>
       </div>
       <div class="not-row">
         <span class="tag">Not</span>
@@ -875,7 +929,7 @@ body.show-notes .deck-notes{display:block;}
       </div>
       <div class="not-row" style="margin-top:1cqw;">
         <span class="tag green">Is</span>
-        <div class="t">A creative space to build what you want.<span class="caret">▋</span></div>
+        <div class="t">A creative space to build whatever you want.<span class="caret">▋</span></div>
       </div>
     </div>
     <div class="footer">
@@ -893,7 +947,7 @@ body.show-notes .deck-notes{display:block;}
   <!-- ============================================================
        W4 — The season map (animated timeline — flashy moment 4)
        ============================================================ -->
-  <section class="slide slide-timeline" data-timing="2:55">
+  <section class="slide slide-timeline" data-timing="0:30">
     <div class="eyebrow">The season</div>
     <h1 class="h1" style="margin-top:1cqw;">Eight high-impact sessions.</h1>
 
@@ -958,7 +1012,7 @@ body.show-notes .deck-notes{display:block;}
   <!-- ============================================================
        W5 — How tonight works
        ============================================================ -->
-  <section class="slide slide-content has-waves" data-timing="3:20">
+  <section class="slide slide-content has-waves" data-timing="0:20">
     <div class="waves-bg"></div>
     <div class="eyebrow">Tonight</div>
     <h1 class="h1" style="margin-top:1cqw;">One hour. Two if you bring lunch.</h1>
@@ -974,7 +1028,7 @@ body.show-notes .deck-notes{display:block;}
       <div class="ros-step">
         <div class="ros-num">02 · Build</div>
         <div class="ros-ico"><svg viewBox="0 0 24 24"><path d="M15 12l-8.5 8.5a2.12 2.12 0 0 1-3-3L12 9"></path><path d="M17.64 15L22 10.64"></path><path d="M20.91 11.7L19 9.79l1.4-1.4a3.5 3.5 0 0 0-4.95-4.95L13 5.88l-1.4-1.4a1 1 0 0 0-1.42 0L8.7 5.96"></path></svg></div>
-        <div class="ros-title">Build something small.</div>
+        <div class="ros-title">Let's get building!</div>
         <div class="ros-sub">~45 minutes. Mentors floating. Pair up or solo.</div>
         <div class="ros-time">≈ 45 min</div>
       </div>
@@ -1000,15 +1054,65 @@ body.show-notes .deck-notes{display:block;}
 
 
   <!-- ============================================================
+       Intro · meet the team (sits right before the title slide)
+       ============================================================ -->
+  <section class="slide slide-about" data-timing="0:40">
+    <div class="eyebrow">About · the team</div>
+    <h1 class="h1" style="margin-top:1cqw;font-size:3.4cqw;">Five people. We build with you.</h1>
+
+    <div class="about-reel" id="aboutReel" tabindex="0" role="region" aria-label="Team">
+      <div class="reel-stage">
+        <div class="reel-rows">
+          <div class="reel-col reel-col-side" data-side="left"></div>
+          <div class="reel-col reel-col-mid"></div>
+          <div class="reel-col reel-col-side" data-side="right"></div>
+        </div>
+      </div>
+      <div class="reel-content">
+        <div class="reel-eyebrow">Who are we?</div>
+        <div class="reel-text">
+          <div class="reel-sizer" aria-hidden="true">
+            <p class="reel-name">Akash Nagabhirava</p>
+            <p class="reel-team">TD Velocity</p>
+            <p class="reel-school">UofT Computer Science</p>
+            <p class="reel-oneliner">12x Hackathon Winner, Mentor, Judge, Organizer</p>
+          </div>
+          <div class="reel-current" aria-live="polite">
+            <p class="reel-name"></p>
+            <p class="reel-team"></p>
+            <p class="reel-school"></p>
+            <p class="reel-oneliner"></p>
+          </div>
+        </div>
+        <div class="reel-nav">
+          <button type="button" class="reel-prev" aria-label="Previous"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 2.5 3.5 6l4 3.5"/></svg></button>
+          <button type="button" class="reel-next" aria-label="Next"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 2.5 4 3.5-4 3.5"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Welcome · Team</span>
+      <span class="rule">From your COO interns</span>
+    </div>
+    <div class="notes">
+      A quick pass — name, where you sit, one thing that earns being on this stage.
+      <strong>Akash anchors</strong>; everyone else gets a line. Don't oversell. The reel does the work.
+    </div>
+  </section>
+
+
+  <!-- ============================================================
        01 — Title (Waves background · FLASHY MOMENT 1)
        ============================================================ -->
-  <section class="slide slide-title has-waves" data-timing="3:35">
+  <section class="slide slide-title has-waves" data-timing="0:15">
     <div class="waves-bg"></div>
     <div class="hero">
       <div class="title-eyebrow"><span class="mark"></span>S01 / 08 · The Talk</div>
       <h1 class="wordmark">Prompt <span class="td">Monkeys</span>.</h1>
       <div class="tagline">Real tricks. No "act as a senior engineer."<span class="caret">▋</span></div>
-      <div class="meta">7 minutes <span class="dot">·</span> five levers <span class="dot">·</span> one live makeover</div>
+      <div class="meta">7 minutes <span class="dot">·</span> five strategies <span class="dot">·</span> live building!</div>
     </div>
     <div class="footer">
       <span>TD Builders Club</span>
@@ -1024,7 +1128,7 @@ body.show-notes .deck-notes{display:block;}
   <!-- ============================================================
        02 — Are you a prompt monkey?
        ============================================================ -->
-  <section class="slide slide-statement" data-timing="4:15">
+  <section class="slide slide-statement" data-timing="0:30">
     <div class="eyebrow">The question</div>
     <div class="statement-hero">
       <h1 class="statement">Are you a <span class="accent">prompt monkey</span>?<span class="caret">▋</span></h1>
@@ -1045,11 +1149,11 @@ body.show-notes .deck-notes{display:block;}
   <!-- ============================================================
        04 — Lever 01/05 · U-curve (terminal + typewriter)
        ============================================================ -->
-  <section class="slide slide-lever" data-timing="4:55">
+  <section class="slide slide-lever" data-timing="0:30">
     <div class="eyebrow">Lever <span style="color:var(--ink-soft);">01 / 05</span> — U-curve</div>
     <div class="lever-body">
-      <h1 class="lever-title">Front-load it. Back-load it.<span class="caret">▋</span></h1>
-      <div class="lever-sub">Models attend most to the start and end of a prompt, least to the middle. Same as you, telling Wamiq something important — key stuff up front, warnings at the end.</div>
+      <h1 class="lever-title">The U-Curve.<span class="caret">▋</span></h1>
+      <div class="lever-sub">Models attend most to the start and end of a prompt, least to the middle, so front-load it and back-load it. </div>
       <div class="lever-canvas">
         <div class="terminal">
           <div class="terminal-bar">
@@ -1079,7 +1183,7 @@ body.show-notes .deck-notes{display:block;}
   <!-- ============================================================
        05 — Lever 02/05 · Escape hatch (terminal + typewriter)
        ============================================================ -->
-  <section class="slide slide-lever" data-timing="5:35">
+  <section class="slide slide-lever" data-timing="0:30">
     <div class="eyebrow">Lever <span style="color:var(--ink-soft);">02 / 05</span> — Escape hatch</div>
     <div class="lever-body">
       <h1 class="lever-title">Give it an out.<span class="caret">▋</span></h1>
@@ -1113,7 +1217,7 @@ body.show-notes .deck-notes{display:block;}
   <!-- ============================================================
        06 — Lever 03/05 · Stop condition for agents (terminal)
        ============================================================ -->
-  <section class="slide slide-lever" data-timing="6:15">
+  <section class="slide slide-lever" data-timing="0:30">
     <div class="eyebrow">Lever <span style="color:var(--ink-soft);">03 / 05</span> — Stop condition</div>
     <div class="lever-body">
       <h1 class="lever-title">Tell it when to stop.<span class="caret">▋</span></h1>
@@ -1148,11 +1252,11 @@ body.show-notes .deck-notes{display:block;}
   <!-- ============================================================
        07 — Lever 04/05 · Explore vs build (terminal + typewriter)
        ============================================================ -->
-  <section class="slide slide-lever" data-timing="6:55">
+  <section class="slide slide-lever" data-timing="0:30">
     <div class="eyebrow">Lever <span style="color:var(--ink-soft);">04 / 05</span> — Explore vs build</div>
     <div class="lever-body">
       <h1 class="lever-title">Explore first. Build second.<span class="caret">▋</span></h1>
-      <div class="lever-sub">Models jump to the first plausible answer. State the mode out loud — explore or build — and you get options, not commitments.</div>
+      <div class="lever-sub">Models jump to the first plausible answer. State the mode out loud — explore or build — and you get options, not commitments. This is especially important when designing architecture!</div>
       <div class="lever-canvas">
         <div class="terminal">
           <div class="terminal-bar">
@@ -1182,7 +1286,7 @@ body.show-notes .deck-notes{display:block;}
   <!-- ============================================================
        08 — Lever 05/05 · Meta-prompting / handoffs (terminal)
        ============================================================ -->
-  <section class="slide slide-lever" data-timing="7:40">
+  <section class="slide slide-lever" data-timing="0:35">
     <div class="eyebrow">Lever <span style="color:var(--ink-soft);">05 / 05</span> — Meta-prompting · handoffs</div>
     <div class="lever-body">
       <h1 class="lever-title">Hand off in a doc, not a chat.<span class="caret">▋</span></h1>
@@ -1217,15 +1321,15 @@ body.show-notes .deck-notes{display:block;}
   <!-- ============================================================
        08 — Toolkit (Bento grid · FLASHY MOMENT 3)
        ============================================================ -->
-  <section class="slide slide-bento has-waves" data-timing="8:25">
+  <section class="slide slide-bento has-waves" data-timing="0:35">
     <div class="waves-bg"></div>
     <div class="eyebrow">The toolkit</div>
     <div class="bento-body">
-      <h1 class="h1" style="margin-top:.6cqw;">Eight moves. Steal them.</h1>
+      <h1 class="h1" style="margin-top:.6cqw;">TLDR for Reference</h1>
 
       <div class="bento">
         <div class="bento-cell bento-hero">
-          <span class="bn">★ The show-stopper</span>
+          <span class="bn">* Bonus</span>
           <div class="bt">Wrap extra context in &lt;tags&gt;.</div>
           <div class="bd">Tagged sections survive the noise. The model treats them like section headers from its training data — and it stops guessing what matters.</div>
           <pre class="hero-prompt">&lt;background&gt; ... the doc ... &lt;/background&gt;
@@ -1286,16 +1390,62 @@ body.show-notes .deck-notes{display:block;}
   </section>
 
 
+  <!-- ============================================================
+       09 — Live: Prompt Makeover (Typewriter + diff · FLASHY MOMENT 2)
+       ============================================================ -->
+  <section class="slide slide-makeover" data-timing="0:55">
+    <div class="eyebrow">Live · Prompt makeover</div>
+    <div class="makeover-body">
+      <h1 class="h1" style="margin-top:.5cqw;font-size:3.2cqw;">Same task. Watch the rewrite.</h1>
+
+      <div class="makeover-cols">
+        <div class="makeover-col">
+          <span class="col-tag lazy">Lazy — what the room would type</span>
+          <pre class="lazy-prompt">summarize this memo</pre>
+          <div class="makeover-levers" style="margin-top:1.4cqw;color:var(--ink-soft);">
+            no role · no shape · no limit · no audience
+          </div>
+        </div>
+
+        <div class="makeover-col">
+          <span class="col-tag good">Engineered — typed live</span>
+          <div class="terminal">
+            <div class="terminal-bar">
+              <i></i><i></i><i></i>
+              <span class="tb-title">prompt.txt — live rewrite</span>
+            </div>
+            <div class="terminal-body">
+              <span class="prompt-line">$ rewrite ›</span>
+              <span class="tw" data-typewriter
+                data-text='[[You&apos;re a senior analyst]] prepping an MD for Monday.\n\nSummarize the memo as [[3 bullets]] —\nwhat changed, why it matters, the risk —\nplus [[one next step]].\n\nHard limit: [[under 80 words]]. Plain English.'></span><span class="tw-caret"></span>
+            </div>
+          </div>
+          <div class="makeover-levers">role · structure · format · a hard limit</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Live · Prompt makeover</span>
+      <span class="rule">From your COO interns</span>
+    </div>
+    <div class="notes">
+      <strong>Take a prompt from the room first.</strong> If none, fall back to this scripted one.
+      Highlighted phrases are the load-bearing words — point at each as it appears.
+      The backup is already written; nothing breaks if nobody volunteers.
+    </div>
+  </section>
 
 
   <!-- ============================================================
        10 — Build something small (Gradient cards + tilt · FLASHY MOMENT 5)
        ============================================================ -->
-  <section class="slide slide-build" data-timing="9:00">
+  <section class="slide slide-build" data-timing="0:30">
     <div class="eyebrow">Build time</div>
     <div class="build-body">
       <h1 class="h1" style="margin-top:.5cqw;font-size:3.6cqw;">Build something small. Tonight.</h1>
-      <div class="lead" style="margin-top:.2cqw;color:var(--ink-soft);">Small and real beats big and imagined. Pick a shape. Use the five levers. Nothing here needs fullstack — that's S07.</div>
+      <div class="lead" style="margin-top:.2cqw;color:var(--ink-soft);">Inspiration below (or talk to a mentor)! Small is good; no need for fullstack today.</div>
 
       <div class="build-marquee">
         <div class="build-track">
@@ -1303,7 +1453,7 @@ body.show-notes .deck-notes{display:block;}
             <div class="bg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg></div>
             <span class="bc-badge">01 · CLI tool</span>
             <h2 class="bc-title">Lives in your terminal.</h2>
-            <div class="bc-eg"><span class="label">CLI</span>A script that batch-renames your export files.</div>
+            <div class="bc-eg"><span class="label">CLI</span>A script for a game!</div>
           </article>
 
           <article class="build-card">
@@ -1399,9 +1549,9 @@ body.show-notes .deck-notes{display:block;}
   <!-- ============================================================
        11 — If you get stuck
        ============================================================ -->
-  <section class="slide slide-content" data-timing="9:35">
+  <section class="slide slide-content" data-timing="0:30">
     <div class="eyebrow">Safety net</div>
-    <h1 class="h1" style="margin-top:.5cqw;font-size:3.8cqw;">When you get stuck. Not if.</h1>
+    <h1 class="h1" style="margin-top:.5cqw;font-size:3.8cqw;">Stuck? We got you.</h1>
 
     <div class="ladder">
       <div class="rung">
@@ -1422,7 +1572,7 @@ body.show-notes .deck-notes{display:block;}
         <div class="n">03</div>
         <div class="t">
           <div class="h">Flag a mentor. <span class="rung-pulse">●</span></div>
-          <div class="p">Hand up or drop a 🙋 in the breakout — we come to you. This is the one we're here for.</div>
+          <div class="p">We'll be floating around to help with anything! This is the one we're here for.</div>
         </div>
       </div>
       <div class="rung">
@@ -1460,7 +1610,33 @@ body.show-notes .deck-notes{display:block;}
   <!-- ============================================================
        12 — Closing · Thanks + Feedback form
        ============================================================ -->
-  <section class="slide slide-closing has-waves" data-timing="10:00">
+  <!-- ============================================================
+       Build time — countdown over inverted (rich-green on black) waves
+       ============================================================ -->
+  <section class="slide slide-buildtime has-waves" data-timing="0:00">
+    <div class="waves-bg"></div>
+    <div class="bt-stage">
+      <div class="bt-title">Build time</div>
+      <div class="bt-timer" data-countdown="40:00">40:00</div>
+      <div class="bt-controls">
+        <button class="bt-btn bt-btn-ghost bt-btn-adjust" type="button" data-action="adjust" data-delta="-300" aria-label="Subtract five minutes">−5</button>
+        <button class="bt-btn" type="button" data-action="toggle">Start</button>
+        <button class="bt-btn bt-btn-ghost" type="button" data-action="reset">Reset</button>
+        <button class="bt-btn bt-btn-ghost bt-btn-adjust" type="button" data-action="adjust" data-delta="300" aria-label="Add five minutes">+5</button>
+      </div>
+    </div>
+    <div class="footer">
+      <span>TD Builders Club</span>
+      <span>S01 / 08 — Build time</span>
+      <span class="rule">From your COO interns</span>
+    </div>
+    <div class="notes">
+      Press <strong>Start</strong> when the room is ready. Pause/Resume from the same button; Reset returns to 40:00.
+    </div>
+  </section>
+
+
+  <section class="slide slide-closing has-waves" data-timing="0:25">
     <div class="waves-bg"></div>
     <div class="closing-body">
       <div class="closing-eyebrow"><span class="mark"></span>That's a wrap · S01 / 08</div>
@@ -1473,7 +1649,7 @@ body.show-notes .deck-notes{display:block;}
             <div class="fc-lines">
               <span></span><span></span><span></span>
             </div>
-            <div class="fc-cta">Drop in the form here →</div>
+            <div class="fc-cta">Placeholder →</div>
           </div>
         </div>
       </div>
@@ -1490,16 +1666,52 @@ body.show-notes .deck-notes{display:block;}
   </section>
 
 
+  <!-- ============================================================
+       Alt closing — Prisma hero (vanilla port of provided component)
+       ============================================================ -->
+  <section class="slide slide-prisma" data-timing="0:00">
+    <div class="prisma-shell">
+      <video class="prisma-video" autoplay loop muted playsinline
+             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"></video>
+      <div class="prisma-gradient" aria-hidden="true"></div>
+
+      <a class="prisma-cta" href="https://forms.gle/REPLACE_ME" target="_blank" rel="noopener noreferrer">
+        <span>Feedback form</span>
+        <span class="prisma-cta-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </span>
+      </a>
+
+      <div class="prisma-hero">
+        <h1 class="prisma-title">
+          <span class="prisma-word">Builders</span>
+          <span class="prisma-word">Club<span class="prisma-asterisk">*</span></span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="notes">
+      Alt closing — Prisma hero treatment, plugged in verbatim from the component.
+    </div>
+  </section>
+
+
   </div><!-- /deck-stage -->
 
   <div class="deck-hud">
     <span class="deck-pos">01 / 16</span>
-    <span class="help">← → · T timeline · D dark · F full · H hide</span>
+    <span class="help">← → · S notes · D dark · F full · H hide</span>
   </div>
 </div>
 
 <div class="deck-notes">
-  <div class="timing"></div>
+  <div class="timing-row">
+    <span class="timing"></span>
+    <span class="stopwatch" hidden></span>
+  </div>
   <div class="notes-body"></div>
 </div>
 
@@ -1728,11 +1940,11 @@ const IMG_wamiq = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZg
   if (!reel) return;
 
   var TEAM = [
-    { name:'Akash',  school:'TD Velocity · CS, UofT', oneliner:'11x Hackathon Winner, Mentor, Judge, Organizer.', img: (typeof IMG_akash  !== 'undefined' ? IMG_akash  : '') },
-    { name:'Amreen', school:'[team] · CS, McGill',                   oneliner:'[one-liner placeholder]',                              img: (typeof IMG_amreen !== 'undefined' ? IMG_amreen : '') },
+    { name:'Akash',  school:'TD Velocity Team · CS + Math, UofT', oneliner:'12x Hackathon Winner, Mentor, Judge, Organizer', img: (typeof IMG_akash  !== 'undefined' ? IMG_akash  : '') },
+    { name:'Amreen', school:'Global Automations Team ·     CS + Stats, McGill',                   oneliner:'ML enthusiast with experience in NLP and has researched word embeddings to analyze sentiment', img: (typeof IMG_amreen !== 'undefined' ? IMG_amreen : '') },
     { name:'Jalin',   school:'[team] · CS, Western',                   oneliner:'[one-liner placeholder]',                              img: (typeof IMG_elmo   !== 'undefined' ? IMG_elmo   : '') },
-    { name:'Simar',  school:'[team] · CS, Waterloo',                   oneliner:'[one-liner placeholder]',                              img: (typeof IMG_simar  !== 'undefined' ? IMG_simar  : '') },
-    { name:'Wamiq',  school:'[team] · Commerce, TMU',                   oneliner:'[one-liner placeholder]',                              img: (typeof IMG_wamiq  !== 'undefined' ? IMG_wamiq  : '') }
+    { name:'Simar',  school:'Applied AI/ML Team · CS, Waterloo',                   oneliner:'Aspiring Software Engineer with experience in applied AI/ML and fullstack development', img: (typeof IMG_simar  !== 'undefined' ? IMG_simar  : '') },
+    { name:'Wamiq',  school:'Global Ops Team· Commerce, TMU', singleLine:true,  oneliner:'Team Mascot',                              img: (typeof IMG_wamiq  !== 'undefined' ? IMG_wamiq  : '') }
   ];
 
   var count = TEAM.length;
@@ -1783,6 +1995,7 @@ const IMG_wamiq = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZg
 
   var currentEl  = reel.querySelector('.reel-current');
   var nameEl     = currentEl.querySelector('.reel-name');
+  var teamEl     = currentEl.querySelector('.reel-team');
   var schoolEl   = currentEl.querySelector('.reel-school');
   var onelinerEl = currentEl.querySelector('.reel-oneliner');
   var prevBtn    = reel.querySelector('.reel-prev');
@@ -1827,9 +2040,20 @@ const IMG_wamiq = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZg
 
   function updateText(){
     var p = TEAM[displayIndex];
+    var team, school;
+    if (p.singleLine) {
+      team = String(p.school || '');
+      school = '';
+    } else {
+      var parts = String(p.school || '').split(' · ');
+      team   = parts[0] || '';
+      school = parts.slice(1).join(' · ');
+    }
+    schoolEl.style.display = school ? '' : 'none';
     var idx = 0;
-    idx = renderChars(nameEl,     p.name,     idx) + 6;
-    idx = renderChars(schoolEl,   p.school,   idx) + 6;
+    idx = renderChars(nameEl,     p.name,    idx) + 6;
+    idx = renderChars(teamEl,     team,      idx) + 6;
+    idx = renderChars(schoolEl,   school,    idx) + 6;
     idx = renderChars(onelinerEl, p.oneliner, idx);
   }
 
@@ -1865,18 +2089,18 @@ const IMG_wamiq = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZg
     if (e.key === 'ArrowRight') { e.preventDefault(); paginate(1);  }
   });
 
-  /* When this slide is active, steal nav keys only if there's somewhere to go in the reel. */
+  /* When this slide is active, steal ArrowLeft/Right/Space before the deck handler —
+     but only when the reel can still paginate. At the boundaries, let the event
+     fall through so the deck can navigate to the previous/next slide. */
   var slide = reel.closest('.slide');
   document.addEventListener('keydown', function(e){
     if (!slide.classList.contains('is-active')) return;
-    if (e.key === 'ArrowRight' || e.key === ' ') {
-      if (index >= count - 1) return; /* at last person — let deck advance */
+    if ((e.key === 'ArrowRight' || e.key === ' ') && index < count - 1) {
       e.stopImmediatePropagation();
       e.preventDefault();
       paginate(1);
     }
-    if (e.key === 'ArrowLeft') {
-      if (index <= 0) return; /* at first person — let deck go back */
+    if (e.key === 'ArrowLeft' && index > 0) {
       e.stopImmediatePropagation();
       e.preventDefault();
       paginate(-1);
@@ -1914,10 +2138,40 @@ const IMG_wamiq = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZg
 
   var posEl = document.querySelector('.deck-pos');
   var notesTiming = document.querySelector('.deck-notes .timing');
+  var notesStopwatch = document.querySelector('.deck-notes .stopwatch');
   var notesBody = document.querySelector('.deck-notes .notes-body');
   var idx = 0;
 
   function clamp(i){ return Math.max(0, Math.min(slides.length - 1, i)); }
+
+  /* Precompute cumulative m:ss target at each slide from data-timing. */
+  function parseTiming(t){
+    if (!t) return 0;
+    var p = String(t).split(':');
+    return (parseInt(p[0], 10) || 0) * 60 + (parseInt(p[1], 10) || 0);
+  }
+  function formatTiming(sec){
+    if (sec < 0) sec = 0;
+    var m = Math.floor(sec / 60), s = sec % 60;
+    return m + ':' + String(s).padStart(2, '0');
+  }
+  var cumulative = [];
+  (function(){
+    var acc = 0;
+    slides.forEach(function(s){
+      acc += parseTiming(s.dataset.timing);
+      cumulative.push(acc);
+    });
+  })();
+
+  /* Live stopwatch — starts the first time we leave slide 0, ticks forever after. */
+  var stopwatchStart = null;
+  function renderStopwatch(){
+    if (stopwatchStart === null || !notesStopwatch) return;
+    var elapsed = Math.floor((Date.now() - stopwatchStart) / 1000);
+    notesStopwatch.textContent = 'Live — ' + formatTiming(elapsed);
+  }
+  setInterval(renderStopwatch, 1000);
 
   function render(){
     slides.forEach(function(s, i){
@@ -1930,8 +2184,12 @@ const IMG_wamiq = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZg
     var notes = active.querySelector('.notes');
     if (notesBody) notesBody.innerHTML = notes ? notes.innerHTML : '<em>No speaker notes for this slide.</em>';
     if (notesTiming) {
-      var t = active.dataset.timing;
-      notesTiming.textContent = t ? (t) : '';
+      notesTiming.textContent = 'Aim — ' + formatTiming(cumulative[idx] || 0);
+    }
+    if (idx > 0 && stopwatchStart === null) {
+      stopwatchStart = Date.now();
+      if (notesStopwatch) notesStopwatch.hidden = false;
+      renderStopwatch();
     }
     if (location.hash !== '#' + (idx + 1)) {
       history.replaceState(null, '', '#' + (idx + 1));
@@ -1949,7 +2207,7 @@ const IMG_wamiq = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZg
       case 'ArrowLeft':  case 'PageUp': prev(); e.preventDefault(); break;
       case 'Home': go(0); e.preventDefault(); break;
       case 'End': go(slides.length - 1); e.preventDefault(); break;
-      case 't': case 'T':
+      case 's': case 'S':
         document.body.classList.toggle('show-notes'); e.preventDefault(); break;
       case 'd': case 'D': {
         var r = document.documentElement;
@@ -2325,6 +2583,61 @@ const IMG_wamiq = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZg
         card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
       });
     });
+  })();
+
+
+  /* ---------- 4.5 · Build-time countdown — manual Start/Pause/Reset ---------- */
+  (function buildTimeInit(){
+    var slide = document.querySelector('.slide-buildtime');
+    if (!slide) return;
+    var timerEl  = slide.querySelector('.bt-timer');
+    var toggleEl = slide.querySelector('[data-action="toggle"]');
+    var resetEl  = slide.querySelector('[data-action="reset"]');
+    if (!timerEl) return;
+    function parse(t){ var p = String(t || '').split(':'); return (parseInt(p[0], 10) || 0) * 60 + (parseInt(p[1], 10) || 0); }
+    function fmt(s){ if (s < 0) s = 0; var m = Math.floor(s / 60), ss = s % 60; return m + ':' + String(ss).padStart(2, '0'); }
+    var totalSec  = parse(timerEl.dataset.countdown) || 40 * 60;
+    var remaining = totalSec;
+    var running   = false;
+    var lastTick  = 0;
+    function render(){
+      timerEl.textContent = fmt(Math.ceil(remaining));
+      timerEl.classList.toggle('warn', remaining > 0 && remaining <= 60);
+      timerEl.classList.toggle('done', remaining <= 0);
+      if (toggleEl) {
+        if (remaining <= 0) { toggleEl.textContent = 'Done'; toggleEl.disabled = true; }
+        else { toggleEl.disabled = false; toggleEl.textContent = running ? 'Pause' : (remaining < totalSec ? 'Resume' : 'Start'); }
+      }
+    }
+    function tick(){
+      if (!running) return;
+      var now = Date.now();
+      remaining -= (now - lastTick) / 1000;
+      lastTick = now;
+      if (remaining <= 0) { remaining = 0; running = false; }
+      render();
+    }
+    setInterval(tick, 250);
+    if (toggleEl) toggleEl.addEventListener('click', function(){
+      if (remaining <= 0) return;
+      running = !running;
+      lastTick = Date.now();
+      render();
+    });
+    if (resetEl) resetEl.addEventListener('click', function(){
+      running = false;
+      remaining = totalSec;
+      render();
+    });
+    slide.querySelectorAll('[data-action="adjust"]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var delta = parseInt(btn.dataset.delta, 10) || 0;
+        remaining = Math.max(0, remaining + delta);
+        if (remaining > 0 && running) lastTick = Date.now();
+        render();
+      });
+    });
+    render();
   })();
 
 
