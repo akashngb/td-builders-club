@@ -486,11 +486,15 @@ body{background:var(--frame);font-family:var(--sans);color:var(--black);overflow
 /* =======================================================================
    BUILD-TIME COUNTDOWN
    ======================================================================= */
-.slide-buildtime{background:var(--black);}
+.slide-buildtime{background:var(--sand);}
 .slide-buildtime .bt-stage{
   flex:1;display:flex;flex-direction:column;
   align-items:flex-start;justify-content:center;
   min-height:0;gap:2cqw;padding:0 5cqw;
+  background:var(--black);
+  border:.12cqw solid rgba(255,255,255,.25);
+  border-radius:1.2cqw;
+  margin:1.5cqw 2cqw 1cqw;
 }
 .slide-buildtime .bt-title{
   font-family:var(--sans);font-size:1cqw;font-weight:700;
@@ -521,8 +525,8 @@ body{background:var(--frame);font-family:var(--sans);color:var(--black);overflow
 .slide-buildtime .bt-btn.bt-btn-ghost:hover{background:rgba(228,233,226,.07);color:var(--sand);}
 .slide-buildtime .bt-btn.bt-btn-adjust{padding:.65cqw 1.1cqw;min-width:3.5cqw;}
 .slide-buildtime .bt-btn:focus-visible{outline:.18cqw solid var(--sand);outline-offset:.2cqw;}
-.slide-buildtime .footer{border-top-color:rgba(255,255,255,.08);background:var(--black);color:rgba(255,255,255,.35);}
-.slide-buildtime .footer .rule{color:var(--green);}
+.slide-buildtime .footer{border-top-color:var(--border);background:var(--sand);color:var(--stone);}
+.slide-buildtime .footer .rule{color:var(--green-dark);font-weight:700;}
 
 /* =======================================================================
    CLOSING IMPACT (dark bg variant)
@@ -752,7 +756,7 @@ body.show-notes .deck-notes{display:block;}
   <div class="eyebrow">The question</div>
   <div class="stmt-hero">
     <h1 class="stmt-q">Are you a <span class="accent">prompt monkey</span>?<span class="caret">▋</span></h1>
-    <div class="stmt-aside">Typing requests like Google searches. Grabbing the first answer. Blaming the model when it's mid.</div>
+    <div class="stmt-aside"><strong>Prompt Monkey</strong> <span style="opacity:.65;">(noun)</span><br><em>One whose prompts lack intention and success.</em></div>
   </div>
   <div class="footer">
     <span>TD Builders Club</span>
@@ -981,50 +985,11 @@ ask me before inventing one."></span><span class="tw-caret"></span>
 
 
 <!-- ================================================================
-     10 — Build something small
-     ================================================================ -->
-<section class="slide slide-build-td" data-timing="0:30">
-  <div class="eyebrow">Build time</div>
-  <div class="build-body">
-    <h1 class="h1-td" style="margin-top:.4cqw;font-size:3.5cqw;">Build something small. Tonight.</h1>
-    <div class="lead-td" style="margin-top:.3cqw;">Inspiration below (or talk to a mentor). Small is good — no need for fullstack today.</div>
-    <div class="build-marquee">
-      <div class="build-track">
-        <article class="build-card"><span class="bc-badge">01 · CLI tool</span><h2 class="bc-title">Lives in your terminal.</h2><div class="bc-eg"><span class="label">CLI</span>A script for a game!</div></article>
-        <article class="build-card"><span class="bc-badge">02 · Local web app</span><h2 class="bc-title">One page, in your browser.</h2><div class="bc-eg"><span class="label">WEB</span>A page that reformats meeting notes.</div></article>
-        <article class="build-card"><span class="bc-badge">03 · Dev tool</span><h2 class="bc-title">Developer tool.</h2><div class="bc-eg"><span class="label">DEV</span>A snippet that turns a CSV into a chart.</div></article>
-        <article class="build-card"><span class="bc-badge">04 · Automation flow</span><h2 class="bc-title">Automation flow.</h2><div class="bc-eg"><span class="label">FLOW</span>Power Automate routine that flags stale tickets.</div></article>
-        <article class="build-card"><span class="bc-badge">05 · M365 agent</span><h2 class="bc-title">A Copilot Studio agent.</h2><div class="bc-eg"><span class="label">M365</span>An agent that answers from a SharePoint binder.</div></article>
-        <article class="build-card lucky"><span class="bc-badge">06 · I'm feeling lucky</span><h2 class="bc-title">Ask a mentor for one.</h2><div class="bc-eg"><span class="label">PICK</span>"I have 45 minutes. Give me something dumb to build."</div></article>
-        <!-- duplicates for seamless loop -->
-        <article class="build-card" aria-hidden="true"><span class="bc-badge">01 · CLI tool</span><h2 class="bc-title">Lives in your terminal.</h2><div class="bc-eg"><span class="label">CLI</span>A script for a game!</div></article>
-        <article class="build-card" aria-hidden="true"><span class="bc-badge">02 · Local web app</span><h2 class="bc-title">One page, in your browser.</h2><div class="bc-eg"><span class="label">WEB</span>A page that reformats meeting notes.</div></article>
-        <article class="build-card" aria-hidden="true"><span class="bc-badge">03 · Dev tool</span><h2 class="bc-title">Developer tool.</h2><div class="bc-eg"><span class="label">DEV</span>A snippet that turns a CSV into a chart.</div></article>
-        <article class="build-card" aria-hidden="true"><span class="bc-badge">04 · Automation flow</span><h2 class="bc-title">Automation flow.</h2><div class="bc-eg"><span class="label">FLOW</span>Power Automate routine that flags stale tickets.</div></article>
-        <article class="build-card" aria-hidden="true"><span class="bc-badge">05 · M365 agent</span><h2 class="bc-title">A Copilot Studio agent.</h2><div class="bc-eg"><span class="label">M365</span>An agent that answers from a SharePoint binder.</div></article>
-        <article class="build-card lucky" aria-hidden="true"><span class="bc-badge">06 · I'm feeling lucky</span><h2 class="bc-title">Ask a mentor for one.</h2><div class="bc-eg"><span class="label">PICK</span>"I have 45 minutes. Give me something dumb to build."</div></article>
-      </div>
-    </div>
-    <div class="build-tail">A script that saves you ten minutes counts. <span class="accent">Pick one. Start.</span></div>
-  </div>
-  <div class="footer">
-    <span>TD Builders Club</span>
-    <span>S01 / 08 — Build time</span>
-    <span class="rule">From your COO interns</span>
-  </div>
-  <div class="notes">
-    The whole job of this slide is to lower the bar. Read one option out loud — the room latches onto whichever feels closest to their own tickets.
-    If anyone says "I don't know what to build," send them to "I'm feeling lucky." A mentor picks for them.
-  </div>
-</section>
-
-
-<!-- ================================================================
      11 — If you get stuck
      ================================================================ -->
 <section class="slide slide-content-td" data-timing="0:30">
   <div class="eyebrow">Quick reference</div>
-  <h1 class="h1-td" style="font-size:3.7cqw;">Five tactics. One page.</h1>
+  <h1 class="h1-td" style="font-size:3.7cqw;">Summary</h1>
   <div class="ladder">
     <div class="rung">
       <div class="n">01</div>
@@ -1071,6 +1036,44 @@ ask me before inventing one."></span><span class="tw-caret"></span>
   <div class="notes">
     Lower the bar one more time before you let them loose. Agree the mentor signal out loud — raised hand, sticky note, Teams reaction.
     End on the coda. Then say "go."
+  </div>
+</section>
+
+<!-- ================================================================
+     10 — Build something small
+     ================================================================ -->
+<section class="slide slide-build-td" data-timing="0:30">
+  <div class="eyebrow">Build time</div>
+  <div class="build-body">
+    <h1 class="h1-td" style="margin-top:.4cqw;font-size:3.5cqw;">Need inspiration?</h1>
+    <div class="lead-td" style="margin-top:.3cqw;">Ideas below (or talk to a mentor). Small is good — no need for fullstack today.</div>
+    <div class="build-marquee">
+      <div class="build-track">
+        <article class="build-card"><span class="bc-badge">01 · CLI tool</span><h2 class="bc-title">Lives in your terminal.</h2><div class="bc-eg"><span class="label">CLI</span>A script for a game!</div></article>
+        <article class="build-card"><span class="bc-badge">02 · Local web app</span><h2 class="bc-title">One page, in your browser.</h2><div class="bc-eg"><span class="label">WEB</span>A page that reformats meeting notes.</div></article>
+        <article class="build-card"><span class="bc-badge">03 · Dev tool</span><h2 class="bc-title">Developer tool.</h2><div class="bc-eg"><span class="label">DEV</span>A snippet that turns a CSV into a chart.</div></article>
+        <article class="build-card"><span class="bc-badge">04 · Automation flow</span><h2 class="bc-title">Automation flow.</h2><div class="bc-eg"><span class="label">FLOW</span>Power Automate routine that flags stale tickets.</div></article>
+        <article class="build-card"><span class="bc-badge">05 · M365 agent</span><h2 class="bc-title">A Copilot Studio agent.</h2><div class="bc-eg"><span class="label">M365</span>An agent that answers from a SharePoint binder.</div></article>
+        <article class="build-card lucky"><span class="bc-badge">06 · I'm feeling lucky</span><h2 class="bc-title">Ask a mentor for one.</h2><div class="bc-eg"><span class="label">PICK</span>"I have 45 minutes. Give me something dumb to build."</div></article>
+        <!-- duplicates for seamless loop -->
+        <article class="build-card" aria-hidden="true"><span class="bc-badge">01 · CLI tool</span><h2 class="bc-title">Lives in your terminal.</h2><div class="bc-eg"><span class="label">CLI</span>A script for a game!</div></article>
+        <article class="build-card" aria-hidden="true"><span class="bc-badge">02 · Local web app</span><h2 class="bc-title">One page, in your browser.</h2><div class="bc-eg"><span class="label">WEB</span>A page that reformats meeting notes.</div></article>
+        <article class="build-card" aria-hidden="true"><span class="bc-badge">03 · Dev tool</span><h2 class="bc-title">Developer tool.</h2><div class="bc-eg"><span class="label">DEV</span>A snippet that turns a CSV into a chart.</div></article>
+        <article class="build-card" aria-hidden="true"><span class="bc-badge">04 · Automation flow</span><h2 class="bc-title">Automation flow.</h2><div class="bc-eg"><span class="label">FLOW</span>Power Automate routine that flags stale tickets.</div></article>
+        <article class="build-card" aria-hidden="true"><span class="bc-badge">05 · M365 agent</span><h2 class="bc-title">A Copilot Studio agent.</h2><div class="bc-eg"><span class="label">M365</span>An agent that answers from a SharePoint binder.</div></article>
+        <article class="build-card lucky" aria-hidden="true"><span class="bc-badge">06 · I'm feeling lucky</span><h2 class="bc-title">Ask a mentor for one.</h2><div class="bc-eg"><span class="label">PICK</span>"I have 45 minutes. Give me something dumb to build."</div></article>
+      </div>
+    </div>
+    <div class="build-tail">A script that saves you ten minutes counts. <span class="accent">Pick one. Start.</span></div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Build time</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    The whole job of this slide is to lower the bar. Read one option out loud — the room latches onto whichever feels closest to their own tickets.
+    If anyone says "I don't know what to build," send them to "I'm feeling lucky." A mentor picks for them.
   </div>
 </section>
 
@@ -1187,7 +1190,7 @@ var IMG_wamiq="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZgAATU
   var TEAM = [
     { name:'Akash',  school:'TD Velocity Team · CS + AI, UofT',            oneliner:'12x Hackathon Winner, Mentor, Judge, Organizer',                                     img:(typeof IMG_akash  !=='undefined'?IMG_akash:''), imgStyle:'object-fit:cover;object-position:center top;transform:scale(1.35) translateY(-12%);transform-origin:center top;' },
     { name:'Amreen', school:'Global Automations Team · CS + Stats, McGill',   oneliner:'ML enthusiast with experience in NLP and has researched word embeddings to analyze sentiment', img:(typeof IMG_amreen !=='undefined'?IMG_amreen:'') },
-    { name:'Jalin',  school:'Tech FTE Associate · CS, Western',                           oneliner:'Fourth-year Computer Science student with a focus on backend engineering and applying AI to real-world workflows and automation.',img:(typeof IMG_jalin!=='undefined'?IMG_jalin:'') },
+    { name:'Jalin',  school:'Veritas Security Team · CS, Western',                           oneliner:'Fourth-year Computer Science student with a focus on backend engineering and applying AI to real-world workflows and automation.',img:(typeof IMG_jalin!=='undefined'?IMG_jalin:'') },
     { name:'Simar',  school:'Applied AI/ML Team · CS, Waterloo',              oneliner:'Aspiring Software Engineer with experience in applied AI/ML and fullstack development', img:(typeof IMG_simar  !=='undefined'?IMG_simar:'') },
     { name:'Wamiq',  school:'Global Ops Team · Commerce, TMU', singleLine:true, oneliner:'Team Mascot',                                                                     img:(typeof IMG_wamiq  !=='undefined'?IMG_wamiq:'') }
   ];
