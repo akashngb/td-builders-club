@@ -1,0 +1,1607 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TD Builders Club — Prompt Monkeys</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+/* =======================================================================
+   TD Builders Club · Prompt Monkeys — TD Way Edition
+   Fonts: TD Sans Headline / TD Sans Body (local) → Calibri / Aptos / system
+   Palette: td_way.pptx theme — Shield Green #42BF19, Premium Green #002B1A,
+            Greensand #E4E9E2, Greenstone #3C4339, near-black #1C1C1C
+   No decorative grid. No wave backgrounds. Clean geometric TD style.
+   ======================================================================= */
+
+@font-face{font-family:'TD Sans Headline';src:local('TD Sans Headline'),local('TDSansHeadline');font-weight:400 700;font-display:swap;}
+@font-face{font-family:'TD Sans Body';src:local('TD Sans Body'),local('TDSansBody');font-weight:400 700;font-display:swap;}
+
+:root{
+  --green:      #42BF19;
+  --green-dark: #002B1A;
+  --green-logo: #2FBF00;
+  --black:      #1C1C1C;
+  --sand:       #E4E9E2;
+  --stone:      #3C4339;
+  --white:      #FFFFFF;
+  --signal:     #E66523;
+  --panel:      #F4F7F3;
+  --border:     #C5CCC2;
+  --frame:      #9FA59D;
+  --sans:'TD Sans Headline','TD Sans Body','Calibri','Aptos',system-ui,-apple-system,sans-serif;
+  --mono:'Cascadia Code','Consolas','Courier New',ui-monospace,monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{background:var(--frame);font-family:var(--sans);color:var(--black);overflow:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+
+/* ── Deck shell ─────────────────────────────────────────────────────── */
+.deck{position:fixed;inset:0;display:grid;place-items:center;padding:2vh 2vw;}
+.deck-stage{
+  position:relative;
+  width:min(96vw, calc(96vh * 16/9));
+  aspect-ratio:16/9;
+  box-shadow:0 24px 72px rgba(0,0,0,.5);
+  overflow:hidden;
+}
+
+/* ── Slide base ─────────────────────────────────────────────────────── */
+.slide{
+  position:absolute;inset:0;display:none;flex-direction:column;
+  background:var(--white);color:var(--black);overflow:hidden;
+  container-type:inline-size;
+}
+.slide.is-active{display:flex;}
+.slide .notes{display:none;}
+
+/* ── Shared footer ──────────────────────────────────────────────────── */
+.footer{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.95cqw 3.5cqw;flex-shrink:0;
+  border-top:.1cqw solid var(--border);
+  font-family:var(--sans);font-size:.88cqw;font-weight:400;
+  color:var(--stone);letter-spacing:.02em;
+}
+.footer .rule{color:var(--green-dark);font-weight:700;}
+
+/* ── Eyebrow ────────────────────────────────────────────────────────── */
+.eyebrow{
+  display:flex;align-items:center;gap:.7cqw;
+  font-size:1cqw;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--green-dark);
+}
+.eyebrow::before{
+  content:'';display:inline-block;flex-shrink:0;
+  width:.28cqw;height:1.3cqw;background:var(--green);border-radius:.08cqw;
+}
+
+/* ── Caret ──────────────────────────────────────────────────────────── */
+.caret{color:var(--green);animation:blink 1.1s steps(1) infinite;}
+@keyframes blink{50%{opacity:0;}}
+@media(prefers-reduced-motion:reduce){.caret{animation:none;}}
+
+/* ── TD Logo inline SVG (reused across slides) ──────────────────────── */
+.td-logo{display:block;width:auto;}
+
+/* =======================================================================
+   IMPACT SLIDE  — dark + green split (title, welcome, closing)
+   ======================================================================= */
+.slide-impact{background:var(--black);}
+.slide-impact .imp-body{
+  flex:1;min-height:0;
+  display:flex;flex-direction:row;
+}
+/* Left: green panel */
+.imp-left{
+  background:var(--green);
+  width:44cqw;flex-shrink:0;
+  display:flex;flex-direction:column;
+  padding:3.5cqw 4cqw;
+}
+/* Right: dark panel */
+.imp-right{
+  flex:1;
+  display:flex;flex-direction:column;
+  padding:3.5cqw 4cqw;
+  border-left:.1cqw solid rgba(255,255,255,.06);
+}
+.slide-impact .footer{
+  border-top-color:rgba(255,255,255,.1);
+  background:var(--black);
+  color:rgba(255,255,255,.45);
+}
+.slide-impact .footer .rule{color:var(--green);}
+
+/* Logo block on green */
+.imp-logo{width:5.5cqw;height:auto;flex-shrink:0;}
+
+/* Left-panel text */
+.imp-eyebrow{
+  font-size:1cqw;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(0,43,26,.75);
+  margin-top:1.8cqw;
+}
+.imp-title{
+  font-size:7.5cqw;font-weight:700;line-height:.95;
+  letter-spacing:-.035em;color:var(--white);
+  margin-top:auto;
+}
+.imp-sub{
+  font-size:1.65cqw;font-weight:400;
+  color:rgba(255,255,255,.8);
+  margin-top:1.8cqw;line-height:1.35;
+}
+
+/* Right-panel text */
+.imp-r-label{
+  font-size:1cqw;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--green);
+}
+.imp-r-title{
+  font-size:4.8cqw;font-weight:700;line-height:1;
+  letter-spacing:-.03em;color:var(--white);
+  margin-top:auto;
+}
+.imp-r-sub{
+  font-size:1.55cqw;font-weight:400;
+  color:rgba(255,255,255,.65);
+  margin-top:1.6cqw;line-height:1.4;
+}
+.imp-r-meta{
+  font-size:1.05cqw;font-weight:400;
+  color:rgba(255,255,255,.4);
+  margin-top:1.2cqw;letter-spacing:.04em;text-transform:uppercase;
+}
+.imp-r-meta .dot{color:rgba(255,255,255,.2);margin:0 .5cqw;}
+.imp-r-spacer{flex:1;}
+
+/* =======================================================================
+   CONTENT SLIDE — white bg, standard layout
+   ======================================================================= */
+.slide-content-td{
+  background:var(--white);
+  padding:3.2cqw 3.5cqw 0;
+}
+.slide-content-td .content-body{
+  flex:1;display:flex;flex-direction:column;min-height:0;
+  padding-top:1cqw;
+}
+.h1-td{
+  font-size:4.6cqw;font-weight:700;letter-spacing:-.028em;
+  line-height:1;color:var(--black);margin-top:1cqw;
+}
+.lead-td{
+  font-size:1.7cqw;font-weight:400;color:var(--stone);
+  line-height:1.4;max-width:76cqw;margin-top:.8cqw;
+}
+.lead-td .accent{color:var(--green-dark);font-weight:700;}
+
+/* ── Why cards / RoS cards ──────────────────────────────────────────── */
+.card-row{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.4cqw;flex:1;min-height:0;margin-top:1.6cqw;
+}
+.td-card{
+  background:var(--sand);border:.08cqw solid var(--border);
+  border-radius:.55cqw;padding:1.7cqw;
+  display:flex;flex-direction:column;gap:.8cqw;
+  border-left:.35cqw solid var(--green);
+}
+.td-card .cn{
+  font-size:3.8cqw;font-weight:700;color:var(--green);
+  letter-spacing:-.03em;line-height:1;
+}
+.td-card .ct{
+  font-size:1cqw;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--green-dark);
+}
+.td-card .cb{
+  font-size:1.5cqw;font-weight:400;color:var(--black);
+  line-height:1.35;
+}
+.td-card .cb .soft{color:var(--stone);}
+.td-card .ctime{
+  margin-top:auto;padding-top:.8cqw;
+  border-top:.08cqw solid var(--border);
+  font-size:1cqw;font-weight:700;color:var(--green-dark);
+  letter-spacing:.04em;
+}
+
+/* RoS card icons */
+.td-card .c-ico{
+  width:3cqw;height:3cqw;color:var(--green-dark);
+  display:inline-flex;align-items:center;justify-content:center;
+  margin-top:.2cqw;
+}
+.td-card .c-ico svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ── Not-list ───────────────────────────────────────────────────────── */
+.not-list{
+  display:flex;flex-direction:column;gap:1.4cqw;
+  margin-top:1.8cqw;flex:1;min-height:0;justify-content:center;
+}
+.not-row{
+  display:grid;grid-template-columns:9.5cqw 1fr;
+  column-gap:2cqw;align-items:baseline;max-width:84cqw;
+}
+.not-tag{
+  font-size:1.15cqw;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--stone);
+  padding:.35cqw .8cqw;border:.1cqw solid var(--border);
+  border-radius:.3cqw;text-align:center;background:var(--sand);
+}
+.not-tag.is{color:var(--white);background:var(--green);border-color:var(--green);}
+.not-text{
+  font-size:2.3cqw;font-weight:700;letter-spacing:-.015em;line-height:1.1;
+}
+.not-text .soft{color:var(--stone);font-weight:400;}
+
+/* =======================================================================
+   STATEMENT SLIDE
+   ======================================================================= */
+.slide-stmt{background:var(--white);padding:3.2cqw 3.5cqw 0;}
+.slide-stmt .stmt-hero{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0;}
+.stmt-q{
+  font-size:6cqw;font-weight:700;letter-spacing:-.03em;
+  line-height:1.02;max-width:82cqw;
+}
+.stmt-q .accent{color:var(--green);}
+.stmt-aside{
+  font-size:1.6cqw;font-weight:400;color:var(--stone);
+  margin-top:2.2cqw;max-width:68cqw;line-height:1.45;
+}
+
+/* =======================================================================
+   TIMELINE SLIDE
+   ======================================================================= */
+.slide-tl{background:var(--white);padding:3.2cqw 3.5cqw 0;}
+.slide-tl .tl-body{flex:1;display:flex;flex-direction:column;min-height:0;gap:1.2cqw;}
+.timeline{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;padding:.8cqw 0 0;position:relative;}
+.timeline svg{width:100%;height:auto;display:block;overflow:visible;}
+.tl-track{stroke:var(--border);stroke-width:.4;fill:none;}
+.tl-line{stroke:var(--green);stroke-width:.65;fill:none;stroke-dasharray:200;stroke-dashoffset:200;transition:stroke-dashoffset 2.4s ease-out;}
+.slide-tl.is-active .tl-line{stroke-dashoffset:0;}
+.tl-dot{fill:var(--white);stroke:var(--border);stroke-width:.35;}
+.tl-dot.current{fill:var(--green);stroke:var(--green);}
+.tl-dot.finale{fill:var(--signal);stroke:var(--signal);}
+.tl-pulse{fill:var(--green);opacity:.4;animation:tlpulse 1.6s ease-out infinite;transform-origin:center;transform-box:fill-box;}
+@keyframes tlpulse{0%{r:1.2;opacity:.55;}100%{r:4.5;opacity:0;}}
+@media(prefers-reduced-motion:reduce){.slide-tl .tl-line{stroke-dashoffset:0;transition:none;}.tl-pulse{animation:none;opacity:0;}}
+.tl-labels{display:grid;grid-template-columns:repeat(8,1fr);gap:.5cqw;margin-top:.9cqw;}
+.tl-label{display:flex;flex-direction:column;gap:.22cqw;align-items:flex-start;padding-right:.3cqw;}
+.tl-label .lbl-n{font-size:.85cqw;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);}
+.tl-label .lbl-t{font-size:1.15cqw;font-weight:700;letter-spacing:-.008em;line-height:1.15;color:var(--black);}
+.tl-label.current .lbl-n{color:var(--green);}
+.tl-label.current .lbl-t{color:var(--green-dark);}
+.tl-label.finale .lbl-n{color:var(--signal);}
+.tl-arc{font-size:.98cqw;font-weight:400;color:var(--stone);margin-top:.9cqw;letter-spacing:.02em;display:flex;align-items:center;gap:.65cqw;flex-wrap:wrap;}
+.tl-arc .step{color:var(--green-dark);font-weight:700;}
+.tl-arc .sep{color:var(--green);}
+
+/* =======================================================================
+   ABOUT / TEAM REEL
+   ======================================================================= */
+.slide-about-td{background:var(--white);padding:0!important;}
+.slide-about-td .about-reel{
+  --cell:25cqw;--gap:1.1cqw;
+  --step:calc(3 * (var(--cell) + var(--gap)));
+  display:flex;flex-direction:row;align-items:stretch;
+  width:100%;height:100%;flex:1;min-height:0;
+}
+.slide-about-td .reel-stage{
+  position:relative;width:48cqw;flex-shrink:0;overflow:hidden;align-self:stretch;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,black 12%,black 88%,transparent 100%),linear-gradient(to bottom,transparent 0%,black 8%,black 92%,transparent 100%);
+          mask-image:linear-gradient(to right,transparent 0%,black 12%,black 88%,transparent 100%),linear-gradient(to bottom,transparent 0%,black 8%,black 92%,transparent 100%);
+  -webkit-mask-composite:source-in;mask-composite:intersect;
+  background:var(--sand);
+}
+.slide-about-td .reel-rows{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:var(--gap);}
+.slide-about-td .reel-col{display:flex;flex-direction:column;gap:var(--gap);flex-shrink:0;will-change:transform;}
+.slide-about-td .reel-cell{
+  width:var(--cell);height:var(--cell);flex-shrink:0;
+  background:var(--white);border:.08cqw solid var(--border);border-radius:.5cqw;
+}
+.slide-about-td .reel-featured{
+  position:relative;width:var(--cell);height:var(--cell);flex-shrink:0;
+  border-radius:.5cqw;overflow:hidden;background:var(--border);
+  box-shadow:0 .5cqw 1.8cqw rgba(0,0,0,.18);
+}
+.slide-about-td .reel-featured img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;}
+.slide-about-td .reel-featured::before{content:'';position:absolute;inset:0;z-index:2;background:#fff;mix-blend-mode:saturation;pointer-events:none;}
+.slide-about-td .reel-content{
+  flex:1;min-width:0;align-self:stretch;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:4cqw 4.5cqw;gap:1.2cqw;
+  border-left:.45cqw solid var(--green);
+}
+.slide-about-td .reel-eyebrow{font-size:1cqw;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);}
+.slide-about-td .reel-text{position:relative;width:100%;flex:1;min-height:0;overflow:hidden;}
+.slide-about-td .reel-sizer{visibility:hidden;display:flex;flex-direction:column;gap:.9cqw;}
+.slide-about-td .reel-current{position:absolute;inset-inline:0;top:0;display:flex;flex-direction:column;gap:.9cqw;opacity:1;transform:translateY(0);will-change:transform,opacity;}
+.slide-about-td .reel-current.scroll-reel-exit{opacity:0;transform:translateY(-.3cqw);transition:opacity 240ms ease-out,transform 240ms ease-out;}
+.slide-about-td .reel-current.scroll-reel-exit .scroll-reel-char{animation:none;opacity:0;}
+.slide-about-td .reel-name{margin:0;font-size:4.5cqw;font-weight:700;letter-spacing:-.022em;line-height:1.05;color:var(--black);}
+.slide-about-td .reel-team,.slide-about-td .reel-school{margin:0;font-size:1.65cqw;font-weight:700;letter-spacing:.03em;color:var(--stone);}
+.slide-about-td .reel-oneliner{margin:0;font-size:2cqw;font-weight:400;line-height:1.35;color:var(--black);}
+.slide-about-td .reel-word{display:inline-block;white-space:nowrap;}
+.slide-about-td .scroll-reel-char{display:inline-block;opacity:0;transform:translateY(.4cqw);animation:reel-rise .42s cubic-bezier(.22,1,.36,1) forwards;}
+@keyframes reel-rise{to{opacity:1;transform:translateY(0);}}
+@media(prefers-reduced-motion:reduce){.slide-about-td .scroll-reel-char{animation:none;opacity:1;transform:none;}.slide-about-td .reel-current.scroll-reel-exit{transition:none;}}
+.slide-about-td .reel-nav{display:flex;gap:.8cqw;align-items:center;margin-top:.8cqw;}
+.slide-about-td .reel-nav button{
+  display:grid;place-items:center;width:2.9cqw;height:2.9cqw;border-radius:50%;
+  border:.08cqw solid var(--border);background:transparent;color:var(--black);cursor:pointer;padding:0;
+  transition:transform .18s,background .18s;
+}
+.slide-about-td .reel-nav button:hover:not(:disabled){transform:scale(1.08);background:var(--sand);}
+.slide-about-td .reel-nav button:disabled{opacity:.3;cursor:default;}
+.slide-about-td .reel-nav button svg{width:1.3cqw;height:1.3cqw;opacity:.7;}
+
+/* =======================================================================
+   LEVER SLIDES
+   ======================================================================= */
+.slide-lever-td{background:var(--white);padding:3.2cqw 3.5cqw 0;}
+.slide-lever-td .lever-body{flex:1;display:flex;flex-direction:column;min-height:0;gap:.7cqw;padding-top:.6cqw;}
+.lever-badge{
+  display:inline-flex;align-items:center;gap:.8cqw;
+  font-size:1cqw;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green-dark);
+}
+.lever-badge .bnum{
+  background:var(--green);color:var(--white);
+  width:2.1cqw;height:2.1cqw;border-radius:.22cqw;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1cqw;font-weight:700;letter-spacing:0;flex-shrink:0;
+}
+.lever-title-td{font-size:4.4cqw;font-weight:700;letter-spacing:-.028em;line-height:1;}
+.lever-sub-td{font-size:1.45cqw;font-weight:400;color:var(--stone);line-height:1.4;max-width:78cqw;}
+.lever-canvas-td{flex:1;min-height:0;margin-top:.5cqw;display:flex;}
+
+/* Terminal */
+.terminal{
+  flex:1;background:var(--black);
+  border:.12cqw solid var(--green);border-radius:.55cqw;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.terminal-bar{
+  display:flex;align-items:center;gap:.5cqw;
+  padding:.6cqw .9cqw;
+  border-bottom:.06cqw solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.03);
+}
+.terminal-bar i{width:.72cqw;height:.72cqw;border-radius:50%;display:inline-block;background:var(--border);}
+.terminal-bar i:nth-child(1){background:#FF5F57;}
+.terminal-bar i:nth-child(2){background:#FEBC2E;}
+.terminal-bar i:nth-child(3){background:#28C840;}
+.terminal-bar .tb-title{font-family:var(--mono);font-size:.88cqw;color:rgba(255,255,255,.4);letter-spacing:.06em;margin-left:.5cqw;}
+.terminal-body{
+  flex:1;padding:1.1cqw 1.2cqw 1.2cqw;
+  font-family:var(--mono);font-size:1.22cqw;line-height:1.5;
+  color:var(--sand);white-space:pre-wrap;overflow:hidden;
+}
+.terminal-body .prompt-line{color:var(--green);display:block;margin-bottom:.4cqw;}
+.terminal-body .tw{display:inline;}
+.terminal-body .tw .ch{opacity:0;}
+.terminal-body .tw .ch.on{opacity:1;}
+.terminal-body .tw .hl{background:rgba(66,191,25,.18);border-radius:.12cqw;padding:0 .1cqw;color:#9EE67A;}
+.terminal-body .tw-caret{display:inline-block;width:.52cqw;height:1.3cqw;background:var(--green);vertical-align:-.18cqw;margin-left:.08cqw;animation:blink 1.1s steps(1) infinite;}
+@media(prefers-reduced-motion:reduce){.terminal-body .tw .ch{opacity:1;}.terminal-body .tw-caret{display:none;}}
+
+/* =======================================================================
+   BENTO / TOOLKIT
+   ======================================================================= */
+.slide-bento-td{background:var(--white);padding:3.2cqw 3.5cqw 0;}
+.slide-bento-td .bento-body{flex:1;display:flex;flex-direction:column;min-height:0;gap:1.1cqw;}
+.bento{
+  display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);
+  gap:.82cqw;flex:1;min-height:0;
+}
+.bento-cell{
+  background:var(--sand);border:.08cqw solid var(--border);border-radius:.5cqw;
+  padding:1.05cqw 1.15cqw;display:flex;flex-direction:column;gap:.42cqw;min-height:0;
+}
+.bento-cell .bn{font-size:.82cqw;font-weight:700;letter-spacing:.12em;color:var(--green);text-transform:uppercase;}
+.bento-cell .bt{font-size:1.38cqw;font-weight:700;letter-spacing:-.012em;line-height:1.05;color:var(--black);}
+.bento-cell .bd{font-size:.92cqw;font-weight:400;color:var(--stone);line-height:1.4;}
+.bento-hero{
+  grid-column:1/span 2;grid-row:1/span 2;
+  background:var(--green-dark);border-color:var(--green-dark);
+  padding:1.7cqw 1.9cqw;gap:.75cqw;
+}
+.bento-hero .bn{color:var(--green);}
+.bento-hero .bt{font-size:2.1cqw;color:var(--white);}
+.bento-hero .bd{font-size:1.08cqw;color:rgba(228,233,226,.8);line-height:1.5;}
+.bento-hero .hero-prompt{
+  font-family:var(--mono);font-size:.95cqw;line-height:1.5;
+  background:rgba(66,191,25,.1);border:.08cqw solid rgba(66,191,25,.35);
+  border-radius:.3cqw;padding:.75cqw .95cqw;margin-top:auto;
+  color:var(--sand);white-space:pre-wrap;
+}
+.bento-callout{background:transparent;border-style:dashed;justify-content:center;align-items:center;text-align:center;}
+.bento-callout .bd{font-style:italic;color:var(--stone);}
+
+/* =======================================================================
+   BUILD CARDS MARQUEE
+   ======================================================================= */
+.slide-build-td{background:var(--sand);padding:3.2cqw 3.5cqw 0;}
+.slide-build-td .build-body{flex:1;display:flex;flex-direction:column;min-height:0;gap:.75cqw;}
+.build-marquee{
+  position:relative;flex:1;min-height:0;width:100%;overflow:hidden;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%);
+          mask-image:linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%);
+}
+.build-track{
+  position:absolute;top:50%;left:0;
+  display:flex;gap:2cqw;
+  animation:build-scroll 36s linear infinite;
+  will-change:transform;
+}
+@keyframes build-scroll{from{transform:translate(0,-50%);}to{transform:translate(-50%,-50%);}}
+.build-marquee:hover .build-track{animation-play-state:paused;}
+@media(prefers-reduced-motion:reduce){.build-track{animation:none;}}
+
+.build-card{
+  flex-shrink:0;width:21cqw;height:19cqw;
+  background:var(--white);border:.08cqw solid var(--border);
+  border-radius:.65cqw;padding:1.5cqw;
+  display:flex;flex-direction:column;gap:.55cqw;
+  border-left:.32cqw solid var(--green);
+}
+.build-card.lucky{border-left-color:var(--signal);background:#FFF9F7;}
+.build-card .bc-badge{
+  align-self:flex-start;font-size:.85cqw;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--green-dark);background:var(--sand);
+  padding:.32cqw .7cqw;border-radius:.28cqw;
+  border:.08cqw solid var(--border);
+}
+.build-card.lucky .bc-badge{color:var(--signal);border-color:var(--signal);background:#FFF9F7;}
+.build-card .bc-title{font-size:1.95cqw;font-weight:700;letter-spacing:-.015em;line-height:1.05;}
+.build-card .bc-eg{
+  font-family:var(--mono);font-size:.95cqw;color:var(--stone);
+  margin-top:auto;padding-top:.75cqw;
+  border-top:.06cqw solid var(--border);line-height:1.4;
+}
+.build-card .bc-eg .label{display:block;font-size:.72cqw;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:.22cqw;}
+.build-tail{font-size:1.05cqw;font-weight:400;color:var(--stone);}
+.build-tail .accent{color:var(--green-dark);font-weight:700;}
+
+/* =======================================================================
+   STUCK LADDER
+   ======================================================================= */
+.ladder{display:flex;flex-direction:column;gap:.8cqw;margin-top:1.3cqw;flex:1;min-height:0;justify-content:center;}
+.rung{
+  display:grid;grid-template-columns:5.5cqw 1fr;
+  column-gap:1.3cqw;align-items:baseline;
+  padding:.95cqw 1.3cqw;background:var(--sand);
+  border:.08cqw solid var(--border);border-radius:.5cqw;
+  border-left:.3cqw solid var(--green);
+}
+.rung .n{font-size:2.7cqw;font-weight:700;line-height:1;color:var(--green);letter-spacing:-.02em;}
+.rung .t .h{font-size:1.55cqw;font-weight:700;letter-spacing:-.01em;line-height:1.1;}
+.rung .t .p{font-size:.95cqw;font-weight:400;color:var(--stone);line-height:1.4;margin-top:.18cqw;}
+.rung.rung-hero{
+  background:var(--green);border-color:var(--green);border-left-color:var(--green-dark);border-left-width:.45cqw;
+  padding:1.3cqw 1.6cqw;
+}
+.rung.rung-hero .n{color:var(--white);font-size:3.5cqw;}
+.rung.rung-hero .t .h{color:var(--white);font-size:2.1cqw;}
+.rung.rung-hero .t .p{color:rgba(255,255,255,.85);font-size:1.1cqw;}
+.rung-pulse{display:inline-block;color:var(--white);font-size:1.3cqw;margin-left:.5cqw;animation:rpulse 1.6s ease-in-out infinite;vertical-align:middle;}
+@keyframes rpulse{0%,100%{opacity:.4;}50%{opacity:1;}}
+@media(prefers-reduced-motion:reduce){.rung-pulse{animation:none;opacity:1;}}
+.stuck-coda{font-size:1.15cqw;font-weight:700;color:var(--green-dark);margin-top:.9cqw;}
+.stuck-coda .sig{color:var(--signal);}
+
+/* =======================================================================
+   BUILD-TIME COUNTDOWN
+   ======================================================================= */
+.slide-buildtime{background:var(--black);}
+.slide-buildtime .bt-stage{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  min-height:0;gap:1.6cqw;text-align:center;
+}
+.slide-buildtime .bt-title{
+  font-size:10cqw;font-weight:700;letter-spacing:-.04em;line-height:1;color:var(--white);
+}
+.slide-buildtime .bt-timer{
+  font-family:var(--mono);font-size:8cqw;font-weight:700;
+  letter-spacing:-.02em;line-height:1;color:var(--green);
+  font-variant-numeric:tabular-nums;transition:color .2s;
+}
+.slide-buildtime .bt-timer.warn{color:#FFB347;}
+.slide-buildtime .bt-timer.done{color:var(--signal);}
+.slide-buildtime .bt-controls{display:inline-flex;align-items:center;gap:.9cqw;margin-top:.5cqw;}
+.slide-buildtime .bt-btn{
+  font-family:var(--sans);font-size:1.05cqw;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--black);background:var(--green);border:none;cursor:pointer;
+  padding:.8cqw 2.2cqw;border-radius:99cqw;
+  transition:transform .15s,background .15s;
+}
+.slide-buildtime .bt-btn:hover{transform:translateY(-.07cqw);background:#55D430;}
+.slide-buildtime .bt-btn.bt-btn-ghost{background:transparent;color:rgba(228,233,226,.55);border:.1cqw solid rgba(228,233,226,.25);}
+.slide-buildtime .bt-btn.bt-btn-ghost:hover{background:rgba(228,233,226,.07);color:var(--sand);}
+.slide-buildtime .bt-btn.bt-btn-adjust{padding:.8cqw 1.3cqw;min-width:4.4cqw;}
+.slide-buildtime .bt-btn:focus-visible{outline:.18cqw solid var(--sand);outline-offset:.2cqw;}
+.slide-buildtime .footer{border-top-color:rgba(255,255,255,.08);background:var(--black);color:rgba(255,255,255,.35);}
+.slide-buildtime .footer .rule{color:var(--green);}
+
+/* =======================================================================
+   CLOSING IMPACT (dark bg variant)
+   ======================================================================= */
+.slide-closing{background:var(--black);padding:3.2cqw 3.5cqw 0;}
+.slide-closing .close-body{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0;gap:1.1cqw;}
+.close-ey{font-size:1cqw;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:.7cqw;}
+.close-ey::before{content:'';display:inline-block;width:.28cqw;height:1.3cqw;background:var(--green);}
+.close-title{font-size:9cqw;font-weight:700;letter-spacing:-.04em;line-height:.95;color:var(--white);}
+.close-title .td{color:var(--green);}
+.close-sub{font-size:2.7cqw;font-weight:400;color:rgba(228,233,226,.72);margin-top:.5cqw;line-height:1.2;}
+.slide-closing .footer{border-top-color:rgba(255,255,255,.08);background:var(--black);color:rgba(255,255,255,.35);}
+.slide-closing .footer .rule{color:var(--green);}
+
+.feedback-card{
+  margin-top:1.7cqw;width:28cqw;align-self:flex-start;
+  background:rgba(255,255,255,.05);border:.1cqw dashed rgba(66,191,25,.45);
+  border-radius:.6cqw;padding:1.1cqw 1.3cqw;text-decoration:none;display:block;cursor:pointer;
+  transition:background .2s,border-color .2s;
+}
+.feedback-card:hover{background:rgba(66,191,25,.1);border-color:var(--green);}
+.feedback-card .fc-label{font-size:.95cqw;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:.65cqw;}
+.feedback-card .fc-lines{display:flex;flex-direction:column;gap:.5cqw;}
+.feedback-card .fc-lines span{display:block;height:.55cqw;border-radius:.18cqw;background:rgba(228,233,226,.18);}
+.feedback-card .fc-lines span:nth-child(1){width:78%;}
+.feedback-card .fc-lines span:nth-child(2){width:62%;}
+.feedback-card .fc-lines span:nth-child(3){width:88%;}
+.feedback-card .fc-cta{font-size:.88cqw;font-weight:700;color:var(--green);letter-spacing:.04em;padding-top:.65cqw;margin-top:.75cqw;border-top:.06cqw solid rgba(228,233,226,.12);}
+
+/* =======================================================================
+   PRISMA ALT-CLOSING (unchanged visual — special video slide)
+   ======================================================================= */
+.slide-prisma{padding:0;background:#000;background-image:none;color:#E1E0CC;text-shadow:none;font-family:var(--sans);}
+.slide-prisma .prisma-shell{position:absolute;inset:0;overflow:hidden;background:radial-gradient(circle at 25% 30%,rgba(66,191,25,.35),transparent 55%),radial-gradient(circle at 75% 70%,rgba(228,233,226,.18),transparent 55%),linear-gradient(180deg,#0E1A14 0%,#000 100%);}
+.slide-prisma .prisma-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.slide-prisma .prisma-gradient{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,.3) 0%,rgba(0,0,0,0) 35%,rgba(0,0,0,0) 65%,rgba(0,0,0,.6) 100%);}
+.slide-prisma .prisma-hero{position:absolute;left:0;right:0;bottom:0;padding:0 2.2cqw .2cqw;z-index:10;}
+.slide-prisma .prisma-title{margin:0;font-weight:500;line-height:.85;letter-spacing:-.07em;font-size:18cqw;color:#E1E0CC;white-space:nowrap;}
+.slide-prisma .prisma-word{position:relative;display:inline-block;margin-right:.14em;}
+.slide-prisma .prisma-word:last-child{margin-right:0;}
+.slide-prisma .prisma-asterisk{position:absolute;top:.65em;right:-.3em;font-size:.31em;line-height:1;}
+.slide-prisma .prisma-cta{position:absolute;top:2.4cqw;right:2.4cqw;z-index:20;display:inline-flex;align-items:center;gap:.6cqw;background:#E1E0CC;color:#000;border:none;cursor:pointer;text-decoration:none;border-radius:99cqw;padding:.4cqw .4cqw .4cqw 1.5cqw;font-family:var(--sans);font-size:1.05cqw;font-weight:500;transition:gap .2s,transform .2s;}
+.slide-prisma .prisma-cta:hover{gap:.95cqw;}
+.slide-prisma .prisma-cta-arrow{display:inline-flex;align-items:center;justify-content:center;width:2.4cqw;height:2.4cqw;background:#000;border-radius:50%;color:#E1E0CC;transition:transform .2s;}
+.slide-prisma .prisma-cta:hover .prisma-cta-arrow{transform:scale(1.1);}
+.slide-prisma .prisma-cta-arrow svg{width:1cqw;height:1cqw;}
+.slide-prisma .prisma-word,.slide-prisma .prisma-cta{opacity:0;transform:translateY(20px);}
+.slide-prisma.is-active .prisma-word{animation:prisma-up .6s cubic-bezier(.16,1,.3,1) forwards;}
+.slide-prisma.is-active .prisma-word:nth-child(2){animation-delay:.08s;}
+.slide-prisma.is-active .prisma-cta{animation:prisma-up .8s .5s cubic-bezier(.16,1,.3,1) forwards;}
+@keyframes prisma-up{to{opacity:1;transform:translateY(0);}}
+@media(prefers-reduced-motion:reduce){.slide-prisma .prisma-word,.slide-prisma .prisma-cta{opacity:1;transform:none;animation:none;}}
+
+/* =======================================================================
+   DECK CHROME
+   ======================================================================= */
+.deck-hud{
+  position:fixed;right:14px;bottom:12px;z-index:5;
+  font-family:var(--mono);font-size:12px;letter-spacing:.12em;
+  color:rgba(255,255,255,.55);background:rgba(0,0,0,.32);
+  padding:5px 10px;border-radius:6px;
+  display:flex;gap:14px;align-items:center;
+  pointer-events:none;text-transform:uppercase;
+}
+.deck-hud .help{opacity:.7;}
+.deck-hud.hidden-hud{display:none;}
+.deck-notes{
+  position:fixed;left:16px;right:16px;bottom:16px;z-index:6;
+  background:rgba(28,28,28,.96);color:#fff;
+  padding:18px 28px;border-radius:10px;
+  font-family:var(--sans);font-size:22px;font-weight:600;line-height:1.3;
+  border:1px solid rgba(255,255,255,.08);box-shadow:0 12px 36px rgba(0,0,0,.45);
+  display:none;
+}
+body.show-notes .deck-notes{display:block;}
+.deck-notes .timing-row{display:flex;gap:0;align-items:baseline;flex-wrap:wrap;}
+.deck-notes .timing,.deck-notes .stopwatch{color:#fff;font-size:22px;font-weight:600;letter-spacing:0;text-transform:none;font-variant-numeric:tabular-nums;}
+.deck-notes .stopwatch{margin-left:18px;}
+.deck-notes .stopwatch::before{content:"·";opacity:.45;margin-right:18px;}
+.deck-notes .stopwatch[hidden]{display:none;}
+.deck-notes .notes-body{display:none;}
+
+/* =======================================================================
+   PRINT
+   ======================================================================= */
+@media print{
+  @page{size:1920px 1080px;margin:0;}
+  html,body{background:#fff;overflow:visible;height:auto;}
+  .deck{position:static;display:block;padding:0;}
+  .deck-stage{width:1920px;height:auto;aspect-ratio:auto;box-shadow:none;}
+  .slide{position:relative!important;inset:auto;width:1920px;height:1080px;display:flex!important;page-break-after:always;break-after:page;}
+  .slide:last-of-type{page-break-after:auto;break-after:auto;}
+  .deck-hud,.deck-notes{display:none!important;}
+  .caret,.tl-pulse,.terminal-body .tw-caret{animation:none;}
+  .terminal-body .tw .ch{opacity:1;}
+  .tl-line{stroke-dashoffset:0!important;transition:none!important;}
+  .build-track{animation:none!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- TD Logo SVG — inlined once, referenced via <use> -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="td-logo" viewBox="0 0 205.43 183.6">
+    <rect width="205.43" height="183.6" fill="#2FBF00"/>
+    <path d="M135.44 145.29 87.59 145.29 87.59 59.15 111.63 59.15 111.63 130.03 134.75 130.03C150.71 130.03 157.41 118.98 157.41 90.53 157.41 62.08 149.79 53.6 133.6 53.6L80.88 53.6 80.88 145.29 57.08 145.29 57.08 53.6 22.14 53.6 22.14 38.31 141 38.31C169.66 38.31 183.29 53.13 183.29 90.31 183.29 139.29 162.96 145.29 135.45 145.29" fill="#FFFFFF"/>
+  </symbol>
+</svg>
+
+<div class="deck">
+<div class="deck-stage">
+
+
+<!-- ================================================================
+     W1 — Welcome
+     ================================================================ -->
+<section class="slide slide-impact" data-timing="0:25">
+  <div class="imp-body">
+    <div class="imp-left">
+      <svg class="imp-logo" viewBox="0 0 205.43 183.6" xmlns="http://www.w3.org/2000/svg"><use href="#td-logo"/></svg>
+      <div class="imp-eyebrow">TD Builders Club · Session 01</div>
+      <h1 class="imp-title">Builders<br>Club.</h1>
+      <div class="imp-sub">Wednesdays · 11am · Aspen Room</div>
+    </div>
+    <div class="imp-right">
+      <div class="imp-r-label">TD Securities · Internal</div>
+      <div class="imp-r-spacer"></div>
+      <h2 class="imp-r-title">Welcome to the<br>Builders Club.</h2>
+      <div class="imp-r-sub">Learn with something new. Build cool stuff. Show off.</div>
+      <div class="imp-r-meta">S01 / 08<span class="dot">·</span>Prompt Monkeys</div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Prompt Monkeys · Welcome</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Open warm. Say your name, who you are, who else is running it tonight.
+    Don't sell the season here — the next welcome slides do that. Just land the room.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     W2 — Why we made this
+     ================================================================ -->
+<section class="slide slide-content-td" data-timing="0:30">
+  <div class="eyebrow">Why we made this</div>
+  <h1 class="h1-td">There's a gap. We're here to close it.</h1>
+  <div class="card-row">
+    <div class="td-card">
+      <div class="cn">01</div>
+      <div class="ct">Anxiety</div>
+      <div class="cb">The pressure to "be tapped in" on AI doesn't go away by watching demos.</div>
+    </div>
+    <div class="td-card">
+      <div class="cn">02</div>
+      <div class="ct">The gap</div>
+      <div class="cb">A Python course and a real shipped thing are <span class="soft">two different planets.</span></div>
+    </div>
+    <div class="td-card">
+      <div class="cn">03</div>
+      <div class="ct">No on-ramp</div>
+      <div class="cb">Undergrads get hackathons and capstones. FTEs get tickets. <span class="soft">That's the bug we're fixing.</span></div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Welcome · Why</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Not bullets — the actual feeling. Land the FTE line hardest.
+    One breath per line, then move. Don't argue with the room about whether the gap is real.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     W3 — What this isn't
+     ================================================================ -->
+<section class="slide slide-content-td" data-timing="0:20">
+  <div class="eyebrow">Reset expectations</div>
+  <h1 class="h1-td">What this isn't.</h1>
+  <div class="not-list">
+    <div class="not-row">
+      <span class="not-tag">Not</span>
+      <div class="not-text">A lecture series. <span class="soft">The talk is seven minutes. Then we're done.</span></div>
+    </div>
+    <div class="not-row">
+      <span class="not-tag">Not</span>
+      <div class="not-text">A bootcamp. <span class="soft">No prereqs. Skip a week. Show up to the next one.</span></div>
+    </div>
+    <div class="not-row">
+      <span class="not-tag">Not</span>
+      <div class="not-text">Evaluated. <span class="soft">No demos go to your manager. Nothing reports up.</span></div>
+    </div>
+    <div class="not-row" style="margin-top:.8cqw;">
+      <span class="not-tag is">Is</span>
+      <div class="not-text">A creative space to build whatever you want.<span class="caret">▋</span></div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Welcome · Frame</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Say it out loud. The room walks in expecting corporate training; you have ~30 seconds to defuse that.
+    The "Is" row at the bottom is the pivot — let it land before clicking on.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     W4 — The season map
+     ================================================================ -->
+<section class="slide slide-tl" data-timing="0:30">
+  <div class="eyebrow">The season</div>
+  <h1 class="h1-td">Eight high-impact sessions.</h1>
+  <div class="tl-body">
+    <div class="timeline">
+      <svg viewBox="0 0 100 16" preserveAspectRatio="none" aria-hidden="true">
+        <line class="tl-track" x1="3" y1="8" x2="97" y2="8"></line>
+        <path class="tl-line" d="M3 8 L97 8"></path>
+        <circle class="tl-dot current" cx="3"  cy="8" r="1.4"></circle>
+        <circle class="tl-pulse"       cx="3"  cy="8" r="1.4"></circle>
+        <circle class="tl-dot" cx="16.43" cy="8" r="1"></circle>
+        <circle class="tl-dot" cx="29.86" cy="8" r="1"></circle>
+        <circle class="tl-dot" cx="43.29" cy="8" r="1"></circle>
+        <circle class="tl-dot" cx="56.71" cy="8" r="1"></circle>
+        <circle class="tl-dot" cx="70.14" cy="8" r="1"></circle>
+        <circle class="tl-dot" cx="83.57" cy="8" r="1"></circle>
+        <circle class="tl-dot finale" cx="97" cy="8" r="1.4"></circle>
+      </svg>
+      <div class="tl-labels">
+        <div class="tl-label current"><span class="lbl-n">S01 · tonight</span><span class="lbl-t">Prompt Monkeys</span></div>
+        <div class="tl-label"><span class="lbl-n">S02</span><span class="lbl-t">Eye Candy</span></div>
+        <div class="tl-label"><span class="lbl-n">S03</span><span class="lbl-t">API Haven</span></div>
+        <div class="tl-label"><span class="lbl-n">S04</span><span class="lbl-t">Lies of Copilot</span></div>
+        <div class="tl-label"><span class="lbl-n">S05</span><span class="lbl-t">AI at Home</span></div>
+        <div class="tl-label"><span class="lbl-n">S06</span><span class="lbl-t">Build an Intern</span></div>
+        <div class="tl-label"><span class="lbl-n">S07</span><span class="lbl-t">Fullstack Toolkit</span></div>
+        <div class="tl-label finale"><span class="lbl-n">S08 · finale</span><span class="lbl-t">Hackathon</span></div>
+      </div>
+      <div class="tl-arc">
+        <span class="step">prompting</span><span class="sep">→</span>
+        <span class="step">interface</span><span class="sep">→</span>
+        <span class="step">plug things in</span><span class="sep">→</span>
+        <span class="step">safety</span><span class="sep">→</span>
+        <span class="step">under the hood</span><span class="sep">→</span>
+        <span class="step">make it yours</span><span class="sep">→</span>
+        <span class="step">ship it</span><span class="sep">→</span>
+        <span class="step">hackathon</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Welcome · The season</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Skills compound — that's the whole pitch. Point at S03 (API Haven) and S07 (Fullstack) as the
+    highest-leverage weeks. S08 is the payoff — bring what you've built.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     W5 — How tonight works
+     ================================================================ -->
+<section class="slide slide-content-td" data-timing="0:20">
+  <div class="eyebrow">Tonight</div>
+  <h1 class="h1-td">One hour. Two if you bring lunch.</h1>
+  <div class="card-row">
+    <div class="td-card">
+      <div class="c-ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"></rect><path d="M8 22h8"></path><path d="M12 18v4"></path></svg></div>
+      <div class="ct">01 · Talk</div>
+      <div class="cb">Prompt Monkeys. ~8 minutes. Tips, tricks, inspiration. Nice to meet y'all!</div>
+      <div class="ctime">≈ 8 min</div>
+    </div>
+    <div class="td-card">
+      <div class="c-ico"><svg viewBox="0 0 24 24"><path d="M15 12l-8.5 8.5a2.12 2.12 0 0 1-3-3L12 9"></path><path d="M17.64 15L22 10.64"></path><path d="M20.91 11.7L19 9.79l1.4-1.4a3.5 3.5 0 0 0-4.95-4.95L13 5.88l-1.4-1.4a1 1 0 0 0-1.42 0L8.7 5.96"></path></svg></div>
+      <div class="ct">02 · Build</div>
+      <div class="cb">Let's get building! ~45 minutes. Mentors floating. Pair up or solo.</div>
+      <div class="ctime">≈ 45 min</div>
+    </div>
+    <div class="td-card">
+      <div class="c-ico"><svg viewBox="0 0 24 24"><path d="M12 3l2 5 5 .7-3.6 3.5.9 5L12 14.8 7.7 17.2l.9-5L5 8.7 10 8z"></path></svg></div>
+      <div class="ct">03 · Show</div>
+      <div class="cb">Optional demos. Last 10. Show off if you want. No pressure.</div>
+      <div class="ctime">≈ 10 min</div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Welcome · How</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Just the rhythm. Nobody's seen the cadence before — once they have it, the rest of the season runs on autopilot.
+    Mention virtual folks go to a breakout room during build.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     About — Meet the team
+     ================================================================ -->
+<section class="slide slide-about-td" data-timing="0:40">
+  <div class="about-reel" id="aboutReel" tabindex="0" role="region" aria-label="Team">
+    <div class="reel-stage">
+      <div class="reel-rows">
+        <div class="reel-col reel-col-side" data-side="left"></div>
+        <div class="reel-col reel-col-mid"></div>
+        <div class="reel-col reel-col-side" data-side="right"></div>
+      </div>
+    </div>
+    <div class="reel-content">
+      <div class="reel-eyebrow">Who are we?</div>
+      <div class="reel-text">
+        <div class="reel-sizer" aria-hidden="true">
+          <p class="reel-name">Akash Nagabhirava</p>
+          <p class="reel-team">TD Velocity</p>
+          <p class="reel-school">UofT Computer Science</p>
+          <p class="reel-oneliner">12x Hackathon Winner, Mentor, Judge, Organizer</p>
+        </div>
+        <div class="reel-current" aria-live="polite">
+          <p class="reel-name"></p>
+          <p class="reel-team"></p>
+          <p class="reel-school"></p>
+          <p class="reel-oneliner"></p>
+        </div>
+      </div>
+      <div class="reel-nav">
+        <button type="button" class="reel-prev" aria-label="Previous"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 2.5 3.5 6l4 3.5"/></svg></button>
+        <button type="button" class="reel-next" aria-label="Next"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 2.5 4 3.5-4 3.5"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    A quick pass — name, where you sit, one thing that earns being on this stage.
+    Akash anchors; everyone else gets a line. Don't oversell. The reel does the work.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     01 — Title slide: Prompt Monkeys (TD logo + green/dark impact)
+     ================================================================ -->
+<section class="slide slide-impact" data-timing="0:15">
+  <div class="imp-body">
+    <div class="imp-left">
+      <svg class="imp-logo" viewBox="0 0 205.43 183.6" xmlns="http://www.w3.org/2000/svg"><use href="#td-logo"/></svg>
+      <div class="imp-eyebrow">S01 / 08 · The Talk</div>
+      <h1 class="imp-title">Prompt<br>Monkeys.</h1>
+      <div class="imp-sub">Real tricks. No "act as a senior engineer."<span class="caret">▋</span></div>
+    </div>
+    <div class="imp-right">
+      <div class="imp-r-label">TD Builders Club</div>
+      <div class="imp-r-spacer"></div>
+      <h2 class="imp-r-title">Five levers.<br>Seven minutes.</h2>
+      <div class="imp-r-sub">You walk out prompting differently. That's the bar.</div>
+      <div class="imp-r-meta">7 minutes<span class="dot">·</span>five strategies<span class="dot">·</span>live building!</div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Prompt Monkeys</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Held briefly. Don't read the tagline — let it sit. One beat, then click into "Are you a prompt monkey?"
+  </div>
+</section>
+
+
+<!-- ================================================================
+     02 — Are you a prompt monkey?
+     ================================================================ -->
+<section class="slide slide-stmt" data-timing="0:30">
+  <div class="eyebrow">The question</div>
+  <div class="stmt-hero">
+    <h1 class="stmt-q">Are you a <span class="accent">prompt monkey</span>?<span class="caret">▋</span></h1>
+    <div class="stmt-aside">Typing requests like Google searches. Grabbing the first answer. Blaming the model when it's mid.</div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Prompt Monkeys</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Self-deprecating, not insulting. Raise your own hand first.
+    Everyone in the room has been the monkey this week. That's the whole hook.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     04 — Lever 01/05 · U-curve
+     ================================================================ -->
+<section class="slide slide-lever-td" data-timing="0:30">
+  <div class="lever-badge">
+    <span class="bnum">01</span>
+    Lever 01 / 05 — U-curve
+  </div>
+  <div class="lever-body">
+    <h1 class="lever-title-td">The U-Curve.<span class="caret">▋</span></h1>
+    <div class="lever-sub-td">Models attend most to the start and end of a prompt, least to the middle — so front-load and back-load what matters.</div>
+    <div class="lever-canvas-td">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <i></i><i></i><i></i>
+          <span class="tb-title">u-curve.txt</span>
+        </div>
+        <div class="terminal-body">
+          <span class="prompt-line">$ prompt ›</span>
+          <span class="tw" data-typewriter
+            data-text="[[ROLE + HARD RULES]]\nYou&apos;re a senior analyst. Plain English. No jargon.\n\n  ... examples, scaffolding, context ...\n  ... the long middle goes here ...\n\n[[THE ASK, restated. Hard limit: 80 words.]]"></span><span class="tw-caret"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Lever 01 · U-curve</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Human analog first: if I'm telling Wamiq something important, I start with the key stuff and end with the warnings.
+    Same trick. "Lost in the middle" has a name and there's research. Restating the ask at the bottom feels redundant — it isn't.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     05 — Lever 02/05 · Escape hatch
+     ================================================================ -->
+<section class="slide slide-lever-td" data-timing="0:30">
+  <div class="lever-badge">
+    <span class="bnum">02</span>
+    Lever 02 / 05 — Escape hatch
+  </div>
+  <div class="lever-body">
+    <h1 class="lever-title-td">Give it an out.<span class="caret">▋</span></h1>
+    <div class="lever-sub-td">Models default to confident answers. Make "I don't know" a legal move and you stop getting confident lies.</div>
+    <div class="lever-canvas-td">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <i></i><i></i><i></i>
+          <span class="tb-title">vendor-pick.txt</span>
+        </div>
+        <div class="terminal-body">
+          <span class="prompt-line">$ prompt ›</span>
+          <span class="tw" data-typewriter
+            data-text="Pick the right vendor from this list.\n\n[[ESCAPE HATCH:]]\nIf you&apos;re under 80% confident, don&apos;t pick —\nname the weakest one and tell me why."></span><span class="tw-caret"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Lever 02 · Escape hatch</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Make it a hater. The model's job is to find the weakness, not bless your picks.
+    Same task, one extra clause — completely different model behavior.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     06 — Lever 03/05 · Stop condition
+     ================================================================ -->
+<section class="slide slide-lever-td" data-timing="0:30">
+  <div class="lever-badge">
+    <span class="bnum">03</span>
+    Lever 03 / 05 — Stop condition
+  </div>
+  <div class="lever-body">
+    <h1 class="lever-title-td">Tell it when to stop.<span class="caret">▋</span></h1>
+    <div class="lever-sub-td">Without a stop condition, agents loop. Spell out the exit so the model knows what "done" looks like.</div>
+    <div class="lever-canvas-td">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <i></i><i></i><i></i>
+          <span class="tb-title">agent.txt</span>
+        </div>
+        <div class="terminal-body">
+          <span class="prompt-line">$ agent ›</span>
+          <span class="tw" data-typewriter
+            data-text="Run the analysis loop.\n\n[[STOP when ANY of these is true:]]\n  - all 5 metrics populated, or\n  - the 30-second budget is spent, or\n  - the same query fails twice.\n\nThen print which condition fired."></span><span class="tw-caret"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Lever 03 · Stop condition</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Without this, your agent burns $40 of tokens and ships the wrong answer.
+    Stop conditions are the cheap part of agent design — and the part everyone skips.
+    Always: budget · success criteria · failure ceiling.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     07 — Lever 04/05 · Explore vs build
+     ================================================================ -->
+<section class="slide slide-lever-td" data-timing="0:30">
+  <div class="lever-badge">
+    <span class="bnum">04</span>
+    Lever 04 / 05 — Explore vs build
+  </div>
+  <div class="lever-body">
+    <h1 class="lever-title-td">Explore first. Build second.<span class="caret">▋</span></h1>
+    <div class="lever-sub-td">Models jump to the first plausible answer. State the mode out loud — explore or build — and you get options, not commitments.</div>
+    <div class="lever-canvas-td">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <i></i><i></i><i></i>
+          <span class="tb-title">explore.txt</span>
+        </div>
+        <div class="terminal-body">
+          <span class="prompt-line">$ prompt ›</span>
+          <span class="tw" data-typewriter
+            data-text="[[EXPLORE — don&apos;t build yet.]]\nBrainstorm 5 approaches to CSV → JSON.\n\nRank by: type fidelity, speed, dependencies.\nI&apos;ll pick — then we build."></span><span class="tw-caret"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Lever 04 · Explore vs build</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    First idea is rarely the best. The model's first idea is even less so — and once it commits to code, it argues for the code.
+    "Don't build yet" is the magic clause. Try it on your next ticket.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     08 — Lever 05/05 · Meta-prompting / handoffs
+     ================================================================ -->
+<section class="slide slide-lever-td" data-timing="0:35">
+  <div class="lever-badge">
+    <span class="bnum">05</span>
+    Lever 05 / 05 — Meta-prompting · handoffs
+  </div>
+  <div class="lever-body">
+    <h1 class="lever-title-td">Hand off in a doc, not a chat.<span class="caret">▋</span></h1>
+    <div class="lever-sub-td">Drop a <code style="font-family:var(--mono);background:var(--sand);padding:0 .3em;border-radius:.2em;">claude.md</code> in your repo, a <code style="font-family:var(--mono);background:var(--sand);padding:0 .3em;border-radius:.2em;">design.md</code> for GitHub Copilot, an M365 brief for Copilot Studio. The model loads it every session. Chat dies. Doc lives.</div>
+    <div class="lever-canvas-td">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <i></i><i></i><i></i>
+          <span class="tb-title">claude.md · repo root</span>
+        </div>
+        <div class="terminal-body">
+          <span class="prompt-line">$ cat claude.md ›</span>
+          <span class="tw" data-typewriter
+            data-text="[[# claude.md — handoff doc, lives in repo root]]\n\nStreamlit app on KMAI&apos;s vision endpoint.\nSynthetic / public data only. No IE11.\n\n## prompt templates\nPrompts live in /prompts/*.md. Don&apos;t inline.\n\n## ask before guessing\n  - column names (we rename them)\n  - whether a test exists already"></span><span class="tw-caret"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Lever 05 · Meta-prompting</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Once you write claude.md, every Claude session starts informed.
+    Same idea for M365 — drop a design.md in the SharePoint and Copilot Studio picks it up.
+    Stop re-explaining the project on every chat.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     09 — Toolkit / TLDR reference (Bento)
+     ================================================================ -->
+<section class="slide slide-bento-td" data-timing="0:35">
+  <div class="eyebrow">The toolkit</div>
+  <div class="bento-body">
+    <h1 class="h1-td" style="margin-top:.5cqw;">TLDR for Reference</h1>
+    <div class="bento">
+      <div class="bento-cell bento-hero">
+        <span class="bn">* Bonus</span>
+        <div class="bt">Wrap extra context in &lt;tags&gt;.</div>
+        <div class="bd">Tagged sections survive the noise. The model treats them like section headers from its training data — and it stops guessing what matters.</div>
+        <pre class="hero-prompt">&lt;background&gt; ... the doc ... &lt;/background&gt;
+&lt;question&gt; ... your ask ... &lt;/question&gt;</pre>
+      </div>
+      <div class="bento-cell">
+        <span class="bn">02 · U-curve</span>
+        <div class="bt">Front-load. Back-load.</div>
+        <div class="bd">Key stuff at the start. Restated ask at the end.</div>
+      </div>
+      <div class="bento-cell">
+        <span class="bn">03 · Escape hatch</span>
+        <div class="bt">Give it an out.</div>
+        <div class="bd">"Under 80% confident? Don't pick — say why."</div>
+      </div>
+      <div class="bento-cell">
+        <span class="bn">04 · Stop condition</span>
+        <div class="bt">Tell it when to quit.</div>
+        <div class="bd">Budget · success criteria · failure ceiling.</div>
+      </div>
+      <div class="bento-cell">
+        <span class="bn">05 · Explore vs build</span>
+        <div class="bt">"Don't build yet."</div>
+        <div class="bd">Brainstorm N approaches. Rank. Then build.</div>
+      </div>
+      <div class="bento-cell">
+        <span class="bn">06 · Handoffs</span>
+        <div class="bt">claude.md, not chat.</div>
+        <div class="bd">Drop the brief in the repo. Every session loads it.</div>
+      </div>
+      <div class="bento-cell">
+        <span class="bn">07 · Negative examples</span>
+        <div class="bt">Show the bad. Don't ban it.</div>
+        <div class="bd">One worked example beats five prohibitions.</div>
+      </div>
+      <div class="bento-cell">
+        <span class="bn">08 · Role</span>
+        <div class="bt">Give it a role with teeth.</div>
+        <div class="bd">"Senior compliance officer" beats "be helpful."</div>
+      </div>
+      <div class="bento-cell bento-callout">
+        <div class="bd">keep your own list →<br>this one's free</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — The toolkit</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Don't read all eight. Linger on the hero (tags) — that's the one people steal tonight.
+    Name three more in passing. Tell them this slide is in the recap so they don't try to write it down.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     10 — Build something small
+     ================================================================ -->
+<section class="slide slide-build-td" data-timing="0:30">
+  <div class="eyebrow">Build time</div>
+  <div class="build-body">
+    <h1 class="h1-td" style="margin-top:.4cqw;font-size:3.5cqw;">Build something small. Tonight.</h1>
+    <div class="lead-td" style="margin-top:.3cqw;">Inspiration below (or talk to a mentor). Small is good — no need for fullstack today.</div>
+    <div class="build-marquee">
+      <div class="build-track">
+        <article class="build-card"><span class="bc-badge">01 · CLI tool</span><h2 class="bc-title">Lives in your terminal.</h2><div class="bc-eg"><span class="label">CLI</span>A script for a game!</div></article>
+        <article class="build-card"><span class="bc-badge">02 · Local web app</span><h2 class="bc-title">One page, in your browser.</h2><div class="bc-eg"><span class="label">WEB</span>A page that reformats meeting notes.</div></article>
+        <article class="build-card"><span class="bc-badge">03 · Dev tool</span><h2 class="bc-title">A snippet that earns its keep.</h2><div class="bc-eg"><span class="label">DEV</span>A snippet that turns a CSV into a chart.</div></article>
+        <article class="build-card"><span class="bc-badge">04 · Automation flow</span><h2 class="bc-title">Wires that fire on a trigger.</h2><div class="bc-eg"><span class="label">FLOW</span>Power Automate routine that flags stale tickets.</div></article>
+        <article class="build-card"><span class="bc-badge">05 · M365 agent</span><h2 class="bc-title">A Copilot Studio agent.</h2><div class="bc-eg"><span class="label">M365</span>An agent that answers from a SharePoint binder.</div></article>
+        <article class="build-card lucky"><span class="bc-badge">06 · I'm feeling lucky</span><h2 class="bc-title">Ask a mentor for one.</h2><div class="bc-eg"><span class="label">PICK</span>"I have 45 minutes. Give me something dumb to build."</div></article>
+        <!-- duplicates for seamless loop -->
+        <article class="build-card" aria-hidden="true"><span class="bc-badge">01 · CLI tool</span><h2 class="bc-title">Lives in your terminal.</h2><div class="bc-eg"><span class="label">CLI</span>A script for a game!</div></article>
+        <article class="build-card" aria-hidden="true"><span class="bc-badge">02 · Local web app</span><h2 class="bc-title">One page, in your browser.</h2><div class="bc-eg"><span class="label">WEB</span>A page that reformats meeting notes.</div></article>
+        <article class="build-card" aria-hidden="true"><span class="bc-badge">03 · Dev tool</span><h2 class="bc-title">A snippet that earns its keep.</h2><div class="bc-eg"><span class="label">DEV</span>A snippet that turns a CSV into a chart.</div></article>
+        <article class="build-card" aria-hidden="true"><span class="bc-badge">04 · Automation flow</span><h2 class="bc-title">Wires that fire on a trigger.</h2><div class="bc-eg"><span class="label">FLOW</span>Power Automate routine that flags stale tickets.</div></article>
+        <article class="build-card" aria-hidden="true"><span class="bc-badge">05 · M365 agent</span><h2 class="bc-title">A Copilot Studio agent.</h2><div class="bc-eg"><span class="label">M365</span>An agent that answers from a SharePoint binder.</div></article>
+        <article class="build-card lucky" aria-hidden="true"><span class="bc-badge">06 · I'm feeling lucky</span><h2 class="bc-title">Ask a mentor for one.</h2><div class="bc-eg"><span class="label">PICK</span>"I have 45 minutes. Give me something dumb to build."</div></article>
+      </div>
+    </div>
+    <div class="build-tail">A script that saves you ten minutes counts. <span class="accent">Pick one. Start.</span></div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Build time</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    The whole job of this slide is to lower the bar. Read one option out loud — the room latches onto whichever feels closest to their own tickets.
+    If anyone says "I don't know what to build," send them to "I'm feeling lucky." A mentor picks for them.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     11 — If you get stuck
+     ================================================================ -->
+<section class="slide slide-content-td" data-timing="0:30">
+  <div class="eyebrow">Safety net</div>
+  <h1 class="h1-td" style="font-size:3.7cqw;">Stuck? We got you.</h1>
+  <div class="ladder">
+    <div class="rung">
+      <div class="n">01</div>
+      <div class="t">
+        <div class="h">Ask the model to explain its own error.</div>
+        <div class="p">Paste the stack trace back in. "Walk me through this." 70% of the time, that's it.</div>
+      </div>
+    </div>
+    <div class="rung">
+      <div class="n">02</div>
+      <div class="t">
+        <div class="h">Reset the chat.</div>
+        <div class="p">Long threads poison context. Start a fresh one with just the snippet that matters.</div>
+      </div>
+    </div>
+    <div class="rung rung-hero">
+      <div class="n">03</div>
+      <div class="t">
+        <div class="h">Flag a mentor. <span class="rung-pulse">●</span></div>
+        <div class="p">We'll be floating around to help with anything! This is the one we're here for.</div>
+      </div>
+    </div>
+    <div class="rung">
+      <div class="n">04</div>
+      <div class="t">
+        <div class="h">Shrink the idea.</div>
+        <div class="p">Cut the feature in half. Then in half again. A two-line script is a finished project.</div>
+      </div>
+    </div>
+    <div class="rung">
+      <div class="n">05</div>
+      <div class="t">
+        <div class="h">Pair up.</div>
+        <div class="p">Find someone who's stuck on something different. Trade brains for 10 minutes.</div>
+      </div>
+    </div>
+  </div>
+  <div class="stuck-coda"><span class="sig">▸</span> Tonight's win: <strong>one prompt you improved, and you can say why.</strong> Shipping is bonus.</div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Stuck ladder</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Lower the bar one more time before you let them loose. Agree the mentor signal out loud — raised hand, sticky note, Teams reaction.
+    End on the coda. Then say "go."
+  </div>
+</section>
+
+
+<!-- ================================================================
+     Build time — countdown timer
+     ================================================================ -->
+<section class="slide slide-buildtime" data-timing="0:00">
+  <div class="bt-stage">
+    <div class="bt-title">Build time</div>
+    <div class="bt-timer" data-countdown="40:00">40:00</div>
+    <div class="bt-controls">
+      <button class="bt-btn bt-btn-ghost bt-btn-adjust" type="button" data-action="adjust" data-delta="-300" aria-label="Subtract five minutes">−5</button>
+      <button class="bt-btn" type="button" data-action="toggle">Start</button>
+      <button class="bt-btn bt-btn-ghost" type="button" data-action="reset">Reset</button>
+      <button class="bt-btn bt-btn-ghost bt-btn-adjust" type="button" data-action="adjust" data-delta="300" aria-label="Add five minutes">+5</button>
+    </div>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Build time</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Press Start when the room is ready. Pause/Resume from the same button; Reset returns to 40:00.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     Closing — Thanks + Feedback
+     ================================================================ -->
+<section class="slide slide-closing" data-timing="0:25">
+  <div class="close-body">
+    <div class="close-ey">That's a wrap · S01 / 08</div>
+    <h1 class="close-title"><span class="td">Builders</span> Club.</h1>
+    <div class="close-sub">Thanks for coming.<span class="caret">▋</span></div>
+    <a class="feedback-card" href="https://mydrive.td.com/:l:/g/personal/amreen_kaur_tdsecurities_com/JADoIgdyej7hT4nLVENuIPZtAd-IWNiZlzfBNR9RgKLtMfU?nav=MjdhNzdlOGItZDRmNi00MTE4LWE2YzQtMTZjNjdlYjFlMmMy" target="_blank" rel="noopener noreferrer">
+      <div class="fc-label">Feedback Form</div>
+      <div class="fc-lines"><span></span><span></span><span></span></div>
+      <div class="fc-cta">Open form →</div>
+    </a>
+  </div>
+  <div class="footer">
+    <span>TD Builders Club</span>
+    <span>S01 / 08 — Closing</span>
+    <span class="rule">From your COO interns</span>
+  </div>
+  <div class="notes">
+    Land the room. Thanks, no hard sell. Point at the feedback form on screen.
+    Mention: next session, same time, same place. Then snacks.
+  </div>
+</section>
+
+
+<!-- ================================================================
+     Alt closing — Prisma hero (video)
+     ================================================================ -->
+<section class="slide slide-prisma" data-timing="0:00">
+  <div class="prisma-shell">
+    <video class="prisma-video" autoplay loop muted playsinline
+           onerror="this.style.display='none'"
+           src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"></video>
+    <div class="prisma-gradient" aria-hidden="true"></div>
+    <a class="prisma-cta" href="https://mydrive.td.com/:l:/g/personal/amreen_kaur_tdsecurities_com/JADoIgdyej7hT4nLVENuIPZtAd-IWNiZlzfBNR9RgKLtMfU?nav=MjdhNzdlOGItZDRmNi00MTE4LWE2YzQtMTZjNjdlYjFlMmMy" target="_blank" rel="noopener noreferrer">
+      <span>Feedback form</span>
+      <span class="prisma-cta-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+      </span>
+    </a>
+    <div class="prisma-hero">
+      <h1 class="prisma-title">
+        <span class="prisma-word">Builders</span>
+        <span class="prisma-word">Club<span class="prisma-asterisk">*</span></span>
+      </h1>
+    </div>
+  </div>
+  <div class="notes">Alt closing — video hero. No speaker notes needed.</div>
+</section>
+
+
+</div><!-- /deck-stage -->
+
+<div class="deck-hud">
+  <span class="deck-pos">01 / 19</span>
+  <span class="help">← → · S notes · F full · H hide</span>
+</div>
+</div><!-- /deck -->
+
+<div class="deck-notes">
+  <div class="timing-row">
+    <span class="timing"></span>
+    <span class="stopwatch" hidden></span>
+  </div>
+  <div class="notes-body"></div>
+</div>
+
+<script>
+/* ============================================================
+   About reel — ScrollReelTestimonials, vanilla port
+   ============================================================ */
+(function aboutReelInit(){
+  var reel = document.getElementById('aboutReel');
+  if (!reel) return;
+
+  var TEAM = [
+    { name:'Akash',  school:'TD Velocity Team · CS + Math, UofT',            oneliner:'12x Hackathon Winner, Mentor, Judge, Organizer',                                     img:(typeof IMG_akash  !=='undefined'?IMG_akash:'') },
+    { name:'Amreen', school:'Global Automations Team · CS + Stats, McGill',   oneliner:'ML enthusiast with experience in NLP and has researched word embeddings to analyze sentiment', img:(typeof IMG_amreen !=='undefined'?IMG_amreen:'') },
+    { name:'Jalin',  school:'[team] · CS, Western',                           oneliner:'[one-liner placeholder]',                                                            img:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI0IwQjBCMCIvPjwvc3ZnPg==' },
+    { name:'Simar',  school:'Applied AI/ML Team · CS, Waterloo',              oneliner:'Aspiring Software Engineer with experience in applied AI/ML and fullstack development', img:(typeof IMG_simar  !=='undefined'?IMG_simar:'') },
+    { name:'Wamiq',  school:'Global Ops Team · Commerce, TMU', singleLine:true, oneliner:'Team Mascot',                                                                     img:(typeof IMG_wamiq  !=='undefined'?IMG_wamiq:'') }
+  ];
+
+  var count=TEAM.length, CHAR_STAGGER=6, EXIT_MS=240, SLIDE_MS=800;
+  var left=reel.querySelector('[data-side="left"]');
+  var mid=reel.querySelector('.reel-col-mid');
+  var right=reel.querySelector('[data-side="right"]');
+
+  function cellEl(){ var c=document.createElement('div'); c.className='reel-cell'; c.setAttribute('aria-hidden','true'); return c; }
+  function featuredEl(src,alt){ var f=document.createElement('div'); f.className='reel-featured'; var img=document.createElement('img'); img.src=src; img.alt=alt||''; img.loading='lazy'; f.appendChild(img); return f; }
+
+  var sideCount=4+2*count;
+  for(var i=0;i<sideCount;i++){ left.appendChild(cellEl()); right.appendChild(cellEl()); }
+  for(var i=0;i<3;i++) mid.appendChild(cellEl());
+  TEAM.forEach(function(p,i){ mid.appendChild(featuredEl(p.img,p.name)); if(i<count-1){ mid.appendChild(cellEl()); mid.appendChild(cellEl()); } });
+  for(var i=0;i<3;i++) mid.appendChild(cellEl());
+
+  var index=0, displayIndex=0, animating=false, timeouts=[];
+  var currentEl=reel.querySelector('.reel-current');
+  var nameEl=currentEl.querySelector('.reel-name');
+  var teamEl=currentEl.querySelector('.reel-team');
+  var schoolEl=currentEl.querySelector('.reel-school');
+  var onelinerEl=currentEl.querySelector('.reel-oneliner');
+  var prevBtn=reel.querySelector('.reel-prev');
+  var nextBtn=reel.querySelector('.reel-next');
+
+  function applyColumns(animate){
+    var centerIdx=(count-1)/2, midSteps=centerIdx-index, sideSteps=-midSteps;
+    var t=animate?('transform '+SLIDE_MS+'ms cubic-bezier(0.65,0,0.35,1)'):'none';
+    left.style.transition=right.style.transition=mid.style.transition=t;
+    left.style.transform=right.style.transform='translateY(calc(var(--step) * '+sideSteps+'))';
+    mid.style.transform='translateY(calc(var(--step) * '+midSteps+'))';
+  }
+
+  function renderChars(el,text,startIdx){
+    el.innerHTML=''; var idx=startIdx;
+    text.split(' ').forEach(function(word,wi){
+      var ws=document.createElement('span'); ws.className='reel-word';
+      for(var k=0;k<word.length;k++){
+        var cs=document.createElement('span'); cs.className='scroll-reel-char';
+        cs.style.animationDelay=(idx*CHAR_STAGGER)+'ms'; cs.textContent=word.charAt(k);
+        ws.appendChild(cs); idx++;
+      }
+      el.appendChild(ws);
+      if(wi<text.split(' ').length-1){ el.appendChild(document.createTextNode(' ')); idx++; }
+    });
+    return idx;
+  }
+
+  function updateText(){
+    var p=TEAM[displayIndex]; var team,school;
+    if(p.singleLine){ team=String(p.school||''); school=''; }
+    else{ var parts=String(p.school||'').split(' · '); team=parts[0]||''; school=parts.slice(1).join(' · '); }
+    schoolEl.style.display=school?'':'none';
+    var idx=0;
+    idx=renderChars(nameEl,p.name,idx)+6;
+    idx=renderChars(teamEl,team,idx)+6;
+    idx=renderChars(schoolEl,school,idx)+6;
+    renderChars(onelinerEl,p.oneliner,idx);
+  }
+
+  function updateButtons(){ prevBtn.disabled=(index===0); nextBtn.disabled=(index===count-1); }
+
+  function paginate(dir){
+    if(animating) return;
+    var next=index+dir; if(next<0||next>=count) return;
+    animating=true; index=next;
+    currentEl.classList.add('scroll-reel-exit');
+    timeouts.push(setTimeout(function(){ displayIndex=next; currentEl.classList.remove('scroll-reel-exit'); updateText(); },EXIT_MS));
+    timeouts.push(setTimeout(function(){ animating=false; },SLIDE_MS));
+    applyColumns(true); updateButtons();
+  }
+
+  prevBtn.addEventListener('click',function(){ paginate(-1); });
+  nextBtn.addEventListener('click',function(){ paginate(1); });
+  reel.addEventListener('keydown',function(e){ if(e.key==='ArrowLeft'){e.preventDefault();paginate(-1);} if(e.key==='ArrowRight'){e.preventDefault();paginate(1);} });
+
+  var slide=reel.closest('.slide');
+  document.addEventListener('keydown',function(e){
+    if(!slide.classList.contains('is-active')) return;
+    if((e.key==='ArrowRight'||e.key===' ')&&index<count-1){ e.stopImmediatePropagation(); e.preventDefault(); paginate(1); }
+    if(e.key==='ArrowLeft'&&index>0){ e.stopImmediatePropagation(); e.preventDefault(); paginate(-1); }
+  },true);
+
+  applyColumns(false); updateText(); updateButtons();
+  slide.addEventListener('slide:enter',function(){ updateText(); });
+})();
+</script>
+
+<script>
+/* ============================================================
+   Deck runtime + typewriter + build-time timer
+   ============================================================ */
+(function(){
+  'use strict';
+  var REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── 1 · Deck navigation ── */
+  var stage=document.querySelector('.deck-stage');
+  if(!stage) return;
+  var slides=Array.from(stage.querySelectorAll('.slide'));
+  if(!slides.length) return;
+
+  var posEl=document.querySelector('.deck-pos');
+  var notesTiming=document.querySelector('.deck-notes .timing');
+  var notesStopwatch=document.querySelector('.deck-notes .stopwatch');
+  var notesBody=document.querySelector('.deck-notes .notes-body');
+  var idx=0;
+
+  function clamp(i){ return Math.max(0,Math.min(slides.length-1,i)); }
+  function parseTiming(t){ if(!t) return 0; var p=String(t).split(':'); return (parseInt(p[0],10)||0)*60+(parseInt(p[1],10)||0); }
+  function formatTiming(sec){ if(sec<0) sec=0; var m=Math.floor(sec/60),s=sec%60; return m+':'+String(s).padStart(2,'0'); }
+
+  var cumulative=[];
+  (function(){ var acc=0; slides.forEach(function(s){ acc+=parseTiming(s.dataset.timing); cumulative.push(acc); }); })();
+
+  var stopwatchStart=null;
+  function renderStopwatch(){
+    if(stopwatchStart===null||!notesStopwatch) return;
+    var elapsed=Math.floor((Date.now()-stopwatchStart)/1000);
+    notesStopwatch.textContent='Live — '+formatTiming(elapsed);
+  }
+  setInterval(renderStopwatch,1000);
+
+  function render(){
+    slides.forEach(function(s,i){ var on=i===idx; s.classList.toggle('is-active',on); if(on) s.dispatchEvent(new CustomEvent('slide:enter')); });
+    if(posEl) posEl.textContent=String(idx+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+    var active=slides[idx];
+    var notes=active.querySelector('.notes');
+    if(notesBody) notesBody.innerHTML=notes?notes.innerHTML:'<em>No speaker notes for this slide.</em>';
+    if(notesTiming) notesTiming.textContent='Aim — '+formatTiming(cumulative[idx]||0);
+    if(idx>0&&stopwatchStart===null){ stopwatchStart=Date.now(); if(notesStopwatch) notesStopwatch.hidden=false; renderStopwatch(); }
+    if(location.hash!=='#'+(idx+1)) history.replaceState(null,'','#'+(idx+1));
+  }
+
+  function go(i){ idx=clamp(i); render(); }
+  function next(){ go(idx+1); }
+  function prev(){ go(idx-1); }
+
+  document.addEventListener('keydown',function(e){
+    if(e.metaKey||e.ctrlKey||e.altKey) return;
+    switch(e.key){
+      case 'ArrowRight': case 'PageDown': case ' ': next(); e.preventDefault(); break;
+      case 'ArrowLeft':  case 'PageUp': prev(); e.preventDefault(); break;
+      case 'Home': go(0); e.preventDefault(); break;
+      case 'End': go(slides.length-1); e.preventDefault(); break;
+      case 's': case 'S': document.body.classList.toggle('show-notes'); e.preventDefault(); break;
+      case 'f': case 'F': if(document.fullscreenElement) document.exitFullscreen(); else if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); e.preventDefault(); break;
+      case 'h': case 'H': document.querySelector('.deck-hud').classList.toggle('hidden-hud'); e.preventDefault(); break;
+    }
+  });
+
+  document.addEventListener('click',function(e){
+    if(e.target.closest('a,button,.deck-notes')) return;
+    if(e.clientX<window.innerWidth*0.35) prev(); else if(e.clientX>window.innerWidth*0.65) next();
+  });
+
+  window.addEventListener('hashchange',function(){ var i=parseInt(location.hash.replace('#',''),10); if(!isNaN(i)) go(i-1); });
+
+  /* ── 2 · Typewriter ── */
+  (function twInit(){
+    var nodes=document.querySelectorAll('[data-typewriter]');
+    if(!nodes.length) return;
+    nodes.forEach(function(node){
+      var raw=node.getAttribute('data-text')||'';
+      raw=raw.replace(/\\n/g,'\n');
+      var parts=[],re=/\[\[([^\]]+)\]\]/g,last=0,m;
+      while((m=re.exec(raw))!==null){ if(m.index>last) parts.push({hl:false,text:raw.slice(last,m.index)}); parts.push({hl:true,text:m[1]}); last=re.lastIndex; }
+      if(last<raw.length) parts.push({hl:false,text:raw.slice(last)});
+      node.innerHTML=''; var chars=[];
+      parts.forEach(function(p){
+        if(p.hl){ var hl=document.createElement('span'); hl.className='hl'; node.appendChild(hl); for(var i=0;i<p.text.length;i++) chars.push(addChar(hl,p.text[i])); }
+        else{ for(var j=0;j<p.text.length;j++) chars.push(addChar(node,p.text[j])); }
+      });
+      function addChar(parent,ch){ if(ch==='\n'){ parent.appendChild(document.createElement('br')); return null; } var span=document.createElement('span'); span.className='ch'; span.textContent=ch; parent.appendChild(span); return span; }
+      function reset(){ chars.forEach(function(c){ if(c) c.classList.remove('on'); }); }
+      function play(){
+        reset();
+        if(REDUCE){ chars.forEach(function(c){ if(c) c.classList.add('on'); }); return; }
+        var i=0;
+        function step(){ if(i>=chars.length) return; var c=chars[i++]; if(c) c.classList.add('on'); var d=16+Math.random()*18; if(c&&c.parentNode&&c.parentNode.classList.contains('hl')) d+=6; setTimeout(step,d); }
+        step();
+      }
+      var slide=node.closest('.slide');
+      slide.addEventListener('slide:enter',function(){ setTimeout(play,200); });
+      if(slide.classList.contains('is-active')) setTimeout(play,400);
+    });
+  })();
+
+  /* ── 3 · Build-time countdown ── */
+  (function buildTimeInit(){
+    var slide=document.querySelector('.slide-buildtime');
+    if(!slide) return;
+    var timerEl=slide.querySelector('.bt-timer');
+    var toggleEl=slide.querySelector('[data-action="toggle"]');
+    var resetEl=slide.querySelector('[data-action="reset"]');
+    if(!timerEl) return;
+    function parse(t){ var p=String(t||'').split(':'); return (parseInt(p[0],10)||0)*60+(parseInt(p[1],10)||0); }
+    function fmt(s){ if(s<0) s=0; var m=Math.floor(s/60),ss=s%60; return m+':'+String(ss).padStart(2,'0'); }
+    var totalSec=parse(timerEl.dataset.countdown)||40*60;
+    var remaining=totalSec, running=false, lastTick=0;
+    function renderTimer(){
+      timerEl.textContent=fmt(Math.ceil(remaining));
+      timerEl.classList.toggle('warn',remaining>0&&remaining<=60);
+      timerEl.classList.toggle('done',remaining<=0);
+      if(toggleEl){ if(remaining<=0){ toggleEl.textContent='Done'; toggleEl.disabled=true; } else{ toggleEl.disabled=false; toggleEl.textContent=running?'Pause':(remaining<totalSec?'Resume':'Start'); } }
+    }
+    function tick(){ if(!running) return; var now=Date.now(); remaining-=(now-lastTick)/1000; lastTick=now; if(remaining<=0){ remaining=0; running=false; } renderTimer(); }
+    setInterval(tick,250);
+    if(toggleEl) toggleEl.addEventListener('click',function(){ if(remaining<=0) return; running=!running; lastTick=Date.now(); renderTimer(); });
+    if(resetEl) resetEl.addEventListener('click',function(){ running=false; remaining=totalSec; renderTimer(); });
+    slide.querySelectorAll('[data-action="adjust"]').forEach(function(btn){ btn.addEventListener('click',function(){ var delta=parseInt(btn.dataset.delta,10)||0; remaining=Math.max(0,remaining+delta); if(remaining>0&&running) lastTick=Date.now(); renderTimer(); }); });
+    renderTimer();
+  })();
+
+  /* ── 4 · Initial paint ── */
+  var initial=parseInt(location.hash.replace('#',''),10);
+  go(isNaN(initial)?0:initial-1);
+})();
+</script>
+</body>
+</html>
