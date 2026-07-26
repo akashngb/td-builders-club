@@ -1,0 +1,17 @@
+node_modules
+dist
+.vite
+.DS_Store
+
+# Internal / not for publication
+README.md
+shared/
+team/
+visual targets/
+*-spec.md
+email-review-draft.txt
+*.pptx
+
+# Large model assets (exceed GitHub file-size limits)
+models/
+
