@@ -1,0 +1,569 @@
+/* =========================================================================
+   TD Builders Club — shared design system (Build Log)
+   One source of truth for both decks. See td-builders-club-deck-spec.md §2–3.
+   ========================================================================= */
+
+/* ---------- 0 · Fonts ----------------------------------------------------
+   TD Graphik is loaded locally (licensed face from TD's brand portal).
+   Inter is the runtime fallback so the deck still presents if Graphik
+   isn't installed on the machine. JetBrains Mono is the co-lead.
+------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@font-face{font-family:"TD Graphik";font-weight:300;src:local("TD Graphik Light");font-display:swap;}
+@font-face{font-family:"TD Graphik";font-weight:350;src:local("TD Graphik Book");font-display:swap;}
+@font-face{font-family:"TD Graphik";font-weight:400;src:local("TD Graphik Regular");font-display:swap;}
+@font-face{font-family:"TD Graphik";font-weight:500;src:local("TD Graphik Medium");font-display:swap;}
+@font-face{font-family:"TD Graphik";font-weight:600;src:local("TD Graphik Semibold");font-display:swap;}
+
+/* ---------- 1 · Tokens ------------------------------------------------- */
+:root{
+  /* Color (light, TD brand) */
+  --paper:#EFEDEE;            /* TD_Grey — base surface              */
+  --panel:#FFFFFF;            /* cards / blocks                       */
+  --ink:#1A1A1A;              /* primary text                         */
+  --ink-soft:#5C5C5C;         /* secondary text                       */
+  --line:#D7D4D5;             /* hairlines + blueprint grid           */
+  --accent:#1A5336;           /* TD_Dark_Green — structural thread    */
+  --accent-bright:#008A00;    /* TD_Green — punchy highlight          */
+  --tint:#E5F1D4;             /* TD_Light_Green — soft fills, "good"  */
+  --signal:#FF9500;           /* TD_Orange — energy: timers, alerts   */
+
+  /* Grid background tone — accent-tinted, very low alpha             */
+  --grid:rgba(26,83,54,.055);
+
+  /* Type stacks */
+  --sans:'TD Graphik','Inter',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+
+  /* Deck-frame chrome color (the surround behind the slide page) */
+  --frame:#c9c7c8;
+}
+
+/* Dark alternate — green-charcoal, not pure black */
+:root[data-theme="dark"]{
+  --paper:#11211A;
+  --panel:#1A3328;
+  --ink:#ECECE8;
+  --ink-soft:#9FB0A6;
+  --line:#2C4A3B;
+  --accent:#E5F1D4;
+  --accent-bright:#34B233;
+  --tint:#1A5336;
+  --signal:#FF9500;
+  --grid:rgba(229,241,212,.045);
+  --frame:#06100b;
+}
+
+/* ---------- 2 · Reset & shell ----------------------------------------- */
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  background:var(--frame);
+  font-family:var(--sans);
+  color:var(--ink);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* The deck fills the viewport; the stage is the slide canvas, 16/9. */
+.deck{
+  position:fixed;inset:0;
+  display:grid;place-items:center;
+  padding:2.5vh 2.5vw;
+}
+.deck-stage{
+  position:relative;
+  width:min(95vw, calc(95vh * 16 / 9));
+  aspect-ratio:16/9;
+  box-shadow:0 18px 50px rgba(0,0,0,.32);
+}
+
+/* Every slide lives stacked in the stage; only the active one shows.    */
+.slide{
+  position:absolute;inset:0;
+  display:none;
+  flex-direction:column;
+  container-type:inline-size;
+  background:var(--paper);
+  color:var(--ink);
+  overflow:hidden;
+  padding:4.4cqw 5cqw 0;
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:3.1cqw 3.1cqw;
+}
+.slide.is-active{display:flex;}
+
+/* Each slide carries its speaker notes inline as <div class="notes">; the
+   deck runtime mirrors that into the overlay. Hide it inside the slide.   */
+.slide .notes{display:none;}
+
+/* ---------- 3 · Persistent footer (component 10) ---------------------- */
+.footer{
+  display:flex;justify-content:space-between;align-items:center;gap:1.5cqw;
+  font-family:var(--mono);font-size:1.02cqw;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);
+  border-top:.08cqw solid var(--line);
+  margin-top:auto;padding:1.15cqw 0;
+}
+.footer .rule{color:var(--accent);}
+
+/* ---------- 4 · Eyebrow / kick (mono section marker) ------------------ */
+.kick{
+  display:flex;align-items:center;gap:.9cqw;
+  font-family:var(--mono);font-size:1.3cqw;font-weight:500;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent-bright);
+}
+.mark{
+  width:1.2cqw;height:1.2cqw;background:var(--accent);
+  display:inline-block;border-radius:.15cqw;
+}
+.eyebrow{
+  font-family:var(--mono);font-size:1.3cqw;font-weight:500;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--accent-bright);
+}
+
+/* ---------- 5 · Caret (the one signature flourish) -------------------- */
+.caret{color:var(--accent-bright);animation:blink 1.1s steps(1) infinite;}
+@keyframes blink{50%{opacity:0;}}
+@media (prefers-reduced-motion: reduce){
+  .caret{animation:none;}
+}
+
+/* ============================================================
+   COMPONENT 1 · Title slide
+   ============================================================ */
+.slide-title .hero{
+  flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0;
+}
+.wordmark{font-size:7cqw;font-weight:600;letter-spacing:-.03em;line-height:1;}
+.wordmark .td{color:var(--accent-bright);}
+.tagline{
+  font-family:var(--mono);font-size:2.2cqw;font-weight:500;
+  color:var(--ink);margin-top:2.6cqw;letter-spacing:-.01em;
+}
+.meta{
+  font-family:var(--mono);font-size:1.32cqw;letter-spacing:.08em;
+  color:var(--ink-soft);margin-top:2.1cqw;text-transform:uppercase;
+}
+.meta .dot{color:var(--signal);margin:0 .55cqw;}
+
+/* ============================================================
+   COMPONENT 2 · Log-entry / section divider
+   Oversized mono number behind a display title.
+   ============================================================ */
+.slide-divider .divider-body{
+  flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0;
+  position:relative;
+}
+.lognum{
+  font-family:var(--mono);font-weight:300;
+  font-size:24cqw;line-height:.85;letter-spacing:-.04em;
+  color:var(--accent);opacity:.16;
+  position:absolute;right:-1cqw;top:-3cqw;pointer-events:none;
+  user-select:none;
+}
+.logtitle{
+  font-size:6.2cqw;font-weight:600;letter-spacing:-.025em;line-height:1;
+  position:relative;z-index:1;
+}
+.logmono{
+  font-family:var(--mono);font-size:1.8cqw;font-weight:500;
+  color:var(--ink-soft);margin-top:2cqw;letter-spacing:-.005em;
+  position:relative;z-index:1;
+}
+
+/* ============================================================
+   COMPONENT 3 · Statement slide
+   One big line, lots of negative space.
+   ============================================================ */
+.slide-statement .statement-hero{
+  flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0;
+}
+.statement{
+  font-size:6cqw;font-weight:500;letter-spacing:-.025em;line-height:1.02;
+  max-width:78cqw;
+}
+.statement .accent{color:var(--accent-bright);}
+.statement-aside{
+  font-family:var(--mono);font-size:1.5cqw;color:var(--ink-soft);
+  margin-top:2.4cqw;letter-spacing:-.005em;
+}
+
+/* ============================================================
+   COMPONENT 4 · Content slide
+   Mono eyebrow + h1 + ≤3 sparse supporting lines.
+   ============================================================ */
+.slide-content .content-body{
+  flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0;
+  gap:1.4cqw;
+}
+.h1{font-size:4.4cqw;font-weight:600;letter-spacing:-.022em;line-height:1.04;}
+.h2{font-size:2.6cqw;font-weight:500;letter-spacing:-.012em;line-height:1.12;}
+.lead{
+  font-size:1.85cqw;font-weight:350;color:var(--ink);
+  line-height:1.35;max-width:72cqw;
+}
+.lead-list{
+  list-style:none;margin-top:1.2cqw;display:flex;flex-direction:column;gap:1.1cqw;
+}
+.lead-list li{
+  font-size:1.7cqw;font-weight:400;line-height:1.32;
+  color:var(--ink);padding-left:2.2cqw;position:relative;max-width:72cqw;
+}
+.lead-list li::before{
+  content:"";position:absolute;left:0;top:.78cqw;
+  width:1.1cqw;height:.16cqw;background:var(--accent-bright);
+}
+.lead-list li .soft{color:var(--ink-soft);}
+
+/* ============================================================
+   COMPONENT 5 · Session card (overview deck)
+   Sxx/08 + title + mono tagline + 4 info rows.
+   ============================================================ */
+.slide-card .card-body{
+  flex:1;display:grid;grid-template-columns:18cqw 1fr;gap:3.2cqw;
+  align-content:center;min-height:0;
+}
+.card-num{
+  font-family:var(--mono);color:var(--accent);line-height:.9;
+  display:flex;flex-direction:column;align-items:flex-start;
+  border-left:.25cqw solid var(--accent);padding-left:1.4cqw;
+}
+.card-num .num{font-size:8.4cqw;font-weight:500;letter-spacing:-.04em;}
+.card-num .frac{
+  font-size:1.4cqw;font-weight:400;letter-spacing:.14em;
+  color:var(--ink-soft);margin-top:1cqw;text-transform:uppercase;
+}
+.card-content{display:flex;flex-direction:column;min-width:0;}
+.card-title{font-size:4.6cqw;font-weight:600;letter-spacing:-.022em;line-height:1.02;}
+.card-tagline{
+  font-family:var(--mono);font-size:1.5cqw;font-weight:500;
+  color:var(--ink-soft);margin-top:1.1cqw;letter-spacing:-.005em;
+}
+.card-rows{
+  margin-top:2.2cqw;display:grid;
+  grid-template-columns:11cqw 1fr;column-gap:1.8cqw;row-gap:1.3cqw;
+  align-items:baseline;
+}
+.card-rows dt{
+  font-family:var(--mono);font-size:1.05cqw;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+}
+.card-rows dd{
+  font-size:1.55cqw;font-weight:400;line-height:1.3;color:var(--ink);
+}
+.card-rows .chips{display:flex;flex-wrap:wrap;gap:.55cqw;}
+
+/* ============================================================
+   COMPONENT 6 · Split / Before-After (Prompt Monkeys deck)
+   ============================================================ */
+.slide-split .split-head{margin-bottom:.6cqw;}
+.slide-split .split-title{
+  font-size:3.7cqw;font-weight:600;letter-spacing:-.02em;
+  line-height:1.02;margin-top:1.1cqw;
+}
+.slide-split .task{font-size:1.5cqw;color:var(--ink-soft);margin-top:1.1cqw;}
+.cols{
+  display:grid;grid-template-columns:1fr 1fr;gap:2.4cqw;
+  margin-top:2.4cqw;flex:1;min-height:0;
+}
+.col{
+  background:var(--panel);border:.08cqw solid var(--line);
+  border-radius:.9cqw;padding:1.7cqw;display:flex;flex-direction:column;
+}
+.col.good{border-left:.42cqw solid var(--accent);border-radius:0 .9cqw .9cqw 0;}
+.col-tag{
+  align-self:flex-start;font-family:var(--mono);font-size:1.05cqw;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:.42cqw .85cqw;border-radius:.45cqw;
+}
+.col-tag.lazy{background:#ECEAEB;color:var(--ink-soft);}
+:root[data-theme="dark"] .col-tag.lazy{background:#22372C;color:var(--ink-soft);}
+.col-tag.good{background:var(--tint);color:var(--accent);}
+:root[data-theme="dark"] .col-tag.good{color:var(--accent-bright);}
+.arrow{
+  font-family:var(--mono);font-size:1.15cqw;color:var(--ink-soft);
+  margin:1cqw 0 .55cqw;letter-spacing:.06em;
+}
+.output{font-size:1.38cqw;line-height:1.46;white-space:pre-wrap;}
+.col.lazy .output{color:var(--ink-soft);}
+.levers{
+  font-family:var(--mono);font-size:1cqw;letter-spacing:.08em;
+  color:var(--accent);margin-top:auto;padding-top:1.1cqw;
+}
+
+/* ============================================================
+   COMPONENT 7 · Prompt / code block
+   The signature mono block. Reusable anywhere.
+   ============================================================ */
+.prompt{
+  font-family:var(--mono);font-size:1.32cqw;line-height:1.45;
+  background:var(--paper);
+  border-left:.22cqw solid var(--line);
+  padding:1cqw 1.1cqw;margin-top:1.1cqw;
+  white-space:pre-wrap;border-radius:0 .4cqw .4cqw 0;
+  color:var(--ink);
+}
+.col.good .prompt{border-left-color:var(--accent-bright);}
+.prompt.good{border-left-color:var(--accent-bright);background:var(--tint);}
+:root[data-theme="dark"] .prompt{background:rgba(0,0,0,.18);}
+:root[data-theme="dark"] .prompt.good{background:rgba(229,241,212,.06);}
+
+/* In a content slide, prompt blocks live in a clean panel rather than the paper. */
+.slide-content .prompt{background:var(--panel);border:.08cqw solid var(--line);border-left:.22cqw solid var(--accent-bright);}
+
+/* ============================================================
+   COMPONENT 8 · Demo slide (bordered "screen" frame)
+   ============================================================ */
+.slide-demo .demo-stage{
+  flex:1;display:flex;flex-direction:column;justify-content:center;gap:1.6cqw;min-height:0;
+}
+.demo-screen{
+  background:var(--panel);border:.12cqw solid var(--line);border-radius:1cqw;
+  padding:.9cqw;flex:1;min-height:0;display:flex;flex-direction:column;
+  box-shadow:inset 0 0 0 .04cqw var(--line);
+}
+.demo-screen .chrome{
+  display:flex;gap:.55cqw;padding:.1cqw 0 .9cqw;
+  border-bottom:.06cqw solid var(--line);margin-bottom:.9cqw;
+}
+.demo-screen .chrome i{
+  width:.85cqw;height:.85cqw;border-radius:50%;background:var(--line);display:inline-block;
+}
+.demo-screen .chrome i:nth-child(1){background:#FF5F57;}
+.demo-screen .chrome i:nth-child(2){background:#FEBC2E;}
+.demo-screen .chrome i:nth-child(3){background:#28C840;}
+.demo-canvas{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;}
+.demo-caption{
+  font-family:var(--mono);font-size:1.35cqw;color:var(--ink-soft);
+  letter-spacing:-.005em;text-align:left;
+}
+.demo-caption .accent{color:var(--accent);}
+
+/* ============================================================
+   COMPONENT 9 · Closing / CTA
+   ============================================================ */
+.slide-cta .cta-body{
+  flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0;gap:1.6cqw;
+}
+.cta-line{
+  font-size:5.4cqw;font-weight:600;letter-spacing:-.025em;line-height:1.02;
+}
+.cta-line .accent{color:var(--accent-bright);}
+.cta-meta{
+  font-family:var(--mono);font-size:1.5cqw;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-soft);margin-top:1cqw;
+}
+.cta-meta .dot{color:var(--signal);margin:0 .6cqw;}
+.cta-rule{
+  font-family:var(--mono);font-size:1.32cqw;color:var(--accent);
+  letter-spacing:.04em;margin-top:1.2cqw;display:inline-flex;align-items:center;gap:.7cqw;
+  padding:.7cqw 1cqw;background:var(--tint);border-radius:.45cqw;align-self:flex-start;
+}
+:root[data-theme="dark"] .cta-rule{background:rgba(229,241,212,.08);color:var(--accent-bright);}
+
+/* ============================================================
+   COMPONENT 11 · Tool chip
+   Mono pill, accent outline. Reachable tools only.
+   ============================================================ */
+.chip{
+  display:inline-flex;align-items:center;
+  font-family:var(--mono);font-size:1.05cqw;font-weight:500;
+  letter-spacing:.04em;
+  padding:.35cqw .85cqw;border-radius:.45cqw;
+  border:.08cqw solid var(--accent);color:var(--accent);
+  background:transparent;
+}
+:root[data-theme="dark"] .chip{color:var(--accent-bright);border-color:var(--accent-bright);}
+
+/* ============================================================
+   Season-map slide (overview slide 05)
+   8 numbered entries in a 2x4 grid — the log-entry motif paying off.
+   ============================================================ */
+.season-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1.2cqw;
+  margin-top:2.2cqw;flex:1;min-height:0;
+}
+.season-row{display:contents;}
+.season-cell{
+  background:var(--panel);border:.08cqw solid var(--line);
+  border-radius:.6cqw;padding:1.2cqw 1.2cqw 1.1cqw;
+  display:flex;flex-direction:column;gap:.4cqw;
+  position:relative;
+}
+.season-cell .sn{
+  font-family:var(--mono);font-size:1.05cqw;font-weight:500;
+  letter-spacing:.16em;color:var(--accent-bright);text-transform:uppercase;
+}
+.season-cell .st{
+  font-size:1.7cqw;font-weight:600;letter-spacing:-.012em;line-height:1.05;
+  color:var(--ink);
+}
+.season-cell .sm{
+  font-family:var(--mono);font-size:.98cqw;color:var(--ink-soft);
+  line-height:1.35;margin-top:.3cqw;
+}
+.season-cell.finale{
+  border-color:var(--accent-bright);
+  background:var(--tint);
+}
+:root[data-theme="dark"] .season-cell.finale{background:rgba(229,241,212,.08);}
+.season-cell.finale .sn{color:var(--accent);}
+:root[data-theme="dark"] .season-cell.finale .sn{color:var(--accent-bright);}
+.season-arc{
+  font-family:var(--mono);font-size:1.2cqw;color:var(--ink-soft);
+  margin-top:1.4cqw;letter-spacing:.02em;display:flex;align-items:center;gap:1cqw;
+  flex-wrap:wrap;
+}
+.season-arc .step{color:var(--accent);font-weight:500;}
+.season-arc .sep{color:var(--signal);}
+
+/* ============================================================
+   Run-of-show slide (overview slide 04)
+   4 step blocks with Lucide icons.
+   ============================================================ */
+.runofshow{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1.6cqw;
+  margin-top:2.4cqw;flex:1;min-height:0;
+}
+.ros-step{
+  background:var(--panel);border:.08cqw solid var(--line);border-radius:.7cqw;
+  padding:1.6cqw 1.5cqw 1.5cqw;display:flex;flex-direction:column;gap:1cqw;
+  position:relative;
+}
+.ros-step .ros-num{
+  font-family:var(--mono);font-size:1.1cqw;font-weight:500;
+  letter-spacing:.18em;color:var(--accent-bright);text-transform:uppercase;
+}
+.ros-step .ros-ico{
+  width:3.2cqw;height:3.2cqw;color:var(--accent);
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.ros-step .ros-ico svg{width:100%;height:100%;stroke-width:1.5;}
+.ros-step .ros-title{
+  font-size:1.85cqw;font-weight:600;letter-spacing:-.012em;line-height:1.08;
+}
+.ros-step .ros-sub{
+  font-family:var(--mono);font-size:1.05cqw;color:var(--ink-soft);
+  letter-spacing:-.005em;line-height:1.35;
+}
+.ros-step .ros-time{
+  margin-top:auto;padding-top:.8cqw;font-family:var(--mono);font-size:1cqw;
+  color:var(--accent);letter-spacing:.06em;text-transform:uppercase;
+  border-top:.06cqw solid var(--line);
+}
+
+/* ============================================================
+   Three-pain-points slide (overview slide 02)
+   ============================================================ */
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8cqw;margin-top:2.4cqw;flex:1;min-height:0;}
+.pain{background:var(--panel);border:.08cqw solid var(--line);border-radius:.7cqw;padding:1.8cqw;display:flex;flex-direction:column;gap:1cqw;}
+.pain .tag{
+  font-family:var(--mono);font-size:1.02cqw;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent-bright);
+}
+.pain .h{font-size:2.4cqw;font-weight:600;letter-spacing:-.018em;line-height:1.05;}
+.pain .p{font-size:1.45cqw;line-height:1.35;color:var(--ink);}
+.pain .p .soft{color:var(--ink-soft);}
+
+/* ============================================================
+   What-it-is slide (overview slide 03) — three quick beats
+   ============================================================ */
+.beats{display:flex;flex-direction:column;gap:1.4cqw;margin-top:2cqw;flex:1;min-height:0;justify-content:center;}
+.beat{display:grid;grid-template-columns:7cqw 1fr;column-gap:1.6cqw;align-items:baseline;}
+.beat .n{
+  font-family:var(--mono);font-weight:300;font-size:5cqw;line-height:1;
+  color:var(--accent);letter-spacing:-.02em;
+}
+.beat .t{
+  font-size:2.2cqw;font-weight:600;letter-spacing:-.015em;line-height:1.05;
+}
+.beat .t .soft{color:var(--ink-soft);font-weight:400;}
+
+/* ============================================================
+   Lever slide (Prompt Monkeys — slides 05–09)
+   Eyebrow with N/4 · title · one supporting line · prompt block.
+   ============================================================ */
+.slide-lever .lever-body{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0;gap:1.1cqw;}
+.lever-counter{font-family:var(--mono);font-size:1.32cqw;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);}
+.lever-counter .small{color:var(--ink-soft);font-weight:400;}
+.lever-title{font-size:4.4cqw;font-weight:600;letter-spacing:-.022em;line-height:1.02;}
+.lever-sub{font-size:1.6cqw;font-weight:400;color:var(--ink-soft);line-height:1.35;max-width:62cqw;}
+.lever-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.2cqw;margin-top:1.4cqw;align-items:start;}
+.lever-grid .col{padding:1.5cqw;}
+
+/* ============================================================
+   Snap-to-Dashboard mini diagram (used in S03 session card / preview)
+   ============================================================ */
+.flow{
+  display:flex;align-items:center;gap:.9cqw;margin-top:1.2cqw;
+  font-family:var(--mono);font-size:1.05cqw;color:var(--ink);
+}
+.flow .node{
+  padding:.55cqw .85cqw;background:var(--panel);
+  border:.08cqw solid var(--line);border-radius:.4cqw;
+  color:var(--ink);
+}
+.flow .arrow{font-family:var(--mono);color:var(--accent-bright);margin:0;letter-spacing:0;}
+.flow .node.accent{border-color:var(--accent-bright);color:var(--accent);}
+
+/* ============================================================
+   Deck chrome — HUD (slide number) + speaker-notes overlay
+   ============================================================ */
+.deck-hud{
+  position:fixed;right:14px;bottom:12px;z-index:5;
+  font-family:var(--mono);font-size:12px;letter-spacing:.12em;
+  color:rgba(255,255,255,.55);background:rgba(0,0,0,.32);
+  padding:5px 10px;border-radius:6px;
+  display:flex;gap:14px;align-items:center;
+  pointer-events:none;
+  text-transform:uppercase;
+}
+.deck-hud .help{opacity:.7;}
+
+.deck-notes{
+  position:fixed;left:16px;right:16px;bottom:16px;z-index:6;
+  background:rgba(17,33,26,.96);color:#ECECE8;
+  padding:18px 22px;border-radius:10px;
+  font-family:var(--mono);font-size:14px;line-height:1.5;
+  max-height:32vh;overflow:auto;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 12px 36px rgba(0,0,0,.45);
+  display:none;
+}
+body.show-notes .deck-notes{display:block;}
+.deck-notes .timing{
+  color:var(--signal);font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;font-size:12px;margin-bottom:8px;
+}
+.deck-notes .notes-body{color:#D6D8D4;}
+.deck-notes .notes-body em{color:#9FB0A6;}
+.deck-notes .notes-body strong{color:#fff;font-weight:500;}
+.deck-notes .notes-body ul{margin:6px 0 0 18px;}
+.deck-notes .notes-body li{margin-bottom:4px;}
+
+/* ============================================================
+   Print — every slide on its own 1920×1080 page
+   ============================================================ */
+@media print{
+  @page{size:1920px 1080px;margin:0;}
+  html,body{background:#fff;overflow:visible;height:auto;}
+  .deck{position:static;display:block;padding:0;}
+  .deck-stage{
+    width:1920px;height:auto;aspect-ratio:auto;box-shadow:none;
+  }
+  .slide{
+    position:relative !important;inset:auto;
+    width:1920px;height:1080px;
+    display:flex !important;
+    page-break-after:always;break-after:page;
+    box-shadow:none;
+  }
+  .slide:last-of-type{page-break-after:auto;break-after:auto;}
+  .deck-hud,.deck-notes{display:none !important;}
+  .caret{animation:none;}
+}

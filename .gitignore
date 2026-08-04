@@ -5,7 +5,7 @@ dist
 
 # Internal / not for publication
 README.md
-shared/
+other/
 team/
 visual targets/
 *-spec.md
@@ -13,5 +13,4 @@ email-review-draft.txt
 *.pptx
 
 # Large model assets (exceed GitHub file-size limits)
-models/
-
+models/*.ply
