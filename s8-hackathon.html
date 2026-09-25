@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TD Builders Club — Hackathon</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+/* =======================================================================
+   TD Builders Club · Hackathon — TD Way Edition
+   Fonts: TD Sans Headline / TD Sans Body (local) -> Calibri / Aptos / system
+   Palette: Shield Green #42BF19, Premium Green #002B1A,
+            Greensand #E4E9E2, Greenstone #3C4339, near-black #1C1C1C
+   Clean geometric TD style. Interactive HTML deck.
+   ======================================================================= */
+:root{
+  --green:#42BF19;--green-logo:#2FBF00;--green-dark:#002B1A;
+  --sand:#E4E9E2;--stone:#3C4339;--black:#1C1C1C;--white:#FFFFFF;
+  --border:#C8D0C7;--signal:#E66523;--soft:#748074;
+  --sans:'TD Sans Body','TD Sans','Calibri','Aptos',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --headline:'TD Sans Headline','TD Sans','Calibri','Aptos',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:'Aptos Mono','Cascadia Mono','SFMono-Regular','Consolas',monospace;
+}
+@font-face{font-family:'TD Sans Headline';src:local('TD Sans Headline'),local('TDSansHeadline');font-weight:400 800;font-display:swap;}
+@font-face{font-family:'TD Sans Body';src:local('TD Sans Body'),local('TDSansBody');font-weight:400 800;font-display:swap;}
+*{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;background:#111;overflow:hidden;font-family:var(--sans);color:var(--black)}
+.deck{position:fixed;inset:0;display:grid;place-items:center;background:#111;padding:0}
+.deck-stage{position:relative;width:min(100vw,177.7778vh);height:min(56.25vw,100vh);aspect-ratio:16/9;background:var(--white);overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.48)}
+.slide{position:absolute;inset:0;width:100%;height:100%;display:none;flex-direction:column;overflow:hidden;padding:3.2cqw 3.5cqw 0;background:var(--white)}
+.slide.active{display:flex}.slide.dark{background:var(--black);color:var(--white)}.slide.sand{background:var(--sand)}
+.footer{height:3.1cqw;display:flex;align-items:center;justify-content:space-between;gap:2cqw;border-top:.08cqw solid var(--border);font-size:.62cqw;color:var(--stone);margin-top:auto}
+.footer .rule{color:var(--green-dark);font-weight:700}.dark .footer{border-top-color:rgba(255,255,255,.08);color:rgba(255,255,255,.38)}.dark .footer .rule{color:var(--green)}
+.logo{width:3.3cqw;height:2.95cqw;display:block}.eyebrow{display:flex;align-items:center;gap:.7cqw;font-size:1cqw;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green-dark)}
+.eyebrow:before{content:'';display:inline-block;width:.28cqw;height:1.3cqw;background:var(--green);border-radius:.08cqw;flex-shrink:0}.dark .eyebrow{color:var(--green)}
+.h1{font-family:var(--headline);font-size:4.7cqw;line-height:1;letter-spacing:-.03em;margin:.48cqw 0 0;font-weight:800}.lead{font-size:1.48cqw;line-height:1.35;color:var(--stone);margin-top:.7cqw;max-width:78cqw}.dark .lead{color:rgba(228,233,226,.72)}
+.accent{color:var(--green)}.caret{color:var(--green);font-weight:700}.soft{color:var(--soft)}
+/* Welcome */
+.slide-impact{padding:0;background:var(--sand)}.imp-body{flex:1;display:grid;grid-template-columns:48% 52%;min-height:0}.imp-left{padding:4.3cqw 3.7cqw;display:flex;flex-direction:column}.imp-right{background:var(--black);color:var(--white);padding:4.1cqw 4cqw;display:flex;flex-direction:column}.imp-title{font-family:var(--headline);font-size:6.5cqw;line-height:.98;letter-spacing:-.045em;margin:auto 0 1.6cqw;font-weight:800;color:var(--black)}
+.imp-sub{font-size:1.25cqw;color:var(--stone)}.imp-r-label{font-family:var(--mono);font-size:.74cqw;color:rgba(255,255,255,.5);letter-spacing:.12em;text-transform:uppercase}.imp-r-spacer{flex:1}.imp-r-title{font-family:var(--headline);font-size:5.2cqw;line-height:.95;letter-spacing:-.04em;margin:0 0 1.1cqw;font-weight:800}.imp-r-sub{font-size:1.35cqw;line-height:1.35;color:rgba(228,233,226,.78);max-width:34cqw}.imp-r-meta{font-family:var(--mono);font-size:.8cqw;color:var(--green);letter-spacing:.08em;text-transform:uppercase;margin-top:1.5cqw}.imp-r-meta .dot{padding:0 .55cqw}.slide-impact .footer{position:absolute;left:3.5cqw;right:3.5cqw;bottom:0;background:transparent}
+/* Cards */
+.card-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.05cqw;margin-top:2cqw}.td-card{position:relative;background:var(--sand);border:.08cqw solid var(--border);border-radius:.5cqw;border-left:.35cqw solid var(--green);padding:1.22cqw 1.18cqw;min-height:18.2cqw;display:flex;flex-direction:column;gap:.55cqw}.td-card.dark{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.11);color:var(--white)}.cn{font-size:.82cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}.ct{font-family:var(--headline);font-size:1.8cqw;line-height:1.08;font-weight:800;letter-spacing:-.015em}.cb{font-size:1.05cqw;line-height:1.42;color:var(--stone)}.td-card.dark .cb{color:rgba(228,233,226,.72)}
+.callout{margin-top:1.2cqw;background:var(--green-dark);border-radius:.35cqw;color:var(--sand);font-weight:700;font-size:1.05cqw;line-height:1.35;padding:.9cqw 1.15cqw}.callout.light{background:var(--sand);color:var(--green-dark);border:.08cqw solid var(--border)}
+/* Row map */
+.step-list{display:flex;flex-direction:column;gap:.75cqw;margin-top:2cqw}.step-row{display:grid;grid-template-columns:7cqw 1fr 2.8cqw 1.6fr;align-items:center;background:var(--sand);border:.08cqw solid var(--border);border-radius:.42cqw;padding:.8cqw 1cqw}.step-row{column-gap:.5cqw}.step-num{font-family:var(--mono);font-size:.82cqw;font-weight:800;color:var(--green);letter-spacing:.14em}.step-title{font-family:var(--headline);font-size:1.55cqw;font-weight:800}.step-arrow{height:.16cqw;background:var(--green);position:relative}.step-arrow:after{content:'';position:absolute;right:-.08cqw;top:50%;width:.55cqw;height:.55cqw;border-top:.18cqw solid var(--green);border-right:.18cqw solid var(--green);transform:translateY(-50%) rotate(45deg)}.step-desc{font-size:1.05cqw;line-height:1.35;color:var(--stone)}
+/* Timeline */
+.timeline{position:relative;display:flex;flex-direction:column;gap:.62cqw;margin-top:1.62cqw;padding-left:4cqw}.timeline:before{content:'';position:absolute;left:1.55cqw;top:.25cqw;bottom:.35cqw;width:.26cqw;background:var(--green);border-radius:9cqw}.tl-row{display:grid;grid-template-columns:7.5cqw 12cqw 1fr;gap:1.5cqw;align-items:center;min-height:.72cqw;position:relative}.tl-row:before{content:'';position:absolute;left:-2.58cqw;width:1cqw;height:1cqw;border-radius:50%;background:var(--green);box-shadow:0 0 0 .25cqw rgba(66,191,25,.16)}.tl-row.first:before{background:var(--green-dark)}.tl-time{font-family:var(--mono);font-size:.92cqw;font-weight:800;color:var(--green-dark)}.tl-title{font-family:var(--headline);font-size:1.22cqw;font-weight:800}.tl-desc{font-size:.92cqw;color:var(--stone);line-height:1.35}
+/* Countdown */
+.slide-buildtime{background:var(--sand);padding:2.6cqw 3cqw 0}.bt-stage{flex:1;background:var(--black);border:.12cqw solid rgba(255,255,255,.24);border-radius:1cqw;margin:.7cqw 0 1cqw;padding:3cqw;display:flex;flex-direction:column;justify-content:center;position:relative}.bt-title{display:flex;align-items:center;gap:.7cqw;font-size:.95cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}.bt-title:before{content:'';display:inline-block;width:.28cqw;height:1.3cqw;background:var(--green)}.bt-timer{font-family:var(--headline);font-size:11.5cqw;font-weight:800;letter-spacing:-.04em;line-height:.9;color:var(--white);font-variant-numeric:tabular-nums;margin-top:1.3cqw}.bt-timer.warn{color:#FFB347}.bt-timer.done{color:var(--signal)}.bt-sub{font-size:1.35cqw;color:rgba(228,233,226,.72);margin-top:1.45cqw}.bt-help{font-size:1cqw;color:var(--green);font-weight:800;margin-top:1cqw}.bt-controls{position:absolute;right:3cqw;top:3.2cqw;display:flex;flex-direction:column;gap:.6cqw}.bt-btn{font-family:var(--sans);font-size:.82cqw;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--black);background:var(--green);border:none;cursor:pointer;padding:.65cqw 1.8cqw;border-radius:.3cqw;min-width:7.4cqw}.bt-btn:hover{background:#55D430}.bt-btn-ghost{background:transparent;color:rgba(228,233,226,.72);border:.1cqw solid rgba(228,233,226,.25)}.bt-btn-ghost:hover{background:rgba(228,233,226,.07);color:var(--sand)}.bt-adjust-row{display:flex;gap:.45cqw}.bt-btn-adjust{min-width:0;width:3.45cqw;padding:.6cqw .4cqw}
+/* Notes + HUD */
+.deck-hud{position:fixed;right:14px;bottom:12px;z-index:5;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:rgba(255,255,255,.55);background:rgba(0,0,0,.32);padding:5px 10px;border-radius:6px;display:flex;gap:14px;align-items:center;pointer-events:none;text-transform:uppercase}.deck-hud.hidden-hud{display:none}.deck-notes{position:fixed;left:16px;right:16px;bottom:16px;z-index:6;background:rgba(28,28,28,.96);color:#fff;padding:18px 28px;border-radius:10px;font-family:var(--sans);font-size:22px;font-weight:600;line-height:1.3;border:1px solid rgba(255,255,255,.08);box-shadow:0 12px 36px rgba(0,0,0,.45);display:none}.show-notes .deck-notes{display:block}.timing-row{display:flex;gap:0;align-items:baseline;flex-wrap:wrap}.timing,.stopwatch{color:#fff;font-size:22px;font-weight:600;letter-spacing:0;text-transform:none;font-variant-numeric:tabular-nums}.stopwatch{margin-left:18px}.stopwatch:before{content:'·';opacity:.45;margin-right:18px}.notes-body{margin-top:6px;color:#DCE3DA}.notes{display:none}
+@media print{@page{size:1920px 1080px;margin:0}html,body{background:#fff;overflow:visible;height:auto}.deck{position:static;display:block}.deck-stage{width:1920px;height:auto;aspect-ratio:auto;box-shadow:none}.slide{position:relative!important;inset:auto;width:1920px;height:1080px;display:flex!important;page-break-after:always;break-after:page}.slide:last-of-type{page-break-after:auto;break-after:auto}.deck-hud,.deck-notes{display:none!important}}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="td-logo" viewBox="0 0 205.43 183.6">
+    <rect width="205.43" height="183.6" fill="#2FBF00"/>
+    <path d="M135.44 145.29 87.59 145.29 87.59 59.15 111.63 59.15 111.63 130.03 134.75 130.03C150.71 130.03 157.41 118.98 157.41 90.53 157.41 62.08 149.79 53.6 133.6 53.6L80.88 53.6 80.88 145.29 57.08 145.29 57.08 53.6 22.14 53.6 22.14 38.31 141 38.31C169.66 38.31 183.29 53.13 183.29 90.31 183.29 139.29 162.96 145.29 135.45 145.29" fill="#FFFFFF"/>
+  </symbol>
+</svg>
+<div class="deck">
+<div class="deck-stage">
+
+<section class="slide slide-impact" data-timing="0:30">
+  <div class="imp-body">
+    <div class="imp-left">
+      <svg class="logo" xmlns="http://www.w3.org/2000/svg"><use href="#td-logo"/></svg>
+      <h1 class="imp-title">Builders Club<br>Mini Hackathon</h1>
+      <div class="imp-sub">August 19 · 10 AM to 12 PM</div>
+    </div>
+    <div class="imp-right">
+      <div class="imp-r-label">TD Builders Club · Hackathon</div>
+      <div class="imp-r-spacer"></div>
+      <h2 class="imp-r-title">Build<br>Anything<br>with AI.</h2>
+      <div class="imp-r-sub">No prompt. No narrow lane. Just one hour to make something creative, useful, or unexpected.</div>
+      <div class="imp-r-meta">Hack / 01<span class="dot">·</span>Welcome</div>
+    </div>
+  </div>
+  <div class="footer"><span>TD Builders Club</span><span>Hackathon · Welcome</span><span class="rule">From your COO interns</span></div>
+  <div class="notes">Open warm. Tell everyone the point of today: build fast, try an idea, and make something demoable. Keep this slide short so teams get time to build.</div>
+</section>
+
+<section class="slide" data-timing="0:50">
+  <div class="eyebrow">Hackathon Basics</div>
+  <h1 class="h1">Here is how today works.<span class="caret">▋</span></h1>
+  <div class="lead">Keep it simple, move fast, and demo what you made.</div>
+  <div class="card-row">
+    <div class="td-card"><div class="cn">01</div><div class="ct">Build anything with AI</div><div class="cb">There is no set prompt. Pick any idea where AI helps solve, summarize, automate, generate, or explain something.</div></div>
+    <div class="td-card"><div class="cn">02</div><div class="ct">Teams of 4</div><div class="cb">Work in teams of up to four. Split roles fast: idea, build, test, and demo.</div></div>
+    <div class="td-card"><div class="cn">03</div><div class="ct">One-hour sprint</div><div class="cb">Aim to have something demoable by 11:15. Rough but working beats perfect but unfinished.</div></div>
+  </div>
+  <div class="callout">Rule of thumb: if you can explain the idea in one sentence, you can probably build a version of it today.</div>
+  <div class="footer"><span>TD Builders Club</span><span>Hackathon · Basics</span><span class="rule">From your COO interns</span></div>
+  <div class="notes">Use this slide to remove ambiguity: any AI solution, no prompt, teams of four, and a demoable output by the end of the sprint.</div>
+</section>
+
+<section class="slide" data-timing="0:50">
+  <div class="eyebrow">What to Build</div>
+  <h1 class="h1">Start with a tiny problem.<span class="caret">▋</span></h1>
+  <div class="lead">Then use AI to make it faster, smarter, easier, or more fun.</div>
+  <div class="step-list">
+    <div class="step-row"><div class="step-num">01</div><div class="step-title">Pick a task</div><div class="step-arrow"></div><div class="step-desc">Something annoying, repetitive, confusing, slow, manual, or boring.</div></div>
+    <div class="step-row"><div class="step-num">02</div><div class="step-title">Add AI</div><div class="step-arrow"></div><div class="step-desc">Use chat, agents, copilots, prompts, code, data, summaries, generation, or automation.</div></div>
+    <div class="step-row"><div class="step-num">03</div><div class="step-title">Show the impact</div><div class="step-arrow"></div><div class="step-desc">Demo the before and after. What changed because AI was involved?</div></div>
+  </div>
+  <div class="callout light">A good demo does not need to be huge. It just needs to make the room understand the idea.</div>
+  <div class="footer"><span>TD Builders Club</span><span>Hackathon · What to Build</span><span class="rule">From your COO interns</span></div>
+  <div class="notes">Give people permission to go small. Simple, specific, and demoable is better than ambitious and unfinished.</div>
+</section>
+
+<section class="slide sand" data-timing="1:00">
+  <div class="eyebrow">Schedule</div>
+  <h1 class="h1">Two hours. One build sprint.<span class="caret">▋</span></h1>
+  <div class="lead">We will keep things moving so there is enough room for demos and judging.</div>
+  <div class="timeline">
+    <div class="tl-row first"><div class="tl-time">9:30</div><div class="tl-title">Organizer setup</div><div class="tl-desc">Room booked early. Slides, room, and projection check.</div></div>
+    <div class="tl-row"><div class="tl-time">10:00</div><div class="tl-title">Kickoff</div><div class="tl-desc">Welcome, basics, expectations, and team setup.</div></div>
+    <div class="tl-row"><div class="tl-time">10:15</div><div class="tl-title">Build starts</div><div class="tl-desc">Teams begin building their AI solution.</div></div>
+    <div class="tl-row"><div class="tl-time">11:15</div><div class="tl-title">Hacking ends</div><div class="tl-desc">Save a buffer so demos do not get squeezed.</div></div>
+    <div class="tl-row"><div class="tl-time">11:15-11:45</div><div class="tl-title">Demos + judging</div><div class="tl-desc">Quick demos, judge notes, and winner decision.</div></div>
+    <div class="tl-row"><div class="tl-time">11:45-12:00</div><div class="tl-title">Winners + wrap</div><div class="tl-desc">First place, honorable mention, and closing.</div></div>
+  </div>
+  <div class="footer"><span>TD Builders Club</span><span>Hackathon · Schedule</span><span class="rule">From your COO interns</span></div>
+  <div class="notes">Talk through this quickly. Anchor the key times: event starts at 10, build starts around 10:15, hacking ends around 11:15, then demos and judging before 12.</div>
+</section>
+
+<section class="slide dark" data-timing="1:00">
+  <div class="eyebrow">Judging + Prizes</div>
+  <h1 class="h1">Make it creative. Make it work.<span class="caret">▋</span></h1>
+  <div class="lead">Given the short build time, we are looking for ideas that are clever, clear, and demoable.</div>
+  <div class="card-row">
+    <div class="td-card dark"><div class="cn">01</div><div class="ct">Creativity</div><div class="cb">How original, interesting, or unexpected is the idea?</div></div>
+    <div class="td-card dark"><div class="cn">02</div><div class="ct">Technical complexity</div><div class="cb">How much did the team build or connect in the time available?</div></div>
+    <div class="td-card dark"><div class="cn">03</div><div class="ct">Demo clarity</div><div class="cb">Can the room quickly understand what changed and why it matters?</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.1cqw;margin-top:1.25cqw">
+    <div class="callout" style="margin:0;background:var(--green);color:var(--black)">First place: $25 Amazon gift card</div>
+    <div class="callout" style="margin:0;background:transparent;border:.08cqw solid var(--green);color:var(--sand)">Honorable mention: TD water bottle</div>
+  </div>
+  <div class="footer"><span>TD Builders Club</span><span>Hackathon · Judging</span><span class="rule">From your COO interns</span></div>
+  <div class="notes">Do not make judging feel scary. Tell teams that creativity is the biggest lever, technical complexity matters because they only have about an hour, and clarity matters because demos will be short.</div>
+</section>
+
+<section class="slide slide-buildtime" data-timing="0:50">
+  <div class="bt-stage">
+    <div class="bt-title">Build time</div>
+    <div class="bt-timer" data-countdown="60:00">60:00</div>
+    <div class="bt-sub">Start with one idea. Build the smallest version. Demo the win.</div>
+    <div class="bt-help">Need help? Ask an organizer early. Do not lose twenty minutes silently stuck.</div>
+    <div class="bt-controls">
+      <button class="bt-btn" type="button" data-action="toggle">Start</button>
+      <button class="bt-btn bt-btn-ghost" type="button" data-action="reset">Reset</button>
+      <div class="bt-adjust-row">
+        <button class="bt-btn bt-btn-ghost bt-btn-adjust" type="button" data-action="adjust" data-delta="-300" aria-label="Subtract five minutes">-5</button>
+        <button class="bt-btn bt-btn-ghost bt-btn-adjust" type="button" data-action="adjust" data-delta="300" aria-label="Add five minutes">+5</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>TD Builders Club</span><span>Hackathon · Start Building</span><span class="rule">From your COO interns</span></div>
+  <div class="notes">Press Start when teams begin building. Pause and resume with the same button. Reset returns to 60 minutes. Use the plus and minus buttons if the room needs an adjustment.</div>
+</section>
+
+</div>
+<div class="deck-hud"><span class="deck-pos">01 / 06</span><span class="help">← → · S notes · F full · H hide</span></div>
+</div>
+<div class="deck-notes"><div class="timing-row"><span class="timing"></span><span class="stopwatch" hidden></span></div><div class="notes-body"></div></div>
+<script>
+(function(){
+  const slides=[...document.querySelectorAll('.slide')];
+  const pos=document.querySelector('.deck-pos');
+  const notesPanel=document.querySelector('.deck-notes');
+  const timingEl=document.querySelector('.timing');
+  const notesBody=document.querySelector('.notes-body');
+  const hud=document.querySelector('.deck-hud');
+  let idx=0;
+  function fmt(i){return String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0')}
+  function show(i){idx=(i+slides.length)%slides.length;slides.forEach((s,n)=>s.classList.toggle('active',n===idx));pos.textContent=fmt(idx);const s=slides[idx];timingEl.textContent=s.dataset.timing?('Target: '+s.dataset.timing):'';notesBody.textContent=(s.querySelector('.notes')||{}).textContent||'';}
+  function next(){show(idx+1)} function prev(){show(idx-1)}
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' '].includes(e.key)){if(e.target.tagName!=='BUTTON'){e.preventDefault();next();}}
+    if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev();}
+    if(e.key.toLowerCase()==='s'){document.body.classList.toggle('show-notes')}
+    if(e.key.toLowerCase()==='h'){hud.classList.toggle('hidden-hud')}
+    if(e.key.toLowerCase()==='f'){if(!document.fullscreenElement){document.documentElement.requestFullscreen?.()}else{document.exitFullscreen?.()}}
+    if(e.key==='Home'){show(0)} if(e.key==='End'){show(slides.length-1)}
+  });
+  slides.forEach(slide=>{
+    const timer=slide.querySelector('[data-countdown]'); if(!timer) return;
+    const original=parseTime(timer.dataset.countdown); let remaining=original, running=false, handle=null;
+    const toggle=slide.querySelector('[data-action="toggle"]'); const reset=slide.querySelector('[data-action="reset"]');
+    function parseTime(t){const [m,s]=t.split(':').map(Number);return m*60+s}
+    function display(){const m=Math.floor(Math.max(remaining,0)/60),sec=Math.max(remaining,0)%60;timer.textContent=String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');timer.classList.toggle('warn',remaining<=300&&remaining>0);timer.classList.toggle('done',remaining<=0);}
+    function stop(){running=false;clearInterval(handle);handle=null;if(toggle)toggle.textContent='Start'}
+    function start(){running=true;if(toggle)toggle.textContent='Pause';handle=setInterval(()=>{remaining-=1;display();if(remaining<=0)stop()},1000)}
+    toggle?.addEventListener('click',()=>running?stop():start());
+    reset?.addEventListener('click',()=>{stop();remaining=original;display()});
+    slide.querySelectorAll('[data-action="adjust"]').forEach(btn=>btn.addEventListener('click',()=>{remaining=Math.max(0,remaining+Number(btn.dataset.delta||0));display()}));
+    display();
+  });
+  show(0);
+})();
+</script>
+</body>
+</html>
